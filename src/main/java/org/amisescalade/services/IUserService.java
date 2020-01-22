@@ -23,7 +23,24 @@ public interface IUserService {
 	 */
 	User edit(User user) throws Exception;
 	
+	/**
+	 * method to display one user
+	 * 
+	 * @param user
+	 * @return user Object to display
+	 * @throws Exception
+	 */
+	User displayOne(User user) throws Exception;
 	
+	
+	/**
+	 * 
+	 * method sample to user login
+	 * 
+	 * @param user
+	 * @throws Exception
+	 */
+	void sampleLogin(User user) throws Exception;
 	
 	
 	

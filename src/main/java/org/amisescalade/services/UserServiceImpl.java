@@ -47,8 +47,25 @@ public class UserServiceImpl implements IUserService{
 		return userRepository.saveAndFlush(user);
 	}
 	
+	@Override
+	public User displayOne(User user) throws Exception {
+		
+		Optional<User> userFind = userRepository.findById(user.getUserId());
+		
+		if (userFind.isEmpty()) log.error("Affichage Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+			
+		return user;	
+	}
 	
-	
-	
+	@Override
+	public void sampleLogin(User user) throws Exception {
+		
+		User userFind = userRepository.findByUsername(user.getUsername());
+		
+		if (userFind == null) log.error("Utilisateur n'existe pas !");
+		
+		if (userFind.getPassword() != user.getPassword()) log.error("Mot de passe incorrect !");
+		
+	}
 
 }

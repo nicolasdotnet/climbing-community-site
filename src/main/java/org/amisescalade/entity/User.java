@@ -98,6 +98,16 @@ public class User implements Serializable{
 	}
 
 
+	public User(Long userId, Date userDate, String username) {
+		super();
+		this.userId = userId;
+		this.userDate = userDate;
+		this.username = username;
+	}
+
+
+
+
 	public Long getUserId() {
 		return userId;
 	}
