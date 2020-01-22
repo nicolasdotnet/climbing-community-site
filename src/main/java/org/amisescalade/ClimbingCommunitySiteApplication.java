@@ -41,9 +41,18 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		// method execution
 		
-		User r = iUserService.register(new User(new Date(), "nicolas", "desdevises", "nico", "123", uc1));
+		User uV1 = iUserService.register(new User(new Date(), "nicolas", "desdevises", "nico", "123", uc1));
 		
-		System.out.println("\n >>> : "+r.toString()+"\n");
+		System.out.println("\n >>> : "+uV1.toString()+"\n");
+		
+		uV1.setFirstname("James");
+		uV1.setLastname("Bond");
+		
+		User uV2 = iUserService.edit(uV1);
+		
+		System.out.println("\n >>> : "+uV2.toString()+"\n");
+		
+		
 		
 		
 	}

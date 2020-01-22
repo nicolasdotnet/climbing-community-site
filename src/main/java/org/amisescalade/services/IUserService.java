@@ -14,6 +14,15 @@ public interface IUserService {
 	 */
 	User register(User user) throws Exception;
 	
+	/**
+	 * method to modify a user
+	 * 
+	 * @param user
+	 * @return user Object modify
+	 * @throws Exception
+	 */
+	User edit(User user) throws Exception;
+	
 	
 	
 	

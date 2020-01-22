@@ -38,6 +38,8 @@ public class User implements Serializable{
 	@Column(length = 10)
 	@JoinColumn(nullable=false)
 	private String username;
+	
+	// encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
 	@Column(length = 50)
 	@JoinColumn(nullable=false)
 	private String password;
@@ -207,7 +209,7 @@ public class User implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "User [userDate=" + userDate + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
+		return "User [userDate=" + userDate + ", userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
 				+ username +", UserCategory="+ userCategory +"]";
 	}
 	

@@ -1,5 +1,7 @@
 package org.amisescalade.services;
 
+import java.util.Optional;
+
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +33,18 @@ public class UserServiceImpl implements IUserService{
 		
 		return userRepository.save(user);
 		
+	}
+	
+	@Override
+	public User edit(User user) throws Exception {
+
+		Optional<User> userFind = userRepository.findById(user.getUserId());
+		
+		if (userFind.isEmpty()) log.error("Modification Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+		
+		// vérification de la saisie avec Spring Validator ?
+		
+		return userRepository.saveAndFlush(user);
 	}
 	
 	
