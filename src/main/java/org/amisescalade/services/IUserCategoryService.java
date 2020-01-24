@@ -1,6 +1,8 @@
 package org.amisescalade.services;
 
 
+import java.util.List;
+
 import org.amisescalade.entity.UserCategory;
 
 public interface IUserCategoryService {
@@ -22,5 +24,12 @@ public interface IUserCategoryService {
 	 * @throws Exception
 	 */
 	UserCategory edit(UserCategory userCategory) throws Exception;
+	
+	/**
+	 * method to display all user category
+	 * 
+	 * @return
+	 */
+	List<UserCategory> displayAll();
 
 }

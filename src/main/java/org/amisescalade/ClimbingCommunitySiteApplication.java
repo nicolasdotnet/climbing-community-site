@@ -94,7 +94,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		System.out.println("\n register : "+ucV1.toString()+"\n");
 		
-		// edit
+		// edit UserCategory
 		
 		ucV1.setUserCategoryLabel("fake category");
 
@@ -104,6 +104,18 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		uV2.setUserCategory(ucV2);
 		System.out.println("\n display uV2 with ucV2 category : "+uV2.toString()+"\n");
+		
+		// display UserCategory
+		
+		List<UserCategory> categoryList = iUserCategoryService.displayAll();
+		
+		for (Iterator iterator = categoryList.iterator(); iterator.hasNext();) {
+			UserCategory userCategory = (UserCategory) iterator.next();
+			
+			System.out.println("\n displayAll UserCategory: "+userCategory+"\n");
+		}	
+
+		
 				
 		
 	}
