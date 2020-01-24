@@ -37,7 +37,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		SpringApplication.run(ClimbingCommunitySiteApplication.class, args);	
 	}
 
-	@Override
+//	@Override
 	public void run(String... args) throws Exception {
 		
 		
@@ -103,17 +103,46 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		System.out.println("\n edit : " + ucV2.toString() + "\n");
 		
 		uV2.setUserCategory(ucV2);
-		System.out.println("\n display uV2 with ucV2 category : "+uV2.toString()+"\n");
+		System.out.println("\n display uV2 modifed with ucV2 category : "+uV2.toString()+"\n");
 		
-		// display UserCategory
+		// displayAll UserCategory
 		
 		List<UserCategory> categoryList = iUserCategoryService.displayAll();
+		
+		System.out.println("\n displayAll UserCategory : "+ "\n");
 		
 		for (Iterator iterator = categoryList.iterator(); iterator.hasNext();) {
 			UserCategory userCategory = (UserCategory) iterator.next();
 			
-			System.out.println("\n displayAll UserCategory: "+userCategory+"\n");
-		}	
+			System.out.println("\n"+userCategory+"\n");
+		}
+		
+		// display user with "fake category"
+		
+		// method 1
+		
+		List<User> userFind1 = iUserCategoryService.displayAllUsersByLabel("grimpeur");
+		System.out.println("\n display All Users By category : "+ "\n");
+		
+		for (Iterator iterator = userFind1.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			
+			System.out.println("\n display All User with the Category "+user.getUserCategory() +" : "+user+"\n");
+			
+		}
+		
+		
+		// method 2
+		
+		List<User> usersFind2 = iUserService.displayByCategory(ucV2);
+		
+		for (Iterator iterator = usersFind2.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			
+			System.out.println("\n display All User with the Category "+user.getUserCategory() +" : "+user+"\n");
+			
+		}
+		
 
 		
 				

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.entity.User;
+import org.amisescalade.entity.UserCategory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,12 @@ public class UserServiceImpl implements IUserService{
 	public List<User> displayAll() {
 		
 		return userRepository.findAll();
+	}
+
+	@Override
+	public List<User> displayByCategory(UserCategory UserCategory) {		
+		
+		return userRepository.findByUserCategory(UserCategory);
 	}
 
 }

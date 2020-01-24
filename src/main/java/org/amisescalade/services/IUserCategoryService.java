@@ -3,6 +3,7 @@ package org.amisescalade.services;
 
 import java.util.List;
 
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 
 public interface IUserCategoryService {
@@ -32,4 +33,5 @@ public interface IUserCategoryService {
 	 */
 	List<UserCategory> displayAll();
 
+	List<User> displayAllUsersByLabel(String string);
 }

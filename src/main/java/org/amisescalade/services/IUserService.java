@@ -3,6 +3,7 @@ package org.amisescalade.services;
 import java.util.List;
 
 import org.amisescalade.entity.User;
+import org.amisescalade.entity.UserCategory;
 
 public interface IUserService {
 	
@@ -36,7 +37,7 @@ public interface IUserService {
 	/**
 	 * method to display all users
 	 * 
-	 * @return
+	 * @return the user list 
 	 */
 	List<User> displayAll();
 	
@@ -48,6 +49,14 @@ public interface IUserService {
 	 * @throws Exception
 	 */
 	void sampleLogin(User user) throws Exception;
+	
+	/**
+	 * method to display all users by category
+	 * 
+	 * @param UserCategory
+	 * @return the list users with UserCategory label
+	 */
+	List<User> displayByCategory(UserCategory UserCategory);
 	
 	
 	

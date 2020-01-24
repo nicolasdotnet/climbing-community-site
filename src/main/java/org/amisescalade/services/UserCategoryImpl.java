@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.amisescalade.dao.UserCategoryRepository;
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +52,14 @@ public class UserCategoryImpl implements IUserCategoryService{
 	public List<UserCategory> displayAll() {
 		
 		return userCategoryRepository.findAll();
+	}
+
+	@Override
+	public List<User> displayAllUsersByLabel(String label) {
+		
+		UserCategory userFind = userCategoryRepository.findByUserCategoryLabel(label);
+		
+		return (List<User>) userFind.getUsers();
 	}
 	
 	
