@@ -94,7 +94,17 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		System.out.println("\n register : "+ucV1.toString()+"\n");
 		
+		// edit
 		
+		ucV1.setUserCategoryLabel("fake category");
+
+		UserCategory ucV2 = iUserCategoryService.edit(ucV1);
+
+		System.out.println("\n edit : " + ucV2.toString() + "\n");
+		
+		uV2.setUserCategory(ucV2);
+		System.out.println("\n display uV2 with ucV2 category : "+uV2.toString()+"\n");
+				
 		
 	}
 

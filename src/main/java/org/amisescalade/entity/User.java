@@ -220,7 +220,7 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [userDate=" + userDate + ", userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
-				+ username +", UserCategoryImpl="+ userCategory +"]";
+				+ username +", UserCategory="+ userCategory +"]";
 	}
 	
 	

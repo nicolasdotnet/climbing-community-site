@@ -1,7 +1,10 @@
 package org.amisescalade.services;
 
 
+import java.util.Optional;
+
 import org.amisescalade.dao.UserCategoryRepository;
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +33,18 @@ public class UserCategoryImpl implements IUserCategoryService{
 		}
 		
 		return userCategoryRepository.save(userCategory);
+	}
+
+	@Override
+	public UserCategory edit(UserCategory userCategory) throws Exception {
+
+		Optional<UserCategory> CategoryFind = userCategoryRepository.findById(userCategory.getUserCategoryId());
+		
+		if (CategoryFind.isEmpty()) log.error("Modification Impossible ! la categorie "+ userCategory.getUserCategoryId()+" n'existe pas dans la base.");
+		
+		// vérification de la saisie avec Spring Validator ?
+		
+		return userCategoryRepository.saveAndFlush(userCategory);
 	}
 	
 	
