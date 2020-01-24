@@ -8,6 +8,7 @@ import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
+import org.amisescalade.services.IUserCategoryService;
 import org.amisescalade.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +27,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IUserService iUserService;
+	
+	@Autowired
+	private IUserCategoryService iUserCategoryService;
 	
 
 	public static void main(String[] args) {
@@ -83,6 +87,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			
 			
 		}
+		
+		// register UserCategory
+		
+		UserCategory ucV1 = iUserCategoryService.register(new UserCategory(new Date(), "admin"));
+		
+		System.out.println("\n register : "+ucV1.toString()+"\n");
+		
 		
 		
 	}
