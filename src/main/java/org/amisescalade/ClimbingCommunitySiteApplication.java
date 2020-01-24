@@ -1,6 +1,8 @@
 package org.amisescalade;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
@@ -63,10 +65,23 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		iUserService.displayOne(uV2);
 		System.out.println("\n displayOne : "+uV2.toString()+"\n");
 		
+		// sampleLogin
+		
 		User test2 = new User (new Date(), "nicolas", "desdevises", "nico", "1234", uc1);
 		
 		iUserService.sampleLogin(test2); // Ok entraine un log error en console
 		
+		// displayAll
+		
+		List<User> userList = iUserService.displayAll();
+		
+		for (Iterator iterator = userList.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			
+			System.out.println("\n displayAll : "+user+"\n");
+			
+			
+		}
 		
 		
 		

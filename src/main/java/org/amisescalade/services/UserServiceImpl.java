@@ -1,5 +1,6 @@
 package org.amisescalade.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.amisescalade.dao.UserRepository;
@@ -66,6 +67,12 @@ public class UserServiceImpl implements IUserService{
 		
 		if (userFind.getPassword() != user.getPassword()) log.error("Mot de passe incorrect !");
 		
+	}
+
+	@Override
+	public List<User> displayAll() {
+		
+		return userRepository.findAll();
 	}
 
 }

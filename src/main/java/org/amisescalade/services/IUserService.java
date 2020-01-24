@@ -1,5 +1,7 @@
 package org.amisescalade.services;
 
+import java.util.List;
+
 import org.amisescalade.entity.User;
 import org.springframework.data.domain.Page;
 
@@ -34,13 +36,19 @@ public interface IUserService {
 	
 	
 	/**
-	 * 
 	 * method sample to user login
 	 * 
 	 * @param user
 	 * @throws Exception
 	 */
 	void sampleLogin(User user) throws Exception;
+
+	/**
+	 * method to display all users
+	 * 
+	 * @return
+	 */
+	List<User> displayAll();
 	
 	
 	
