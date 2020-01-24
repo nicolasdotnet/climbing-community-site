@@ -3,7 +3,6 @@ package org.amisescalade.services;
 import java.util.List;
 
 import org.amisescalade.entity.User;
-import org.springframework.data.domain.Page;
 
 public interface IUserService {
 	
@@ -34,6 +33,13 @@ public interface IUserService {
 	 */
 	User displayOne(User user) throws Exception;
 	
+	/**
+	 * method to display all users
+	 * 
+	 * @return
+	 */
+	List<User> displayAll();
+	
 	
 	/**
 	 * method sample to user login
@@ -42,13 +48,6 @@ public interface IUserService {
 	 * @throws Exception
 	 */
 	void sampleLogin(User user) throws Exception;
-
-	/**
-	 * method to display all users
-	 * 
-	 * @return
-	 */
-	List<User> displayAll();
 	
 	
 	

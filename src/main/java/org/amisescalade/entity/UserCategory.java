@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 /**
  * @author nicolasdotnet
  * 
- * UserCategory a is the category entity to which users in the community can belong :
+ * UserCategoryImpl a is the category entity to which users in the community can belong :
  * Author, Climber, Moderator ...
  *
  */

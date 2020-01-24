@@ -26,6 +26,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IUserService iUserService;
+	
 
 	public static void main(String[] args) {
 		
@@ -43,7 +44,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		// method execution
 		
-		// register
+		// register User
 		User uV1 = iUserService.register(new User(new Date(), "nicolas", "desdevises", "nico", "123", uc1));
 		
 		System.out.println("\n register : "+uV1.toString()+"\n");
@@ -56,7 +57,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		System.out.println("\n edit : "+uV2.toString()+"\n");
 		
-		// displayOne
+		// displayOne User
 		
 		User test = new User(00000L,new Date(), "test");
 		
@@ -65,13 +66,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		iUserService.displayOne(uV2);
 		System.out.println("\n displayOne : "+uV2.toString()+"\n");
 		
-		// sampleLogin
+		// sampleLogin User
 		
 		User test2 = new User (new Date(), "nicolas", "desdevises", "nico", "1234", uc1);
 		
 		iUserService.sampleLogin(test2); // Ok entraine un log error en console
 		
-		// displayAll
+		// displayAll User
 		
 		List<User> userList = iUserService.displayAll();
 		
@@ -82,8 +83,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			
 			
 		}
-		
-		
 		
 		
 	}
