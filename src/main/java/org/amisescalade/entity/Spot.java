@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * @author nicolasdotnet
@@ -26,9 +24,9 @@ public class Spot implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long spotId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date spotdate;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private String spotname;
 	@Column(length = 20)
 	private String spotRate;
@@ -36,9 +34,9 @@ public class Spot implements Serializable{
 	private String spotDescription;
 	@Column(length = 500)
 	private String spotAccessPath;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private String departement;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private String country;
 	
 	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)

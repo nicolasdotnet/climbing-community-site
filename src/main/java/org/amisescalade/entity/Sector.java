@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * @author nicolasdotnet
@@ -27,13 +26,11 @@ public class Sector implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long sectorId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date sectorDate;
-	@Column(length = 20)
-	@JoinColumn(nullable=false)
+	@Column(length = 20, nullable=false)
 	private String sectorname;
-	@Column(length = 20)
-	@JoinColumn(nullable=false)
+	@Column(length = 20, nullable=false)
 	private String sectorRate;
 	@Column(length = 500)
 	private String sectorDescription;

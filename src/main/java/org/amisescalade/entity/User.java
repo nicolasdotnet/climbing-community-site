@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.UniqueConstraint;
 
 /**
  * @author nicolasdotnet
@@ -31,16 +29,13 @@ public class User implements Serializable{
 	private Date userDate;
 	@Column(length = 20, nullable = false)
 	private String firstname;
-	@Column(length = 20)
-	@JoinColumn(nullable=false)
+	@Column(length = 20, nullable=false)
 	private String lastname;
-	@Column(length = 10)
-	@JoinColumn(nullable=false)
+	@Column(length = 10, nullable=false)
 	private String username;
 	
 	// encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
-	@Column(length = 100)
-	@JoinColumn(nullable=false)
+	@Column(length = 100, nullable=false)
 	private String password;
 	
 	@ManyToOne

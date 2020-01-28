@@ -28,13 +28,11 @@ public class Topo implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long topoId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date topoDate;
-	@Column(length = 200)
-	@JoinColumn(nullable=false)
+	@Column(length = 200, nullable=false)
 	private String topoArea;
-	@Column(length = 200)
-	@JoinColumn(nullable=false)
+	@Column(length = 200, nullable=false)
 	private String topoTitle;
 	@Column(length = 1000)
 	private String topoDescription;

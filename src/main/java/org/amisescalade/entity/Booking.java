@@ -3,6 +3,7 @@ package org.amisescalade.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,9 +25,9 @@ public class Booking implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long bookingId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date bookingDate;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Boolean bookingStatus;
 	
 	@ManyToOne

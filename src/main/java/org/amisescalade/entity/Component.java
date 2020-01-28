@@ -34,14 +34,13 @@ public abstract class Component implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long componentId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date componentDate;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private String componentCode;
-	@Column(length = 40)
-	@JoinColumn(nullable=false)
+	@Column(length = 40, nullable=false)
 	private String componentName;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private String componentRate;
 	@Column(length = 1000)
 	private String componentDescription;

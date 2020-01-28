@@ -32,12 +32,11 @@ public abstract class Comment implements Serializable {
 	
 	@Id @GeneratedValue
 	private Long commentId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date commentDate;
-	@Column(length = 200)
-	@JoinColumn(nullable=false)
+	@Column(length = 200, nullable=false)
 	private String commentBody;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Boolean commentStatus;
 	
 	@ManyToOne

@@ -24,10 +24,9 @@ public class Webpage implements Serializable {
 	
 	@Id @GeneratedValue
 	private Long webpageId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date webpageDate;
-	@Column(length = 500)
-	@JoinColumn(nullable=false)
+	@Column(length = 500, nullable=false)
 	private String webpageTitle;
 	@Column(length = 5000)
 	private String webpageBody;

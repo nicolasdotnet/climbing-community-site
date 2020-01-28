@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
@@ -29,7 +29,7 @@ public class UserCategory implements Serializable{
 	
 	@Id @GeneratedValue
 	private Long userCategoryId;
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Date userCategoryDate;
 	private String userCategoryLabel;
 	
