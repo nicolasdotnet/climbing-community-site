@@ -34,7 +34,7 @@ public abstract class Comment implements Serializable {
 	private Long commentId;
 	@Column(nullable=false)
 	private Date commentDate;
-	@Column(length = 200, nullable=false)
+	@Column(nullable=false)
 	private String commentBody;
 	@Column(nullable=false)
 	private Boolean commentStatus;

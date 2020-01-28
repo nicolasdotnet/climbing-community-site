@@ -34,7 +34,6 @@ public class Topo implements Serializable{
 	private String topoArea;
 	@Column(length = 200, nullable=false)
 	private String topoTitle;
-	@Column(length = 1000)
 	private String topoDescription;
 	@Column(length = 50)
 	private String topoTag;

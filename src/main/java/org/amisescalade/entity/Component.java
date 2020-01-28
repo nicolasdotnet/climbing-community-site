@@ -42,7 +42,6 @@ public abstract class Component implements Serializable{
 	private String componentName;
 	@Column(nullable=false)
 	private String componentRate;
-	@Column(length = 1000)
 	private String componentDescription;
 	
 	@ManyToOne

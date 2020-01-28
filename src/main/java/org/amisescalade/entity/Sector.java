@@ -28,13 +28,11 @@ public class Sector implements Serializable{
 	private Long sectorId;
 	@Column(nullable=false)
 	private Date sectorDate;
-	@Column(length = 20, nullable=false)
+	@Column(nullable=false)
 	private String sectorname;
-	@Column(length = 20, nullable=false)
+	@Column(nullable=false)
 	private String sectorRate;
-	@Column(length = 500)
 	private String sectorDescription;
-	@Column(length = 500)
 	private String sectorAccessPath;
 	
 	@ManyToOne

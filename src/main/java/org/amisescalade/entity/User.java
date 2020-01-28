@@ -27,15 +27,15 @@ public class User implements Serializable{
 	private Long userId;
 	@JoinColumn(nullable=false)
 	private Date userDate;
-	@Column(length = 20, nullable = false)
+	@Column(length = 100, nullable = false)
 	private String firstname;
-	@Column(length = 20, nullable=false)
+	@Column(length = 100, nullable=false)
 	private String lastname;
-	@Column(length = 10, nullable=false)
+	@Column(length = 50, nullable=false)
 	private String username;
 	
 	// encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
-	@Column(length = 100, nullable=false)
+	@Column(length = 150, nullable=false)
 	private String password;
 	
 	@ManyToOne

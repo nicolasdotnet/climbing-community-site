@@ -30,13 +30,11 @@ public class Spot implements Serializable{
 	private String spotname;
 	@Column(length = 20)
 	private String spotRate;
-	@Column(length = 200)
 	private String spotDescription;
-	@Column(length = 500)
 	private String spotAccessPath;
-	@Column(nullable=false)
+	@Column(length = 100, nullable=false)
 	private String departement;
-	@Column(nullable=false)
+	@Column(length = 100, nullable=false)
 	private String country;
 	
 	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)

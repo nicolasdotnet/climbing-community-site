@@ -31,6 +31,7 @@ public class UserCategory implements Serializable{
 	private Long userCategoryId;
 	@Column(nullable=false)
 	private Date userCategoryDate;
+	@Column(length = 100, nullable=false)
 	private String userCategoryLabel;
 	
 	@OneToMany(mappedBy="userCategory",fetch=FetchType.LAZY)

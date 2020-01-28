@@ -28,7 +28,6 @@ public class Webpage implements Serializable {
 	private Date webpageDate;
 	@Column(length = 500, nullable=false)
 	private String webpageTitle;
-	@Column(length = 5000)
 	private String webpageBody;
 	
 	@ManyToOne
