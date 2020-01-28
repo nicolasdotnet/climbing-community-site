@@ -47,7 +47,7 @@ public abstract class Comment implements Serializable {
 	@ManyToOne
 	private Comment subComment;
 	@OneToMany(mappedBy = "subComment",fetch = FetchType.LAZY)
-	private Collection<Comment>comments;
+	private Collection<Comment> comments;
 	
 	public Comment() {
 		super();

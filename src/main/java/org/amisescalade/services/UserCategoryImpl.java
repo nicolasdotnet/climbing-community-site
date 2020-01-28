@@ -55,11 +55,9 @@ public class UserCategoryImpl implements IUserCategoryService{
 	}
 
 	@Override
-	public List<User> displayAllUsersByLabel(String label) {
+	public UserCategory displayOneUserCategory(String label) {
 		
-		UserCategory userFind = userCategoryRepository.findByUserCategoryLabel(label);
-		
-		return (List<User>) userFind.getUsers();
+		return userCategoryRepository.findByUserCategoryLabel(label);
 	}
 	
 	

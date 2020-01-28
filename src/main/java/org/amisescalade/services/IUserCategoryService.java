@@ -29,9 +29,15 @@ public interface IUserCategoryService {
 	/**
 	 * method to display all user category
 	 * 
-	 * @return
+	 * @return the user category list
 	 */
 	List<UserCategory> displayAll();
 
-	List<User> displayAllUsersByLabel(String string);
+	/**
+	 * method to display one user category
+	 * 
+	 * @param category
+	 * @return userCategory Object find
+	 */
+	UserCategory displayOneUserCategory(String category);
 }

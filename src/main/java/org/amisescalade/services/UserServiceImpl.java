@@ -1,5 +1,6 @@
 package org.amisescalade.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,11 @@ public class UserServiceImpl implements IUserService{
 			
 			log.error("Utilisateur existe déjà !");
 			
+			throw new Exception("Utilisateur existe déjà !");
+
 		}
+		
+		user.setUserDate(new Date());
 		
 		return userRepository.save(user);
 		
@@ -41,7 +46,13 @@ public class UserServiceImpl implements IUserService{
 
 		Optional<User> userFind = userRepository.findById(user.getUserId());
 		
-		if (userFind.isEmpty()) log.error("Modification Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+		if (userFind.isEmpty()) {
+			
+			log.error("Modification Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+		
+			throw new Exception("Utilisateur existe déjà !");
+		
+		}
 		
 		// vérification de la saisie avec Spring Validator ?
 		

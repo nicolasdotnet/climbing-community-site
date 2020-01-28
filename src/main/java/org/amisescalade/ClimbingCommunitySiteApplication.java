@@ -117,31 +117,21 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			System.out.println("\n"+userCategory+"\n");
 		}
 		
-		// display user with "fake category"
+		// display user with "grimper"
 		
-		// method 1
+		UserCategory categoryFind = iUserCategoryService.displayOneUserCategory("grimpeur");		
 		
-		List<User> userFind1 = iUserCategoryService.displayAllUsersByLabel("grimpeur");
-		System.out.println("\n display All Users By category : "+ "\n");
-		
-		for (Iterator iterator = userFind1.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			
-			System.out.println("\n display All User with the Category "+user.getUserCategory() +" : "+user+"\n");
-			
-		}
+		List<User> usersFind2 = iUserService.displayByCategory(categoryFind);
 		
 		
-		// method 2
-		
-		List<User> usersFind2 = iUserService.displayByCategory(ucV2);
-		
-		for (Iterator iterator = usersFind2.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			
-			System.out.println("\n display All User with the Category "+user.getUserCategory() +" : "+user+"\n");
-			
-		}
+		  for (Iterator iterator = usersFind2.iterator(); iterator.hasNext();) { User
+		  user = (User) iterator.next();
+		  
+		  System.out.println("\n display All User with the "+user.
+		  getUserCategory() +" : "+user+"\n");
+		  
+		  }
+		 
 		
 
 		

@@ -29,8 +29,7 @@ public class User implements Serializable{
 	private Long userId;
 	@JoinColumn(nullable=false)
 	private Date userDate;
-	@Column(length = 20)
-	@JoinColumn(nullable=false)
+	@Column(length = 20, nullable = false)
 	private String firstname;
 	@Column(length = 20)
 	@JoinColumn(nullable=false)
@@ -40,7 +39,7 @@ public class User implements Serializable{
 	private String username;
 	
 	// encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
-	@Column(length = 50)
+	@Column(length = 100)
 	@JoinColumn(nullable=false)
 	private String password;
 	
@@ -49,16 +48,16 @@ public class User implements Serializable{
 	private UserCategory userCategory;
 	
 	@OneToMany(mappedBy = "topoOwner",fetch = FetchType.LAZY)
-	private Collection<Topo>topos;
+	private Collection<Topo> topos;
 	
 	@OneToMany(mappedBy = "bookingUser",fetch = FetchType.LAZY)
-	private Collection<Booking>booking;
+	private Collection<Booking> booking;
 	
 	@OneToMany(mappedBy = "webpageAuthor",fetch = FetchType.LAZY)
-	private Collection<Webpage>Webpage;
+	private Collection<Webpage> Webpage;
 	
 	@OneToMany(mappedBy = "commentAuthor",fetch = FetchType.LAZY)
-	private Collection<Comment>comments;
+	private Collection<Comment> comments;
 	
 	
 	public User() {
