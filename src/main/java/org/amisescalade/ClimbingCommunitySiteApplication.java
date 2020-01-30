@@ -65,7 +65,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		User test = new User(00000L,new Date(), "test");
 		
+		try {
+		
 		iUserService.displayOne(test); // Ok entraine un log error en console
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		iUserService.displayOne(uV2);
 		System.out.println("\n displayOne : "+uV2.toString()+"\n");
@@ -74,7 +80,14 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		User test2 = new User (new Date(), "nicolas", "desdevises", "nico", "1234", uc1);
 		
+		try {
+		
 		iUserService.sampleLogin(test2); // Ok entraine un log error en console
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 		// displayAll User
 		
@@ -131,9 +144,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		  getUserCategory() +" : "+user+"\n");
 		  
 		  }
-		 
-		
-
 		
 				
 		

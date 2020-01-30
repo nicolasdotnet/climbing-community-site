@@ -31,6 +31,8 @@ public class UserCategoryImpl implements IUserCategoryService{
 			
 			log.error("La catégorie existe déjà !");
 			
+			throw new Exception("La catégorie existe déjà !");
+			
 		}
 		
 		return userCategoryRepository.save(userCategory);
@@ -41,7 +43,13 @@ public class UserCategoryImpl implements IUserCategoryService{
 
 		Optional<UserCategory> CategoryFind = userCategoryRepository.findById(userCategory.getUserCategoryId());
 		
-		if (CategoryFind.isEmpty()) log.error("Modification Impossible ! la categorie "+ userCategory.getUserCategoryId()+" n'existe pas dans la base.");
+		if (CategoryFind.isEmpty()) { 
+			
+			log.error("Modification Impossible ! la categorie "+ userCategory.getUserCategoryId()+" n'existe pas dans la base.");
+		
+			throw new Exception("La catégorie n'existe pas !");
+			
+		}
 		
 		// vérification de la saisie avec Spring Validator ?
 		

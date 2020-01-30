@@ -50,7 +50,7 @@ public class UserServiceImpl implements IUserService{
 			
 			log.error("Modification Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
 		
-			throw new Exception("Utilisateur existe déjà !");
+			throw new Exception("Utilisateur n'existe pas !");
 		
 		}
 		
@@ -64,7 +64,13 @@ public class UserServiceImpl implements IUserService{
 		
 		Optional<User> userFind = userRepository.findById(user.getUserId());
 		
-		if (userFind.isEmpty()) log.error("Affichage Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+		if (userFind.isEmpty()) {
+			
+			log.error("Affichage Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
+			
+			throw new Exception("Utilisateur n'existe pas !");
+			
+		}
 			
 		return user;	
 	}
@@ -74,9 +80,19 @@ public class UserServiceImpl implements IUserService{
 		
 		User userFind = userRepository.findByUsername(user.getUsername());
 		
-		if (userFind == null) log.error("Utilisateur n'existe pas !");
+		if (userFind == null) { 
+			
+			log.error("L'identifiant n'existe pas !");
+			throw new Exception("L'identifiant n'existe pas !");
 		
-		if (userFind.getPassword() != user.getPassword()) log.error("Mot de passe incorrect !");
+		};
+		
+		if (userFind.getPassword() != user.getPassword()) { 
+			
+			log.error("Mot de passe incorrect !");
+			throw new Exception("Mot de passe incorrect !");
+			
+		}
 		
 	}
 
