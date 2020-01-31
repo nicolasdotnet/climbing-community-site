@@ -4,14 +4,17 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amisescalade.dao.SpotRepository;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.dao.WebpageRepository;
+import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
+import org.amisescalade.services.ISpotService;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
 import org.amisescalade.services.IUserService;
@@ -37,6 +40,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private WebpageRepository webpageRepository;
 	
 	@Autowired
+	private SpotRepository spotRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -47,6 +53,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IWebpageService iWebpageService;
+	
+	@Autowired
+	private ISpotService iSpotService;
 	
 
 	public static void main(String[] args) {
@@ -273,6 +282,64 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			  Webpage webpage = (Webpage) iterator.next();
 			
 			System.out.println("\n displayAll topo : " + webpage.toString()+ "\n");
+			
+		}
+		  
+		  
+		  Spot spot1 = iSpotService.register(new Spot(new Date(), "L'ange d'Arras", "A+", "Spiderman à Arras","A1 puis direction Arras", "62", "France"));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a spot : "+spot1.toString()+"\n");
+		  
+		  // edit a spot
+		  
+		  spot1.setSpotName("L'ange Arrasgeois");
+		  
+		  Spot spot2 = iSpotService.edit(spot1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a spot : " + spot2.toString() + "\n");
+		  
+		  
+		// displayByName Spot
+		  
+		  List<Spot> spotList = iSpotService.displayBySpotname("Arras");
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
+				Spot spot = (Spot) iterator.next();
+				
+				System.out.println("\n displayByName spot (Arras) : " + spot.toString()+ "\n");
+				
+			}
+		  
+		  // displayOne spot
+		  
+		  try {
+		  
+			  Spot spotFind = iSpotService.displayOne(spot2.getSpotId());
+			  
+			  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n displayOne spot : " + spotFind.toString()+ "\n");
+		  
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		  
+		  // displayAll topo
+		  
+		 spotList = iSpotService.displayAll();
+		 
+		 System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
+			Spot spot = (Spot) iterator.next();
+			
+			System.out.println("\n displayAll spot : " + spot.toString()+ "\n");
 			
 		}
 		  

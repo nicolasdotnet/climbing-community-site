@@ -22,12 +22,14 @@ import javax.persistence.OneToMany;
 @Entity
 public class Spot implements Serializable{
 	
+	// register a spot : manque Author et prévoir  table département & pays ?
+	
 	@Id @GeneratedValue
 	private Long spotId;
 	@Column(nullable=false)
-	private Date spotdate;
+	private Date spotDate;
 	@Column(nullable=false)
-	private String spotname;
+	private String spotName;
 	@Column(length = 20)
 	private String spotRate;
 	private String spotDescription;
@@ -49,13 +51,29 @@ public class Spot implements Serializable{
 	public Spot() {
 		super();
 	}
+	
+	
+
+	public Spot(Date spotDate, String spotName, String spotRate, String spotDescription, String spotAccessPath,
+			String departement, String country) {
+		super();
+		this.spotDate = spotDate;
+		this.spotName = spotName;
+		this.spotRate = spotRate;
+		this.spotDescription = spotDescription;
+		this.spotAccessPath = spotAccessPath;
+		this.departement = departement;
+		this.country = country;
+	}
+
+
 
 	public Spot(Date spotdate, String spotname, String spotRate, String spotDescription, String spotAccessPath,
 			String departement, String country,
 			Collection<SpotComment> spotComment, Collection<Sector> sector, Collection<SpotComponent> component) {
 		super();
-		this.spotdate = spotdate;
-		this.spotname = spotname;
+		this.spotDate = spotdate;
+		this.spotName = spotname;
 		this.spotRate = spotRate;
 		this.spotDescription = spotDescription;
 		this.spotAccessPath = spotAccessPath;
@@ -74,20 +92,20 @@ public class Spot implements Serializable{
 		this.spotId = spotId;
 	}
 
-	public Date getSpotdate() {
-		return spotdate;
+	public Date getSpotDate() {
+		return spotDate;
 	}
 
-	public void setSpotdate(Date spotdate) {
-		this.spotdate = spotdate;
+	public void setSpotDate(Date spotDate) {
+		this.spotDate = spotDate;
 	}
 
-	public String getSpotname() {
-		return spotname;
+	public String getSpotName() {
+		return spotName;
 	}
 
-	public void setSpotname(String spotname) {
-		this.spotname = spotname;
+	public void setSpotName(String spotName) {
+		this.spotName = spotName;
 	}
 
 	public String getSpotRate() {
@@ -156,7 +174,7 @@ public class Spot implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Spot [spotname=" + spotname + "]";
+		return "Spot [spotname=" + spotName + "]";
 	}
 	
 	
