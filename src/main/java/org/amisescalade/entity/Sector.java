@@ -24,19 +24,21 @@ import javax.persistence.OneToMany;
 @Entity
 public class Sector implements Serializable{
 	
+	
+	// register a sector : manque Author 
+	
 	@Id @GeneratedValue
 	private Long sectorId;
 	@Column(nullable=false)
 	private Date sectorDate;
 	@Column(nullable=false)
-	private String sectorname;
+	private String sectorName;
 	@Column(nullable=false)
 	private String sectorRate;
 	private String sectorDescription;
 	private String sectorAccessPath;
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
 	private Spot spot;
 	
 	@OneToMany(mappedBy = "sector",fetch = FetchType.LAZY)
@@ -54,12 +56,37 @@ public class Sector implements Serializable{
 			Collection<SectorComment> sectorComment) {
 		super();
 		this.sectorDate = sectorDate;
-		this.sectorname = sectorname;
+		this.sectorName = sectorname;
 		this.sectorRate = sectorRate;
 		this.sectorDescription = sectorDescription;
 		this.sectorAccessPath = sectorAccessPath;
 		this.component = component;
 		this.sectorComment = sectorComment;
+	}
+	
+	
+	
+	
+
+	public Sector(Date sectorDate, String sectorName, String sectorRate, String sectorDescription,
+			String sectorAccessPath, Spot spot) {
+		super();
+		this.sectorDate = sectorDate;
+		this.sectorName = sectorName;
+		this.sectorRate = sectorRate;
+		this.sectorDescription = sectorDescription;
+		this.sectorAccessPath = sectorAccessPath;
+		this.spot = spot;
+	}
+
+	public Sector(Date sectorDate, String sectorName, String sectorRate, String sectorDescription,
+			String sectorAccessPath) {
+		super();
+		this.sectorDate = sectorDate;
+		this.sectorName = sectorName;
+		this.sectorRate = sectorRate;
+		this.sectorDescription = sectorDescription;
+		this.sectorAccessPath = sectorAccessPath;
 	}
 
 	public Long getSectorId() {
@@ -78,12 +105,12 @@ public class Sector implements Serializable{
 		this.sectorDate = sectorDate;
 	}
 
-	public String getSectorname() {
-		return sectorname;
+	public String getSectorName() {
+		return sectorName;
 	}
 
-	public void setSectorname(String sectorname) {
-		this.sectorname = sectorname;
+	public void setSectorName(String sectorName) {
+		this.sectorName = sectorName;
 	}
 
 	public String getSectorRate() {
@@ -128,7 +155,7 @@ public class Sector implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Sector [sectorname=" + sectorname + "]";
+		return "Sector [sectorname=" + sectorName + "]";
 	}
 	
 	

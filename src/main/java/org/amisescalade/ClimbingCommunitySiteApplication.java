@@ -4,16 +4,19 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amisescalade.dao.SectorRepository;
 import org.amisescalade.dao.SpotRepository;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.dao.WebpageRepository;
+import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
+import org.amisescalade.services.ISectorService;
 import org.amisescalade.services.ISpotService;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
@@ -43,6 +46,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SpotRepository spotRepository;
 	
 	@Autowired
+	private SectorRepository sectorRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -56,6 +62,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISpotService iSpotService;
+	
+	@Autowired
+	private ISectorService iSectorService;
 	
 
 	public static void main(String[] args) {
@@ -285,6 +294,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			
 		}
 		  
+		// register a spot 
 		  
 		  Spot spot1 = iSpotService.register(new Spot(new Date(), "L'ange d'Arras", "A+", "Spiderman à Arras","A1 puis direction Arras", "62", "France"));
 		  
@@ -330,7 +340,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 				// TODO: handle exception
 			}
 		  
-		  // displayAll topo
+		  // displayAll spot
 		  
 		 spotList = iSpotService.displayAll();
 		 
@@ -342,6 +352,109 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			System.out.println("\n displayAll spot : " + spot.toString()+ "\n");
 			
 		}
+		  
+// register a sector without spot
+		  
+		  Sector sector1 = iSectorService.register(new Sector(new Date(), "L'ange Alpha d'Arras", "A+", "firt time !","A1 puis direction Arras"));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a sector without spot : "+sector1.toString()+"\n");
+		  
+// register a sector with a spot
+		  
+		  Sector sectorBis = iSectorService.register(new Sector(new Date(), "Le demon Alpha d'Arras", "A+", "second time !","A1 puis direction Arras", spot2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a sector with a spot : "+sectorBis.toString()+"\n");
+		  
+		  // edit a sector
+		  
+		  sector1.setSectorName("L'ange Alpha");
+		  
+		  Sector sector2 = iSectorService.edit(sector1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a sector : " + sector2.toString() + "\n");
+		  
+		  
+		// displayByName sector
+		  
+		  List<Sector> sectorList = iSectorService.displayBySectorName("alpha");
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
+			  Sector sector = (Sector) iterator.next();
+				
+				System.out.println("\n displayByName sector (alpha) : " + sector.toString()+ "\n");
+				
+			}
+		  
+		  // displayOne sector
+		  
+		  try {
+		  
+			  Sector sectorFind = iSectorService.displayOne(sector2.getSectorId());
+			  
+			  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n displayOne sector : " + sectorFind.toString()+ "\n");
+		  
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		  
+		  // displayAll sector
+		  
+		 sectorList = iSectorService.displayAll();
+		 
+		 System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
+			Sector sector = (Sector) iterator.next();
+			
+			System.out.println("\n displayAll sector : " + sector.toString()+ "\n");
+			
+		}
+		  
+		  
+		// displayAll sector for a spot
+		  
+		  
+		  spotList = iSpotService.displayBySpotname("Arras");
+		  
+		  for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
+			  Spot spotForSector = (Spot) iterator.next();
+				
+				System.out.println("\n displayByName spot (Arras) : " + spotForSector.toString()+ "\n");
+				
+			}
+		  
+		  System.out.println(">>>>>> displayAll sector for "+ spotList.get(0).getSpotName()+" spot >>>><");
+		  
+		  sectorList = iSectorService.displayBySpot(spotList.get(0));
+		  
+		  if (sectorList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + spotList.get(0).getSpotName()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
+			Sector sector = (Sector) iterator.next();
+			
+			System.out.println("\n displayAll sector for Arras : " + sector.toString()+ "\n");
+			
+		  }
+			
+		}
+		  
+		  
+		  
 		  
 		  
 		  
