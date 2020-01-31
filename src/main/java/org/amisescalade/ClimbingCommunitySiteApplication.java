@@ -7,12 +7,15 @@ import java.util.List;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
+import org.amisescalade.dao.WebpageRepository;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
+import org.amisescalade.entity.Webpage;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
 import org.amisescalade.services.IUserService;
+import org.amisescalade.services.IWebpageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +34,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private TopoRepository topoRepository;
 	
 	@Autowired
+	private WebpageRepository webpageRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -38,6 +44,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ITopoService iTopoService;
+	
+	@Autowired
+	private IWebpageService iWebpageService;
 	
 
 	public static void main(String[] args) {
@@ -233,6 +242,40 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			System.out.println("\n displayAll topo : " + topo.toString()+ "\n");
 			
 		}
+		  
+		  
+// register a webpage 
+		  
+		  Webpage webpage1 = iWebpageService.register(new Webpage (new Date(), "Qui sommes nous ?", "Nous sommes ....", uV1));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a topo : "+webpage1.toString()+"\n");
+		  
+		  // edit a webpage
+		  
+		  webpage1.setWebpageBody(" Nouvelles version");
+		  
+		  Webpage webpage2 = iWebpageService.edit(webpage1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a topo : " + webpage2.toString() + "\n");
+		  
+		  
+		  // displayAll webpage
+		  
+		  List<Webpage> webpageList = iWebpageService.displayAll();
+		 
+		 System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  for (Iterator iterator = webpageList.iterator(); iterator.hasNext();) {
+			  Webpage webpage = (Webpage) iterator.next();
+			
+			System.out.println("\n displayAll topo : " + webpage.toString()+ "\n");
+			
+		}
+		  
 		  
 		  
 		  

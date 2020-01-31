@@ -40,6 +40,18 @@ public class Webpage implements Serializable {
 	public Webpage() {
 		super();
 	}
+	
+	
+
+	public Webpage(Date webpageDate, String webpageTitle, String webpageBody, User webpageAuthor) {
+		super();
+		this.webpageDate = webpageDate;
+		this.webpageTitle = webpageTitle;
+		this.webpageBody = webpageBody;
+		this.webpageAuthor = webpageAuthor;
+	}
+
+
 
 	public Webpage(Date webpageDate, String webpageTitle, String webpageBody, User webpageAuthor,
 			Collection<WebpageComment> webpageComments) {
@@ -98,6 +110,16 @@ public class Webpage implements Serializable {
 	public void setWebpageComment(Collection<WebpageComment> webpageComments) {
 		this.webpageComments = webpageComments;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Webpage [webpageDate=" + webpageDate + ", webpageTitle=" + webpageTitle + ", webpageBody=" + webpageBody
+				+ ", webpageAuthor=" + webpageAuthor + "]";
+	}
+	
+	
 	
 	
 	
