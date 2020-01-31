@@ -64,6 +64,15 @@ public class Topo implements Serializable{
 		this.topoComments = topoComments;
 	}
 
+	public Topo(Date topoDate, String topoArea, String topoTitle, String topoDescription, User topoOwner) {
+		super();
+		this.topoDate = topoDate;
+		this.topoArea = topoArea;
+		this.topoTitle = topoTitle;
+		this.topoDescription = topoDescription;
+		this.topoOwner = topoOwner;
+	}
+
 	public Long getTopoId() {
 		return topoId;
 	}
