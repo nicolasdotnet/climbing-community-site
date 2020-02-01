@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -26,6 +25,14 @@ public class SectorComponent extends Component {
 			Collection<ComponentComment> componentComment, Sector sector) {
 		super(componentDate, componentCode, componentName, componentRate, componentDescription,
 				componentCategory, componentComment);
+		this.sector = sector;
+	}
+	
+	
+
+	public SectorComponent(Date componentDate, String componentCode, String componentName, String componentRate,
+			String componentDescription, ComponentCategory componentCategory, Sector sector) {
+		super(componentDate, componentCode, componentName, componentRate, componentDescription, componentCategory);
 		this.sector = sector;
 	}
 

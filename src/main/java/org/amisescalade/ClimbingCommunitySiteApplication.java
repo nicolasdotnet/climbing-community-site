@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.amisescalade.dao.ComponentCategoryRepository;
+import org.amisescalade.dao.SectorComponentRepository;
 import org.amisescalade.dao.SectorRepository;
 import org.amisescalade.dao.SpotComponentRepository;
 import org.amisescalade.dao.SpotRepository;
@@ -14,6 +15,7 @@ import org.amisescalade.dao.UserRepository;
 import org.amisescalade.dao.WebpageRepository;
 import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
+import org.amisescalade.entity.SectorComponent;
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.SpotComponent;
 import org.amisescalade.entity.Topo;
@@ -21,6 +23,7 @@ import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
 import org.amisescalade.services.IComponentCategoryService;
+import org.amisescalade.services.ISectorComponentService;
 import org.amisescalade.services.ISectorService;
 import org.amisescalade.services.ISpotComponentService;
 import org.amisescalade.services.ISpotService;
@@ -61,6 +64,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SpotComponentRepository spotComponentRepository;
 	
 	@Autowired
+	private SectorComponentRepository sectorComponentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -83,6 +89,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISpotComponentService iSpotComponentService;
+	
+	@Autowired
+	private ISectorComponentService iSectorComponentService;
 	
 
 	public static void main(String[] args) {
@@ -491,7 +500,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		  
 		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 		  
-		  System.out.println("\n edit a sector : " + spotComponent2.toString() + "\n");
+		  System.out.println("\n edit a spot component : " + spotComponent2.toString() + "\n");
 		  
 
 // displayAll component for a lite spot
@@ -521,6 +530,58 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			  SpotComponent spotComponent = (SpotComponent) iterator.next();
 			
 			System.out.println("\n displayAll sector for the spot 'Arras' : " + spotComponent.toString()+ "\n");
+			
+		  }
+			
+		}
+		  
+// register a component with a sector
+		  
+		  
+		  SectorComponent sectorComponent1 = iSectorComponentService.register(new SectorComponent(new Date(), "yyyy", "la petite robe noir", "AA+", "componentDescription", cc1, sector2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a sectorComponent with a spot : "+sectorComponent1.toString()+"\n");
+		  
+// edit a spotComponent
+		  
+		  sectorComponent1.setComponentName("la petite robe Alpha");
+		  
+		  SectorComponent sectorComponent2 = iSectorComponentService.edit(sectorComponent1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a sector component : " + sectorComponent2.toString() + "\n");
+		  
+
+// displayAll component for a sector
+		  
+		  
+		  sectorList = iSectorService.displayBySectorName("Alpha");
+		  
+		  for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
+			  Sector sectorForComponent = (Sector) iterator.next();
+				
+				System.out.println("\n displayByName sector (Alpha) : " + sectorForComponent.toString()+ "\n");
+				
+			}
+		  
+		  System.out.println(">>>>>> displayAll component for "+ sectorList.get(0).getSectorName()+" sector >>>><");
+		  
+		  List<SectorComponent> sectorComponentList = iSectorComponentService.displayBySector(sectorList.get(0));
+		  
+		  if (sectorComponentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + sectorList.get(0).getSectorName()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = sectorComponentList.iterator(); iterator.hasNext();) {
+			  SectorComponent sectorComponent = (SectorComponent) iterator.next();
+			
+			System.out.println("\n displayAll component for the sector 'alpha' : " + sectorComponent.toString()+ "\n");
 			
 		  }
 			
