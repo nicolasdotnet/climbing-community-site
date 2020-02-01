@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 public class SectorComponent extends Component {
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+	//@JoinColumn(nullable=false)
 	private Sector sector;
 
 	public SectorComponent() {

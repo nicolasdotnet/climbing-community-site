@@ -45,6 +45,12 @@ public class ComponentCategory implements Serializable {
 		this.component = component;
 	}
 
+	public ComponentCategory(Date dateComponentCategory, String labelComponentCategory) {
+		super();
+		this.dateComponentCategory = dateComponentCategory;
+		this.labelComponentCategory = labelComponentCategory;
+	}
+
 	public Long getIdComponentCategory() {
 		return idComponentCategory;
 	}

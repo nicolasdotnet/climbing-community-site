@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 public class SpotComponent extends Component{
 	
 	@ManyToOne
+	//@JoinColumn(nullable=false)
 	private Spot spot;
 
 	public SpotComponent() {
@@ -26,6 +27,14 @@ public class SpotComponent extends Component{
 				componentCategory, componentComment);
 		this.spot = spot;
 	}
+	
+	
+
+	public SpotComponent(Date componentDate, String componentCode, String componentName, String componentRate,
+			String componentDescription, ComponentCategory componentCategory, Spot spot) {
+		super(componentDate, componentCode, componentName, componentRate, componentDescription, componentCategory);
+		this.spot = spot;
+	}
 
 	public Spot getSpot() {
 		return spot;
@@ -33,6 +42,11 @@ public class SpotComponent extends Component{
 
 	public void setSpot(Spot spot) {
 		this.spot = spot;
+	}
+
+	@Override
+	public String toString() {
+		return "SpotComponent [spot=" + spot + ", toString()=" + super.toString() + "]";
 	}
 	
 	

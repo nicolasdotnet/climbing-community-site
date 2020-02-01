@@ -4,19 +4,25 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amisescalade.dao.ComponentCategoryRepository;
 import org.amisescalade.dao.SectorRepository;
+import org.amisescalade.dao.SpotComponentRepository;
 import org.amisescalade.dao.SpotRepository;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.dao.WebpageRepository;
+import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.Spot;
+import org.amisescalade.entity.SpotComponent;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
+import org.amisescalade.services.IComponentCategoryService;
 import org.amisescalade.services.ISectorService;
+import org.amisescalade.services.ISpotComponentService;
 import org.amisescalade.services.ISpotService;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
@@ -49,6 +55,12 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SectorRepository sectorRepository;
 	
 	@Autowired
+	private ComponentCategoryRepository componentCategoryRepository;
+	
+	@Autowired
+	private SpotComponentRepository spotComponentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -65,6 +77,12 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISectorService iSectorService;
+	
+	@Autowired
+	private IComponentCategoryService iComponentCategoryService;
+	
+	@Autowired
+	private ISpotComponentService iSpotComponentService;
 	
 
 	public static void main(String[] args) {
@@ -455,10 +473,59 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		  
 		  
 		  
+// register a component with a spot
+		  
+		  ComponentCategory cc1 = componentCategoryRepository.save(new ComponentCategory(new Date(), "bloc"));
+		  
+		  SpotComponent spotComponent1 = iSpotComponentService.register(new SpotComponent(new Date(), "xxxx", "la petite roche", "AA+", "componentDescription", cc1, spot2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a spotComponent with a spot : "+spotComponent1.toString()+"\n");
+		  
+// edit a spotComponent
+		  
+		  spotComponent1.setComponentName("la petite roche Alpha");
+		  
+		  SpotComponent spotComponent2 = iSpotComponentService.edit(spotComponent1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a sector : " + spotComponent2.toString() + "\n");
+		  
+
+// displayAll component for a lite spot
 		  
 		  
+		  spotList = iSpotService.displayBySpotname("Arras");
 		  
+		  for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
+			  Spot spotForComponent = (Spot) iterator.next();
+				
+				System.out.println("\n displayByName spot (Arras) : " + spotForComponent.toString()+ "\n");
+				
+			}
 		  
+		  System.out.println(">>>>>> displayAll component for "+ spotList.get(0).getSpotName()+" spot >>>><");
+		  
+		  List<SpotComponent> spotComponentList = iSpotComponentService.displayBySpot(spotList.get(0));
+		  
+		  if (spotComponentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + spotList.get(0).getSpotName()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = spotComponentList.iterator(); iterator.hasNext();) {
+			  SpotComponent spotComponent = (SpotComponent) iterator.next();
+			
+			System.out.println("\n displayAll sector for the spot 'Arras' : " + spotComponent.toString()+ "\n");
+			
+		  }
+			
+		}
+		  	  
 		
 				
 		

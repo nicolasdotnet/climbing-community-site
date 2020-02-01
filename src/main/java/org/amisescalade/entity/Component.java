@@ -65,6 +65,18 @@ public abstract class Component implements Serializable{
 		this.componentCategory = componentCategory;
 		this.componentComment = componentComment;
 	}
+	
+	public Component(Date componentDate, String componentCode, String componentName, String componentRate,
+			String componentDescription, ComponentCategory componentCategory) {
+		super();
+		this.componentDate = componentDate;
+		this.componentCode = componentCode;
+		this.componentName = componentName;
+		this.componentRate = componentRate;
+		this.componentDescription = componentDescription;
+		this.componentCategory = componentCategory;
+	}
+	
 	public Long getComponentId() {
 		return componentId;
 	}
