@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class SectorComment extends Comment{
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+//	@JoinColumn(nullable=false)
 	private Sector sector;
 
 	public SectorComment() {
@@ -33,6 +33,13 @@ public class SectorComment extends Comment{
 	public void setSector(Sector sector) {
 		this.sector = sector;
 	}
+
+	@Override
+	public String toString() {
+		return "SectorComment [sector=" + sector + ", toString()=" + super.toString() + "]";
+	}
+	
+	
 	
 	
 

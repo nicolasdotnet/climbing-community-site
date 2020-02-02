@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class WebpageComment extends Comment {
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+//	@JoinColumn(nullable=false)
 	private Webpage webpage;
 
 	public WebpageComment() {

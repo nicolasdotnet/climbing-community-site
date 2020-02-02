@@ -115,6 +115,14 @@ public abstract class Comment implements Serializable {
 	public void setComments(Collection<Comment> comments) {
 		this.comments = comments;
 	}
+
+	@Override
+	public String toString() {
+		return "Comment [commentDate=" + commentDate + ", commentBody=" + commentBody + ", commentStatus="
+				+ commentStatus + ", commentAuthor=" + commentAuthor + "]";
+	}
+	
+	
 	
 	
 }

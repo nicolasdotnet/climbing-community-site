@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class ComponentComment extends Comment {
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+//	@JoinColumn(nullable=false)
 	private Component component;
 
 	public ComponentComment() {

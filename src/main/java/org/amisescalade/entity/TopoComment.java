@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 public class TopoComment extends Comment {
 	
 	@ManyToOne
-	@JoinColumn(nullable=false)
+//	@JoinColumn(nullable=false)
 	private Topo topo;
 
 	public TopoComment() {

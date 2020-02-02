@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.amisescalade.dao.ComponentCategoryRepository;
+import org.amisescalade.dao.SectorCommentRepository;
 import org.amisescalade.dao.SectorComponentRepository;
 import org.amisescalade.dao.SectorRepository;
 import org.amisescalade.dao.SpotComponentRepository;
@@ -15,6 +16,7 @@ import org.amisescalade.dao.UserRepository;
 import org.amisescalade.dao.WebpageRepository;
 import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
+import org.amisescalade.entity.SectorComment;
 import org.amisescalade.entity.SectorComponent;
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.SpotComponent;
@@ -23,6 +25,7 @@ import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
 import org.amisescalade.services.IComponentCategoryService;
+import org.amisescalade.services.ISectorCommentService;
 import org.amisescalade.services.ISectorComponentService;
 import org.amisescalade.services.ISectorService;
 import org.amisescalade.services.ISpotComponentService;
@@ -67,6 +70,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SectorComponentRepository sectorComponentRepository;
 	
 	@Autowired
+	private SectorCommentRepository sectorCommentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -92,6 +98,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISectorComponentService iSectorComponentService;
+	
+	@Autowired
+	private ISectorCommentService iSectorCommentService;
 	
 
 	public static void main(String[] args) {
@@ -544,7 +553,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		  
 		  System.out.println("\n register a sectorComponent with a spot : "+sectorComponent1.toString()+"\n");
 		  
-// edit a spotComponent
+// edit a sectorComponent
 		  
 		  sectorComponent1.setComponentName("la petite robe Alpha");
 		  
@@ -582,6 +591,59 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			  SectorComponent sectorComponent = (SectorComponent) iterator.next();
 			
 			System.out.println("\n displayAll component for the sector 'alpha' : " + sectorComponent.toString()+ "\n");
+			
+		  }
+			
+		}
+		  
+		  
+// register a comment with a sector
+		  
+		  
+		  SectorComment sectorComment1 = iSectorCommentService.register(new SectorComment(new Date(),"commentBody", true, uV2, sector2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a sectorComment with a sector : "+sectorComment1.toString()+"\n");
+		  
+// edit a sectorComment
+		  
+		  sectorComment1.setCommentBody("comment -> la petite robe Alpha");
+		  
+		  SectorComment sectorComment2 = iSectorCommentService.edit(sectorComment1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a sector comment : " + sectorComment2.toString() + "\n");
+		  
+
+// displayAll comment for a sector
+		  
+		  
+		  sectorList = iSectorService.displayBySectorName("Alpha");
+		  
+		  for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
+			  Sector sectorForComment = (Sector) iterator.next();
+				
+				System.out.println("\n displayByName sector (Alpha) : " + sectorForComment.toString()+ "\n");
+				
+			}
+		  
+		  System.out.println(">>>>>> displayAll comment for "+ sectorList.get(0).getSectorName()+" sector >>>><");
+		  
+		  List<SectorComment> sectorCommentList = iSectorCommentService.displayBySector(sectorList.get(0));
+		  
+		  if (sectorCommentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + sectorList.get(0).getSectorName()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = sectorCommentList.iterator(); iterator.hasNext();) {
+			  SectorComment sectorComment = (SectorComment) iterator.next();
+			
+			System.out.println("\n displayAll comment for the sector 'alpha' : " + sectorComment.toString()+ "\n");
 			
 		  }
 			
