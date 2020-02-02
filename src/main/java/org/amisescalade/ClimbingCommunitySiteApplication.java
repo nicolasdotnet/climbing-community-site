@@ -11,6 +11,7 @@ import org.amisescalade.dao.SectorRepository;
 import org.amisescalade.dao.SpotCommentRepository;
 import org.amisescalade.dao.SpotComponentRepository;
 import org.amisescalade.dao.SpotRepository;
+import org.amisescalade.dao.TopoCommentRepository;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
@@ -23,6 +24,7 @@ import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.SpotComment;
 import org.amisescalade.entity.SpotComponent;
 import org.amisescalade.entity.Topo;
+import org.amisescalade.entity.TopoComment;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
@@ -33,6 +35,7 @@ import org.amisescalade.services.ISectorService;
 import org.amisescalade.services.ISpotCommentService;
 import org.amisescalade.services.ISpotComponentService;
 import org.amisescalade.services.ISpotService;
+import org.amisescalade.services.ITopoCommentService;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
 import org.amisescalade.services.IUserService;
@@ -79,6 +82,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SpotCommentRepository spotCommentRepository;
 	
 	@Autowired
+	private TopoCommentRepository topoCommentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -110,6 +116,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISpotCommentService iSpotCommentService;
+	
+	@Autowired
+	private ITopoCommentService iTopoCommentService;
 	
 
 	public static void main(String[] args) {
@@ -711,6 +720,64 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			  SpotComment spotComment = (SpotComment) iterator.next();
 			
 			System.out.println("\n displayAll comment for the spot 'arras' : " + spotComment.toString()+ "\n");
+			
+		  }
+			
+		}
+		  
+// register a comment with a topo
+		  
+		  
+		  TopoComment topoComment1 = iTopoCommentService.register(new TopoComment(new Date(),"commentBody", true, uV2, topo2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a topoComment with a topo : "+topoComment1.toString()+"\n");
+		  
+// edit a sectorComment
+		  
+		  topoComment1.setCommentBody("comment -> un model de topo :) !!");
+		  
+		  TopoComment topoComment2 = iTopoCommentService.edit(topoComment1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a topo comment : " + topoComment2.toString() + "\n");
+		  
+
+// displayAll comment for a topo
+		  
+		 try {
+		  
+		  topoList = iTopoService.displayByTitle("Arras");
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		  
+		  
+		  for (Iterator iterator = topoList.iterator(); iterator.hasNext();) {
+			  Topo topoForComment = (Topo) iterator.next();
+				
+				System.out.println("\n displayByName topo (Arras) : " + topoForComment.toString()+ "\n");
+				
+			}
+		  
+		  System.out.println(">>>>>> displayAll comment for "+ topoList.get(0).getTopoTitle()+" spot >>>><");
+		  
+		  List<TopoComment> topoCommentList = iTopoCommentService.displayByTopo(topoList.get(0));
+		  
+		  if (topoCommentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + topoList.get(0).getTopoTitle()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = topoCommentList.iterator(); iterator.hasNext();) {
+			  TopoComment topoComment = (TopoComment) iterator.next();
+			
+			System.out.println("\n displayAll comment for the topo 'arras' : " + topoComment.toString()+ "\n");
 			
 		  }
 			

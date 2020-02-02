@@ -32,6 +32,12 @@ public class TopoComment extends Comment {
 	public void setTopo(Topo topo) {
 		this.topo = topo;
 	}
+
+	@Override
+	public String toString() {
+		return "TopoComment [topo=" + topo + ", toString()=" + super.toString() + "]";
+	}
+	
 	
 	
 

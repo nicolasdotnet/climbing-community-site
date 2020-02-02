@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class SpotCommentImpl implements ISpotCommentService{
+public class SpotCommentServiceImpl implements ISpotCommentService{
 	
-	private static final Logger log = LogManager.getLogger(SpotCommentImpl.class);
+	private static final Logger log = LogManager.getLogger(SpotCommentServiceImpl.class);
 	
 	
 	@Autowired
