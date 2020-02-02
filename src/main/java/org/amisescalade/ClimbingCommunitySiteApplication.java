@@ -15,6 +15,7 @@ import org.amisescalade.dao.TopoCommentRepository;
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.dao.UserRepository;
+import org.amisescalade.dao.WebpageCommentRepository;
 import org.amisescalade.dao.WebpageRepository;
 import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
@@ -28,6 +29,7 @@ import org.amisescalade.entity.TopoComment;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.entity.Webpage;
+import org.amisescalade.entity.WebpageComment;
 import org.amisescalade.services.IComponentCategoryService;
 import org.amisescalade.services.ISectorCommentService;
 import org.amisescalade.services.ISectorComponentService;
@@ -39,6 +41,7 @@ import org.amisescalade.services.ITopoCommentService;
 import org.amisescalade.services.ITopoService;
 import org.amisescalade.services.IUserCategoryService;
 import org.amisescalade.services.IUserService;
+import org.amisescalade.services.IWebpageCommentService;
 import org.amisescalade.services.IWebpageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -85,6 +88,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private TopoCommentRepository topoCommentRepository;
 	
 	@Autowired
+	private WebpageCommentRepository webpageCommentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -119,6 +125,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ITopoCommentService iTopoCommentService;
+	
+	@Autowired
+	private IWebpageCommentService iWebpageCommentService;
 	
 
 	public static void main(String[] args) {
@@ -778,6 +787,58 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			  TopoComment topoComment = (TopoComment) iterator.next();
 			
 			System.out.println("\n displayAll comment for the topo 'arras' : " + topoComment.toString()+ "\n");
+			
+		  }
+			
+		}
+		  
+// register a comment with a webpage
+		  
+		  
+		  WebpageComment webpageComment1 = iWebpageCommentService.register(new WebpageComment(new Date(),"commentBody", true, uV2, webpage2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a webpageComment with a webpage : "+webpageComment1.toString()+"\n");
+		  
+// edit a Comment
+		  
+		  webpageComment1.setCommentBody("comment -> je ne comprend rien ! :)");
+		  
+		  WebpageComment webpageComment2 = iWebpageCommentService.edit(webpageComment1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a webpage comment : " + webpageComment2.toString() + "\n");
+		  
+
+// displayAll comment for a webpage
+		  
+		  Webpage webpageFind = null;
+		  
+		  try {
+		  
+		  webpageFind = iWebpageService.displayOne(webpage2.getWebpageId());
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		  
+		  System.out.println(">>>>>> displayAll comment for "+ webpageFind.getWebpageTitle()  +" spot >>>><");
+		  
+		  List<WebpageComment> webpageCommentList = iWebpageCommentService.displayByWebpage(webpageFind);
+		  
+		  if (webpageCommentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + webpageFind.getWebpageTitle() + "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = webpageCommentList.iterator(); iterator.hasNext();) {
+			  WebpageComment webpageComment = (WebpageComment) iterator.next();
+			
+			System.out.println("\n displayAll comment for the page " + webpageFind.getWebpageTitle() +" : " + webpageComment.toString()+ "\n");
 			
 		  }
 			
