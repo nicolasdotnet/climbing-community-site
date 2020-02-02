@@ -8,6 +8,7 @@ import org.amisescalade.dao.ComponentCategoryRepository;
 import org.amisescalade.dao.SectorCommentRepository;
 import org.amisescalade.dao.SectorComponentRepository;
 import org.amisescalade.dao.SectorRepository;
+import org.amisescalade.dao.SpotCommentRepository;
 import org.amisescalade.dao.SpotComponentRepository;
 import org.amisescalade.dao.SpotRepository;
 import org.amisescalade.dao.TopoRepository;
@@ -19,6 +20,7 @@ import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.SectorComment;
 import org.amisescalade.entity.SectorComponent;
 import org.amisescalade.entity.Spot;
+import org.amisescalade.entity.SpotComment;
 import org.amisescalade.entity.SpotComponent;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
@@ -28,6 +30,7 @@ import org.amisescalade.services.IComponentCategoryService;
 import org.amisescalade.services.ISectorCommentService;
 import org.amisescalade.services.ISectorComponentService;
 import org.amisescalade.services.ISectorService;
+import org.amisescalade.services.ISpotCommentService;
 import org.amisescalade.services.ISpotComponentService;
 import org.amisescalade.services.ISpotService;
 import org.amisescalade.services.ITopoService;
@@ -73,6 +76,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	private SectorCommentRepository sectorCommentRepository;
 	
 	@Autowired
+	private SpotCommentRepository spotCommentRepository;
+	
+	@Autowired
 	private IUserService iUserService;
 	
 	@Autowired
@@ -101,6 +107,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ISectorCommentService iSectorCommentService;
+	
+	@Autowired
+	private ISpotCommentService iSpotCommentService;
 	
 
 	public static void main(String[] args) {
@@ -649,7 +658,63 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			
 		}
 		  	  
-		
+// register a comment with a spot
+		  
+		  
+		  SpotComment spotComment1 = iSpotCommentService.register(new SpotComment(new Date(),"commentBody", true, uV2, spot2));
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n register a spotComment with a spot : "+sectorComment1.toString()+"\n");
+		  
+// edit a sectorComment
+		  
+		  spotComment1.setCommentBody("comment -> le petit daemon !!");
+		  
+		  SpotComment spotComment2 = iSpotCommentService.edit(spotComment1);
+		  
+		  System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		  
+		  System.out.println("\n edit a spot comment : " + spotComment2.toString() + "\n");
+		  
+
+// displayAll comment for a spot
+		  
+		 try {
+		  
+		  spotList = iSpotService.displayBySpotname("Arras");
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		  
+		  
+		  for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
+			  Spot spotForComment = (Spot) iterator.next();
+				
+				System.out.println("\n displayByName spot (Arras) : " + spotForComment.toString()+ "\n");
+				
+			}
+		  
+		  System.out.println(">>>>>> displayAll comment for "+ spotList.get(0).getSpotName()+" spot >>>><");
+		  
+		  List<SpotComment> spotCommentList = iSpotCommentService.displayBySpot(spotList.get(0));
+		  
+		  if (spotCommentList == null) {
+			  
+
+				System.out.println("\n Aucun résultat pour : " + spotList.get(0).getSpotName()+ "\n");
+			
+		} else {
+		  
+		  for (Iterator iterator = spotCommentList.iterator(); iterator.hasNext();) {
+			  SpotComment spotComment = (SpotComment) iterator.next();
+			
+			System.out.println("\n displayAll comment for the spot 'arras' : " + spotComment.toString()+ "\n");
+			
+		  }
+			
+		}
 				
 		
 	}

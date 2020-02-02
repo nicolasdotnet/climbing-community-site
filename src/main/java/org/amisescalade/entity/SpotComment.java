@@ -32,6 +32,11 @@ public class SpotComment extends Comment {
 	public void setSpot(Spot spot) {
 		this.spot = spot;
 	}
+
+	@Override
+	public String toString() {
+		return "SpotComment [spot=" + spot + ", toString()=" + super.toString() + "]";
+	}
 	
 	
 
