@@ -49,5 +49,5 @@ public interface ISpotService {
 	 * @throws Exception
 	 */
 	List<Spot> displayBySpotname(String spotname) throws Exception;
-
+	
 }

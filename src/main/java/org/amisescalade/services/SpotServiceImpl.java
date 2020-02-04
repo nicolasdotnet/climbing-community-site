@@ -24,11 +24,13 @@ public class SpotServiceImpl implements ISpotService {
 	@Override
 	public Spot register(Spot spot) throws Exception {
 
-		// check by title for no register double ?
+		// TODO check by title for no register double ?
 
 		spot.setSpotDate(new Date());
 		return spotRepository.save(spot);
 	}
+	
+	
 
 	@Override
 	public Spot edit(Spot spot) throws Exception {
@@ -42,7 +44,7 @@ public class SpotServiceImpl implements ISpotService {
 			throw new Exception("Le spot n'existe pas !");
 
 		}
-		spot.setSpotDate(new Date());
+		
 		return spotRepository.saveAndFlush(spot);
 	}
 

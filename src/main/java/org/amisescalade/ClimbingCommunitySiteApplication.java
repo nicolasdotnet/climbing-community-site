@@ -143,6 +143,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		
 		UserCategory uc1 = userCategoryRepository.save(new UserCategory(new Date(), "grimpeur"));
 		
+		UserCategory toto = new UserCategory();
+		toto.setUserCategoryLabel("toto");
+		
 		
 		// method execution
 		
