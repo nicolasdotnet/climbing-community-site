@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.amisescalade.controller.IUserCategoryController;
 import org.amisescalade.controller.IUserController;
+import org.amisescalade.controller.IWebpageController;
 import org.amisescalade.dao.ComponentCategoryRepository;
 import org.amisescalade.dao.SectorCommentRepository;
 import org.amisescalade.dao.SectorComponentRepository;
@@ -136,6 +137,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IUserCategoryController iUserCategoryController;
+	
+	@Autowired
+	private IWebpageController iWebpageController;
 
 	public static void main(String[] args) {
 
@@ -341,18 +345,22 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // register a webpage 
 
-		Webpage webpage1 = iWebpageService
-				.register(new Webpage(new Date(), "Qui sommes nous ?", "Nous sommes ....", uV1));
+		String title = "Qui sommes nous ?";
+		String body = "Nous sommes ....";
+		User authorWebpage = iUserController.displayUser(uV1.getUserId());
+
+		Webpage webpage1 = iWebpageController.addWebpage(title, body, authorWebpage);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
 		System.out.println("\n register a topo : " + webpage1.toString() + "\n");
 
+
 		// edit a webpage
 
 		webpage1.setWebpageBody(" Nouvelles version");
 
-		Webpage webpage2 = iWebpageService.edit(webpage1);
+		Webpage webpage2 = iWebpageController.editWebpage(webpage1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -360,7 +368,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll webpage
 
-		List<Webpage> webpageList = iWebpageService.displayAll();
+		List<Webpage> webpageList = iWebpageController.displayAllWebpage();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -813,7 +821,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			webpageFind = iWebpageService.displayOne(webpage2.getWebpageId());
+			webpageFind = iWebpageController.displayWebpage(webpage2.getWebpageId());
 
 		} catch (Exception e) {
 			// TODO: handle exception

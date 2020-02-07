@@ -2,19 +2,21 @@ package org.amisescalade.services;
 
 import java.util.List;
 
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.Webpage;
-import org.amisescalade.entity.WebpageComment;
 
 public interface IWebpageService {
 	
 	/**
 	 * method to register a webpage
 	 * 
-	 * @param webpage
+	 * @param title
+	 * @param body 
+	 * @param author 
 	 * @return webpage Object save
 	 * @throws Exception
 	 */
-	Webpage register(Webpage webpage) throws Exception;
+	Webpage register(String title, String body, User author) throws Exception;
 	
 	
 	/**
@@ -28,20 +30,20 @@ public interface IWebpageService {
 	
 	
 	/**
-	 * method to display one webpage by his id
+	 * method to get a webpage by his id
 	 * 
 	 * 
 	 * @param webpage id
 	 * @return webpageComment Object to display
 	 * @throws Exception
 	 */
-	Webpage displayOne(Long id) throws Exception;
+	Webpage getWebpage(Long id) throws Exception;
 	
 	/**
-	 * method to display all webpages
+	 * method to get all webpages
 	 * 
 	 * @return the webpage list 
 	 */
-	List<Webpage> displayAll();
+	List<Webpage> getAllWebpage();
 
 }

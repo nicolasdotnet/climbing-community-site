@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.amisescalade.dao.WebpageRepository;
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.Webpage;
-import org.amisescalade.entity.WebpageComment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,26 @@ public class WebpageServiceImpl implements IWebpageService{
 	private WebpageRepository webpageRepository;
 
 	@Override
-	public Webpage register(Webpage webpage) throws Exception {
+	public Webpage register(String title, String body, User author) throws Exception {
+		
+		Webpage webpage = new Webpage();
+		
+		webpage.setWebpageTitle(title);
+		webpage.setWebpageBody(body);
+		webpage.setWebpageAuthor(author);
+		
+		Webpage webpageFind = webpageRepository.findByWebpageTitle(webpage.getWebpageTitle());
+
+		if (webpageFind != null) {
+
+			log.error("Le titre existe déjà !");
+
+			throw new Exception("Le titre existe déjà !");
+
+		}
+
+		// TODO check password
+		// TODO vérification de la saisie avec Spring Validator ?
 		
 		// check by title for no register double ?
 		webpage.setWebpageDate(new Date());
@@ -39,9 +58,7 @@ public class WebpageServiceImpl implements IWebpageService{
 			
 			log.error("Modification Impossible ! la webpage "+ webpage.getWebpageId()+" n'existe pas dans la base.");
 			
-			throw new Exception("La webpage n'existe pas !");
-			
-			
+			throw new Exception("La webpage n'existe pas !");	
 		}
 		
 		
@@ -50,7 +67,7 @@ public class WebpageServiceImpl implements IWebpageService{
 	}
 	
 	@Override
-	public Webpage displayOne(Long id) throws Exception {
+	public Webpage getWebpage(Long id) throws Exception {
 		
 		Optional<Webpage> webpageFind = webpageRepository.findById(id);
 
@@ -65,7 +82,7 @@ public class WebpageServiceImpl implements IWebpageService{
 	}
 
 	@Override
-	public List<Webpage> displayAll() {
+	public List<Webpage> getAllWebpage() {
 		
 		return webpageRepository.findAll();
 	}
