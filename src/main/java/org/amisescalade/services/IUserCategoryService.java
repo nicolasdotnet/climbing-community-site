@@ -3,7 +3,6 @@ package org.amisescalade.services;
 
 import java.util.List;
 
-import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 
 public interface IUserCategoryService {
@@ -11,11 +10,11 @@ public interface IUserCategoryService {
 	/**
 	 * method to register a userCategory
 	 * 
-	 * @param userCategory
+	 * @param category
 	 * @return userCategory Object save
 	 * @throws Exception
 	 */
-	UserCategory register(UserCategory userCategory) throws Exception;
+	UserCategory register(String category) throws Exception;
 	
 	/**
 	 * method to modify a userCategory
@@ -27,19 +26,29 @@ public interface IUserCategoryService {
 	UserCategory edit(UserCategory userCategory) throws Exception;
 	
 	/**
-	 * method to display all user category
+	 * method to get all user category
 	 * 
 	 * @return the user category list
 	 */
-	List<UserCategory> displayAll();
+	List<UserCategory> getAllUserCategory();
 
 	/**
-	 * method to display one user category
+	 * method to get a user category
 	 * 
-	 * @param category
+	 * @param id
 	 * @return userCategory Object find
+	 * @throws Exception 
 	 */
-	UserCategory displayOneUserCategory(String category);
+	UserCategory getUserCategory(Long id) throws Exception;
+	
+	/**
+	 * method to get a user category list by label
+	 * 
+	 * @param label
+	 * @return userCategory Object find
+	 * @throws Exception 
+	 */
+	List<UserCategory> getUserCategoryByLabel(String label);
 	
 	/**
 	 * method to get the default user category

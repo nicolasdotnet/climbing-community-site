@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amisescalade.controller.IUserCategoryController;
 import org.amisescalade.controller.IUserController;
 import org.amisescalade.dao.ComponentCategoryRepository;
 import org.amisescalade.dao.SectorCommentRepository;
@@ -55,8 +56,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 //	@Autowired
 //	private UserRepository userRepository;
 
-	@Autowired
-	private UserCategoryRepository userCategoryRepository;
+//	@Autowired
+//	private UserCategoryRepository userCategoryRepository;
 
 	@Autowired
 	private TopoRepository topoRepository;
@@ -94,8 +95,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 //	@Autowired
 //	private IUserService iUserService;
 
-	@Autowired
-	private IUserCategoryService iUserCategoryService;
+//	@Autowired
+//	private IUserCategoryService iUserCategoryService;
 
 	@Autowired
 	private ITopoService iTopoService;
@@ -132,6 +133,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 	@Autowired
 	private IUserController iUserController;
+	
+	@Autowired
+	private IUserCategoryController iUserCategoryController;
 
 	public static void main(String[] args) {
 
@@ -141,9 +145,16 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 //	@Override
 	public void run(String... args) throws Exception {
 
-		// insert data
+		// insert first data
+				// register UserCategory
 
-		UserCategory uc1 = userCategoryRepository.save(new UserCategory(new Date(), "grimpeur"));
+				String label = "grimpeur";
+
+				UserCategory uc1 = new UserCategory();
+
+				uc1 = iUserCategoryController.addUserCategory(label);
+				
+				System.out.println(">>>>>>>>>>>>"+uc1.toString()+">>>>>>>>>><");
 
 		// method execution
 
@@ -207,7 +218,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// register UserCategory
 
-		UserCategory ucV1 = iUserCategoryService.register(new UserCategory(new Date(), "admin"));
+		label = "admin";
+
+		UserCategory ucV1 = iUserCategoryController.addUserCategory(label);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -217,7 +230,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		ucV1.setUserCategoryLabel("fake category");
 
-		UserCategory ucV2 = iUserCategoryService.edit(ucV1);
+		UserCategory ucV2 = iUserCategoryController.editUserCategory(ucV1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -230,7 +243,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll UserCategory
 
-		List<UserCategory> categoryList = iUserCategoryService.displayAll();
+
+		List<UserCategory> categoryList = iUserCategoryController.displayAllUserCategory();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -244,7 +258,15 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// display user with "grimper"
 
-		UserCategory categoryFind = iUserCategoryService.displayOneUserCategory("grimpeur");
+		UserCategory categoryFind = null;
+
+		List<UserCategory> categoryListFind = iUserCategoryController.displayUserCategoryByLabel("grimpeur");
+
+		for (Iterator iterator = categoryListFind.iterator(); iterator.hasNext();) {
+			categoryFind = (UserCategory) iterator.next();
+
+			System.out.println("\n" + categoryFind + "\n");
+		}
 
 		List<User> usersFind2 = iUserController.displayAllUsersByUserCategory(categoryFind);
 
@@ -256,6 +278,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			System.out.println("\n display All User with the " + user.getUserCategory() + " : " + user + "\n");
 
 		}
+
 
 		// register a topo
 
