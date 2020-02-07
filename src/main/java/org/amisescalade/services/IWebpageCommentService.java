@@ -2,6 +2,7 @@ package org.amisescalade.services;
 
 import java.util.List;
 
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.Webpage;
 import org.amisescalade.entity.WebpageComment;
 
@@ -10,11 +11,13 @@ public interface IWebpageCommentService {
 	/**
 	 * method to register a webpageComment
 	 * 
-	 * @param webpageComment
+	 * @param body
+	 * @param author
+	 * @param webpage
 	 * @return webpageComment Object save
 	 * @throws Exception
 	 */
-	WebpageComment register(WebpageComment webpageComment) throws Exception;
+	WebpageComment register(String body, User author, Webpage webpage) throws Exception;
 	
 	/**
 	 * method to modify a webpageComment
@@ -26,7 +29,7 @@ public interface IWebpageCommentService {
 	WebpageComment edit(WebpageComment webpageComment) throws Exception;
 	
 	/**
-	 * method to display one webpageComment by his id
+	 * method to get a webpageComment by his id
 	 * 
 	 * UTILE ?
 	 * 
@@ -34,24 +37,24 @@ public interface IWebpageCommentService {
 	 * @return webpageComment Object to display
 	 * @throws Exception
 	 */
-	WebpageComment displayOne(Long id) throws Exception;
+	WebpageComment getWebpageComment(Long id) throws Exception;
 	
 	/**
-	 * method to display all webpageComments
+	 * method to get all webpageComments
 	 * 
 	 * UTILE ?
 	 * 
 	 * @return the webpageComment list 
 	 */
-	List<WebpageComment> displayAll();
+	List<WebpageComment> getAllWebpageComment();
 	
 	/**
-	 * method to display one webpageComment by his webpage
+	 * method to get all webpageComment by his webpage
 	 * 
 	 * @param webpage
-	 * @return the webpageComment list with his webpage to display
+	 * @return the webpageComment list 
 	 * @throws Exception
 	 */
-	List<WebpageComment> displayByWebpage(Webpage webpage) throws Exception;
+	List<WebpageComment> getCommentByWebpage(Webpage webpage) throws Exception;
 
 }

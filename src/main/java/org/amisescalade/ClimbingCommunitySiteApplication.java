@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.amisescalade.controller.IUserCategoryController;
 import org.amisescalade.controller.IUserController;
+import org.amisescalade.controller.IWebpageCommentController;
 import org.amisescalade.controller.IWebpageController;
 import org.amisescalade.dao.ComponentCategoryRepository;
 import org.amisescalade.dao.SectorCommentRepository;
@@ -63,8 +64,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	@Autowired
 	private TopoRepository topoRepository;
 
-	@Autowired
-	private WebpageRepository webpageRepository;
+//	@Autowired
+//	private WebpageRepository webpageRepository;
 
 	@Autowired
 	private SpotRepository spotRepository;
@@ -90,8 +91,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	@Autowired
 	private TopoCommentRepository topoCommentRepository;
 
-	@Autowired
-	private WebpageCommentRepository webpageCommentRepository;
+//	@Autowired
+//	private WebpageCommentRepository webpageCommentRepository;
 
 //	@Autowired
 //	private IUserService iUserService;
@@ -102,8 +103,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	@Autowired
 	private ITopoService iTopoService;
 
-	@Autowired
-	private IWebpageService iWebpageService;
+//	@Autowired
+//	private IWebpageService iWebpageService;
 
 	@Autowired
 	private ISpotService iSpotService;
@@ -129,17 +130,20 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	@Autowired
 	private ITopoCommentService iTopoCommentService;
 
-	@Autowired
-	private IWebpageCommentService iWebpageCommentService;
+//	@Autowired
+//	private IWebpageCommentService iWebpageCommentService;
 
 	@Autowired
 	private IUserController iUserController;
-	
+
 	@Autowired
 	private IUserCategoryController iUserCategoryController;
-	
+
 	@Autowired
 	private IWebpageController iWebpageController;
+
+	@Autowired
+	private IWebpageCommentController iWebpageCommentController;
 
 	public static void main(String[] args) {
 
@@ -150,15 +154,15 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		// insert first data
-				// register UserCategory
+		// register UserCategory
 
-				String label = "grimpeur";
+		String label = "grimpeur";
 
-				UserCategory uc1 = new UserCategory();
+		UserCategory uc1 = new UserCategory();
 
-				uc1 = iUserCategoryController.addUserCategory(label);
-				
-				System.out.println(">>>>>>>>>>>>"+uc1.toString()+">>>>>>>>>><");
+		uc1 = iUserCategoryController.addUserCategory(label);
+
+		System.out.println(">>>>>>>>>>>>" + uc1.toString() + ">>>>>>>>>><");
 
 		// method execution
 
@@ -247,7 +251,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll UserCategory
 
-
 		List<UserCategory> categoryList = iUserCategoryController.displayAllUserCategory();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
@@ -282,7 +285,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			System.out.println("\n display All User with the " + user.getUserCategory() + " : " + user + "\n");
 
 		}
-
 
 		// register a topo
 
@@ -354,7 +356,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
 		System.out.println("\n register a topo : " + webpage1.toString() + "\n");
-
 
 		// edit a webpage
 
@@ -798,8 +799,12 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // register a comment with a webpage
 
-		WebpageComment webpageComment1 = iWebpageCommentService
-				.register(new WebpageComment(new Date(), "commentBody", true, uV2, webpage2));
+		String commentBody = "commentBody";
+		User authorComment = iUserController.displayUser(uV2.getUserId());
+		Webpage webpageComment0 = iWebpageController.displayWebpage(webpage2.getWebpageId());
+
+		WebpageComment webpageComment1 = iWebpageCommentController.addWebpageComment(commentBody, authorComment,
+				webpageComment0);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -807,13 +812,17 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // edit a Comment
 
-		webpageComment1.setCommentBody("comment -> je ne comprend rien ! :)");
-
-		WebpageComment webpageComment2 = iWebpageCommentService.edit(webpageComment1);
-
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
-
-		System.out.println("\n edit a webpage comment : " + webpageComment2.toString() + "\n");
+		/*
+		 * webpageComment1.setCommentBody("comment -> je ne comprend rien ! :)");
+		 * 
+		 * WebpageComment webpageComment2 =
+		 * iWebpageCommentService.edit(webpageComment1);
+		 * 
+		 * System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
+		 * 
+		 * System.out.println("\n edit a webpage comment : " +
+		 * webpageComment2.toString() + "\n");
+		 */
 
 // displayAll comment for a webpage
 
@@ -827,9 +836,14 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 			// TODO: handle exception
 		}
 
-		System.out.println(">>>>>> displayAll comment for " + webpageFind.getWebpageTitle() + " spot >>>><");
+		System.out.println(">>>>>> displayAll comment for " + webpageFind.getWebpageTitle() + " >>>><");
 
-		List<WebpageComment> webpageCommentList = iWebpageCommentService.displayByWebpage(webpageFind);
+		List<WebpageComment> webpageCommentList = iWebpageCommentController
+				.displayAllWebpageCommentByWebpage(webpageFind);
+
+		Boolean x = webpageCommentList.contains(webpageComment1);
+		
+		System.out.println(">>>>>> result from X " + x + " >>>><");
 
 		if (webpageCommentList == null) {
 
@@ -837,7 +851,10 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		} else {
 
+			System.out.println("\n displayAll comment \n");
+
 			for (Iterator iterator = webpageCommentList.iterator(); iterator.hasNext();) {
+
 				WebpageComment webpageComment = (WebpageComment) iterator.next();
 
 				System.out.println("\n displayAll comment for the page " + webpageFind.getWebpageTitle() + " : "
@@ -845,8 +862,9 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 			}
 
+			System.out.println("\n displayAll comment \n");
+
 		}
 
 	}
-
 }

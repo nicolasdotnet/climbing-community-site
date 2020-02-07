@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.amisescalade.dao.WebpageCommentRepository;
+import org.amisescalade.entity.User;
 import org.amisescalade.entity.Webpage;
 import org.amisescalade.entity.WebpageComment;
 import org.apache.logging.log4j.LogManager;
@@ -24,9 +25,14 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 	private WebpageCommentRepository webpageCommentRepository;
 
 	@Override
-	public WebpageComment register(WebpageComment webpageComment) throws Exception {
+	public WebpageComment register(String body, User author, Webpage webpage) throws Exception {		
 		
+		WebpageComment webpageComment = new WebpageComment();
+		
+		webpageComment.setCommentBody(body);
+		webpageComment.setCommentAuthor(author);
 		webpageComment.setCommentDate(new Date());
+		webpageComment.setCommentStatus(true);
 		return webpageCommentRepository.save(webpageComment);
 	}
 
@@ -47,7 +53,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 	}
 
 	@Override
-	public WebpageComment displayOne(Long id) throws Exception {
+	public WebpageComment getWebpageComment(Long id) throws Exception {
 		
 		Optional<WebpageComment> webpageCommentFind = webpageCommentRepository.findById(id);
 
@@ -62,14 +68,14 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 	}
 
 	@Override
-	public List<WebpageComment> displayAll() {
+	public List<WebpageComment> getAllWebpageComment() {
 		
 		return webpageCommentRepository.findAll();
 	}
 	
 
 	@Override
-	public List<WebpageComment> displayByWebpage(Webpage webpage) throws Exception {
+	public List<WebpageComment> getCommentByWebpage(Webpage webpage) throws Exception {
 		
 		return webpageCommentRepository.findByWebpage(webpage);
 	}
