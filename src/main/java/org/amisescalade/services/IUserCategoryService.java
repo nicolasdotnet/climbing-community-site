@@ -40,4 +40,12 @@ public interface IUserCategoryService {
 	 * @return userCategory Object find
 	 */
 	UserCategory displayOneUserCategory(String category);
+	
+	/**
+	 * method to get the default user category
+	 * 
+	 * @return default category for a user
+	 * @throws Exception
+	 */
+	UserCategory getDefaultUserCategory() throws Exception;
 }

@@ -23,6 +23,11 @@ import javax.persistence.OneToMany;
 public class User implements Serializable{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id @GeneratedValue
 	private Long userId;
 	@JoinColumn(nullable=false)
@@ -34,7 +39,7 @@ public class User implements Serializable{
 	@Column(length = 50, nullable=false)
 	private String username;
 	
-	// encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
+	// TODO encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
 	@Column(length = 150, nullable=false)
 	private String password;
 	
@@ -60,48 +65,6 @@ public class User implements Serializable{
 	}
 	
 	
-
-
-	public User(Date userDate, String firstname, String lastname, String username, String password,UserCategory userCategory) {
-		super();
-		this.userDate = userDate;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.username = username;
-		this.password = password;
-		this.userCategory = userCategory;
-	}
-
-
-
-
-	public User(Date userDate, String firstname, String lastname, String username, String password,
-			UserCategory userCategory, Collection<Topo> topos, Collection<Booking> booking,
-			Collection<Webpage> webpage, Collection<Comment> comments) {
-		super();
-		this.userDate = userDate;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.username = username;
-		this.password = password;
-		this.userCategory = userCategory;
-		this.topos = topos;
-		this.booking = booking;
-		Webpage = webpage;
-		this.comments = comments;
-	}
-
-
-	public User(Long userId, Date userDate, String username) {
-		super();
-		this.userId = userId;
-		this.userDate = userDate;
-		this.username = username;
-	}
-
-
-
-
 	public Long getUserId() {
 		return userId;
 	}

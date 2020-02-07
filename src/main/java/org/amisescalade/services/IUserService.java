@@ -8,13 +8,17 @@ import org.amisescalade.entity.UserCategory;
 public interface IUserService {
 	
 	/**
-	 * method to register a user
+	 * method to register a user by default
 	 * 
-	 * @param user
+	 * @param firstname
+	 * @param lastname
+	 * @param username
+	 * @param password
+	 * 
 	 * @return user Object save
 	 * @throws Exception
 	 */
-	User register(User user) throws Exception;
+	User registerByDefault(String firstname, String lastname, String username, String password) throws Exception;
 	
 	/**
 	 * method to modify a user
@@ -26,37 +30,38 @@ public interface IUserService {
 	User edit(User user) throws Exception;
 	
 	/**
-	 * method to display one user
+	 * method to get a user
 	 * 
-	 * @param user
-	 * @return user Object to display
+	 * @param id
+	 * @return user Object find
 	 * @throws Exception
 	 */
-	User displayOne(User user) throws Exception;
+	User getUser(Long id) throws Exception;
 	
 	/**
-	 * method to display all users
+	 * method to get all users
 	 * 
 	 * @return the user list 
 	 */
-	List<User> displayAll();
-	
+	List<User> getAllUsers();
 	
 	/**
 	 * method sample to user login
 	 * 
-	 * @param user
+	 * @param username
+	 * @param password
+	 * @return login status : login (true) or no login (false)
 	 * @throws Exception
 	 */
-	void sampleLogin(User user) throws Exception;
+	Boolean sampleLogin(String username, String password) throws Exception;
 	
 	/**
-	 * method to display all users by category
+	 * method to get all users by category
 	 * 
 	 * @param UserCategory
 	 * @return the list users with UserCategory label
 	 */
-	List<User> displayByCategory(UserCategory UserCategory);
+	List<User> getUsersByCategory(UserCategory UserCategory);
 	
 	
 	

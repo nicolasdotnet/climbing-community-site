@@ -15,96 +15,138 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService{
-	
+public class UserServiceImpl implements IUserService {
+
 	private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
-	
+
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private IUserCategoryService iUserCategoryService;
 
 	@Override
-	public User register(User user) throws Exception {
+	public User registerByDefault(String firstName, String lastName, String userName, String password) throws Exception {
+		
+		User user = new User();
+		
+		user.setFirstname(firstName);
+		user.setLastname(lastName);
+		user.setUsername(userName);
+		user.setPassword(password);
+		user.setUserCategory(iUserCategoryService.getDefaultUserCategory());
+		
 		
 		User userFind = userRepository.findByUsername(user.getUsername());
-		
+
 		if (userFind != null) {
-			
+
 			log.error("Utilisateur existe déjà !");
-			
+
 			throw new Exception("Utilisateur existe déjà !");
 
 		}
-		
+
+		if (user.getFirstname() == null || user.getLastname() == null) {
+
+			log.error("Utilisateur mal renseigné ! un champ est vide.");
+
+			throw new Exception("Utilisateur mal renseigné ! un champ est vide.");
+
+		}
+
+		// TODO check password
+		// TODO vérification de la saisie avec Spring Validator ?
+
 		user.setUserDate(new Date());
-		
+
 		return userRepository.save(user);
-		
+
 	}
-	
+
 	@Override
 	public User edit(User user) throws Exception {
 
 		Optional<User> userFind = userRepository.findById(user.getUserId());
-		
+
 		if (userFind.isEmpty()) {
-			
-			log.error("Modification Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
-		
+
+			log.error("Modification Impossible ! l'utilisateur " + user.getUserId() + " n'existe pas dans la base.");
+
 			throw new Exception("Utilisateur n'existe pas !");
-		
+
 		}
-		
-		// vérification de la saisie avec Spring Validator ?
-		
+
+		if (user.getUserCategory() == null || user.getFirstname() == null || user.getLastname() == null) {
+
+			log.error("Utilisateur mal renseigné ! un champ est vide.");
+
+			throw new Exception("Utilisateur mal renseigné ! un champ est vide.");
+
+		}
+
+		// TODO check password ?
+
+		// TODO vérification de la saisie avec Spring Validator ?
+		// TODO Ajouter date de modification ?
+
 		return userRepository.saveAndFlush(user);
-	}
-	
-	@Override
-	public User displayOne(User user) throws Exception {
-		
-		Optional<User> userFind = userRepository.findById(user.getUserId());
-		
-		if (userFind.isEmpty()) {
-			
-			log.error("Affichage Impossible ! l'utilisateur "+ user.getUserId()+" n'existe pas dans la base.");
-			
-			throw new Exception("Utilisateur n'existe pas !");
-			
-		}
-			
-		return user;	
-	}
-	
-	@Override
-	public void sampleLogin(User user) throws Exception {
-		
-		User userFind = userRepository.findByUsername(user.getUsername());
-		
-		if (userFind == null) { 
-			
-			log.error("L'identifiant n'existe pas !");
-			throw new Exception("L'identifiant n'existe pas !");
-		
-		};
-		
-		if (userFind.getPassword() != user.getPassword()) { 
-			
-			log.error("Mot de passe incorrect !");
-			throw new Exception("Mot de passe incorrect !");
-			
-		}
-		
 	}
 
 	@Override
-	public List<User> displayAll() {
+	public User getUser(Long id) throws Exception {
+
+		Optional<User> userFind = userRepository.findById(id);
+
+		if (userFind.isEmpty()) {
+
+			log.error("Affichage Impossible ! l'utilisateur " + id + " n'existe pas dans la base.");
+
+			throw new Exception("Utilisateur n'existe pas !");
+
+		}
+
+		return userFind.get();
+	}
+
+	@Override
+	public Boolean sampleLogin(String userName, String password) throws Exception {
+
+		Boolean signIn = false;
 		
+		User userFind = userRepository.findByUsername(userName);
+
+		if (userFind == null) {
+
+			log.error("L'identifiant n'existe pas !");
+			throw new Exception("L'identifiant n'existe pas !");
+		}
+		;
+
+		if (userFind.getPassword() != password) {
+
+			log.error("Mot de passe incorrect !");
+			throw new Exception("Mot de passe incorrect !");
+
+		}else {
+			
+			signIn = true;
+			
+		}		
+		
+		return signIn;
+
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+
 		return userRepository.findAll();
 	}
 
 	@Override
-	public List<User> displayByCategory(UserCategory UserCategory) {		
-		
+	public List<User> getUsersByCategory(UserCategory UserCategory) {
+
 		return userRepository.findByUserCategory(UserCategory);
 	}
 
