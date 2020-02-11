@@ -841,10 +841,6 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		List<WebpageComment> webpageCommentList = iWebpageCommentController
 				.displayAllWebpageCommentByWebpage(webpageFind);
 
-		Boolean x = webpageCommentList.contains(webpageComment1);
-		
-		System.out.println(">>>>>> result from X " + x + " >>>><");
-
 		if (webpageCommentList == null) {
 
 			System.out.println("\n Aucun résultat pour : " + webpageFind.getWebpageTitle() + "\n");

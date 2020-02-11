@@ -33,6 +33,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 		webpageComment.setCommentAuthor(author);
 		webpageComment.setCommentDate(new Date());
 		webpageComment.setCommentStatus(true);
+		webpageComment.setWebpage(webpage);
 		return webpageCommentRepository.save(webpageComment);
 	}
 
