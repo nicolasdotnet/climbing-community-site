@@ -121,18 +121,20 @@ public class UserServiceImpl implements IUserService {
 			log.error("L'identifiant n'existe pas !");
 			throw new Exception("L'identifiant n'existe pas !");
 		}
-		;
 
-		if (userFind.getPassword() != password) {
-
-			log.error("Mot de passe incorrect !");
-			throw new Exception("Mot de passe incorrect !");
+		if (userFind.getPassword().equals(password)) {
+			
+			signIn = true;
 
 		}else {
 			
-			signIn = true;
+			log.error("Mot de passe incorrect !");
+			System.out.println("Alerte  : UserFind ps : "+userFind.getPassword()+" saissie : "+password);
+			throw new Exception("Mot de passe incorrect !");
 			
 		}		
+		
+		System.out.println("A"+signIn);
 		
 		return signIn;
 

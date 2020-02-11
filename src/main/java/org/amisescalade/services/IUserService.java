@@ -15,7 +15,7 @@ public interface IUserService {
 	 * @param username
 	 * @param password
 	 * 
-	 * @return user Object save
+	 * @return user object save
 	 * @throws Exception
 	 */
 	User registerByDefault(String firstname, String lastname, String username, String password) throws Exception;
@@ -24,7 +24,7 @@ public interface IUserService {
 	 * method to modify a user
 	 * 
 	 * @param user
-	 * @return user Object modify
+	 * @return user object modify
 	 * @throws Exception
 	 */
 	User edit(User user) throws Exception;
@@ -33,7 +33,7 @@ public interface IUserService {
 	 * method to get a user
 	 * 
 	 * @param id
-	 * @return user Object find
+	 * @return user object find
 	 * @throws Exception
 	 */
 	User getUser(Long id) throws Exception;
@@ -41,7 +41,7 @@ public interface IUserService {
 	/**
 	 * method to get all users
 	 * 
-	 * @return the user list 
+	 * @return the users list 
 	 */
 	List<User> getAllUsers();
 	
@@ -59,7 +59,7 @@ public interface IUserService {
 	 * method to get all users by category
 	 * 
 	 * @param UserCategory
-	 * @return the list users with UserCategory label
+	 * @return the list users from UserCategory label
 	 */
 	List<User> getUsersByCategory(UserCategory UserCategory);
 	

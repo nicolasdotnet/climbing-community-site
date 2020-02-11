@@ -210,6 +210,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		// sampleLogin User
 
 		iUserController.signInUser("nico", "xxx"); // Ok entraine un log error en console
+		iUserController.signInUser("nico", "123"); // Ok entraine pas un log error en console
 
 		// displayAll User
 

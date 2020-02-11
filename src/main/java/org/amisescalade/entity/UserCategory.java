@@ -25,6 +25,12 @@ public class UserCategory implements Serializable{
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	// Author, Climber, moderator,
 	
 	@Id @GeneratedValue
@@ -39,23 +45,6 @@ public class UserCategory implements Serializable{
 	
 	public UserCategory() {
 		super();
-	}
-
-
-
-	public UserCategory(Date userCategoryDate, String userCategoryLabel) {
-		super();
-		this.userCategoryDate = userCategoryDate;
-		this.userCategoryLabel = userCategoryLabel;
-	}
-
-
-
-	public UserCategory(Date userCategoryDate, String userCategoryLabel, Collection<User> users) {
-		super();
-		this.userCategoryDate = userCategoryDate;
-		this.userCategoryLabel = userCategoryLabel;
-		this.users = users;
 	}
 
 	public Long getUserCategoryId() {

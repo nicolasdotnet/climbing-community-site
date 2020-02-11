@@ -8,48 +8,60 @@ import org.amisescalade.entity.UserCategory;
 public interface IUserController {
 	
 	/**
-	 * 
+	 * method to display the methods error message
 	 * 
 	 * @return error message
 	 */
 	public String getErrorMessage();
 	
 	/**
+	 * example of user registration method
+	 * 
 	 * @param firstname
 	 * @param lastname
 	 * @param username
 	 * @param password
-	 * @return
+	 * @return user object save
 	 */
 	public User signUpByDefault(String firstname, String lastname, String username, String password);
 	
 	/**
+	 * method for display a user
+	 * 
 	 * @param id
-	 * @return
+	 * @return user object find
 	 */
 	public User displayUser(Long id);
 	
 	/**
+	 * method editing a user profile
+	 * 
 	 * @param user
-	 * @return
+	 * @return user object modify
 	 */
 	public User editUser(User user);
 	
 	/**
+	 * example of user login method
+	 * 
 	 * @param username
 	 * @param password
-	 * @return
+	 * @return login status : login (true) or no login (false)
 	 */
 	public Boolean signInUser(String username, String password);
 	
 	/**
-	 * @return
+	 * method for display all users
+	 * 
+	 * @return the users list 
 	 */
 	public List<User> displayAllUsers();
 
 	/**
+	 * method for display all users by category
+	 * 
 	 * @param userCategory
-	 * @return
+	 * @return the list users from UserCategory label
 	 */
 	public List<User> displayAllUsersByUserCategory(UserCategory userCategory);
 

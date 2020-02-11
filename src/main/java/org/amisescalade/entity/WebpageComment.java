@@ -1,7 +1,5 @@
 package org.amisescalade.entity;
 
-import java.util.Date;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,12 +16,6 @@ public class WebpageComment extends Comment {
 
 	public WebpageComment() {
 		super();
-	}
-
-	public WebpageComment(Date commentDate, String commentBody, Boolean commentStatus, User commentAuthor,
-			Webpage webpage) {
-		super(commentDate, commentBody, commentStatus, commentAuthor);
-		this.webpage = webpage;
 	}
 
 	public Webpage getWebpage() {

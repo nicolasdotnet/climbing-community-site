@@ -9,6 +9,8 @@ import org.amisescalade.entity.WebpageComment;
 public interface IWebpageCommentController {
 	
 	/**
+	 * method adding a comment to web page
+	 * 
 	 * @param body
 	 * @param author
 	 * @param webpage
