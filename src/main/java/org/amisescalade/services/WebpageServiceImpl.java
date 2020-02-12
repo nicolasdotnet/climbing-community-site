@@ -25,13 +25,7 @@ public class WebpageServiceImpl implements IWebpageService{
 	@Override
 	public Webpage register(String title, String body, User author) throws Exception {
 		
-		Webpage webpage = new Webpage();
-		
-		webpage.setWebpageTitle(title);
-		webpage.setWebpageBody(body);
-		webpage.setWebpageAuthor(author);
-		
-		Webpage webpageFind = webpageRepository.findByWebpageTitle(webpage.getWebpageTitle());
+		Webpage webpageFind = webpageRepository.findByWebpageTitle(title);
 
 		if (webpageFind != null) {
 
@@ -40,12 +34,16 @@ public class WebpageServiceImpl implements IWebpageService{
 			throw new Exception("Le titre existe déjà !");
 
 		}
-
-		// TODO check password
-		// TODO vérification de la saisie avec Spring Validator ?
 		
-		// check by title for no register double ?
+		// TODO check by title for no register double ?
+		
+		Webpage webpage = new Webpage();
+		
+		webpage.setWebpageTitle(title);
+		webpage.setWebpageBody(body);
+		webpage.setWebpageAuthor(author);
 		webpage.setWebpageDate(new Date());
+		
 		return webpageRepository.save(webpage);
 	}
 
@@ -61,8 +59,8 @@ public class WebpageServiceImpl implements IWebpageService{
 			throw new Exception("La webpage n'existe pas !");	
 		}
 		
+		// TODO check by title for no register double ?
 		
-		webpage.setWebpageDate(new Date());
 		return webpageRepository.saveAndFlush(webpage);
 	}
 	

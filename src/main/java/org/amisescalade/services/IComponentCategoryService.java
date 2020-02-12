@@ -10,7 +10,7 @@ public interface IComponentCategoryService {
 	 * method to register a componentCategory
 	 * 
 	 * @param componentCategory
-	 * @return componentCategory Object save
+	 * @return componentCategory Object saved
 	 * @throws Exception
 	 */
 	ComponentCategory register(ComponentCategory componentCategory) throws Exception;
@@ -19,7 +19,7 @@ public interface IComponentCategoryService {
 	 * method to modify a componentCategory
 	 * 
 	 * @param componentCategory
-	 * @return componentCategory Object modify
+	 * @return componentCategory object modified
 	 * @throws Exception
 	 */
 	ComponentCategory edit(ComponentCategory componentCategory) throws Exception;

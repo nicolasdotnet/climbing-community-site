@@ -15,7 +15,7 @@ public interface IUserService {
 	 * @param username
 	 * @param password
 	 * 
-	 * @return user object save
+	 * @return user object saved
 	 * @throws Exception
 	 */
 	User registerByDefault(String firstname, String lastname, String username, String password) throws Exception;
@@ -24,7 +24,7 @@ public interface IUserService {
 	 * method to modify a user
 	 * 
 	 * @param user
-	 * @return user object modify
+	 * @return user object modified
 	 * @throws Exception
 	 */
 	User edit(User user) throws Exception;
@@ -56,7 +56,7 @@ public interface IUserService {
 	Boolean sampleLogin(String username, String password) throws Exception;
 	
 	/**
-	 * method to get all users by category
+	 * method to get all users for a category
 	 * 
 	 * @param UserCategory
 	 * @return the list users from UserCategory label

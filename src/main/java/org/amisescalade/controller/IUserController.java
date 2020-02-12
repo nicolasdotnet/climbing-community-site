@@ -21,7 +21,7 @@ public interface IUserController {
 	 * @param lastname
 	 * @param username
 	 * @param password
-	 * @return user object save
+	 * @return user object saved
 	 */
 	public User signUpByDefault(String firstname, String lastname, String username, String password);
 	
@@ -37,7 +37,7 @@ public interface IUserController {
 	 * method editing a user profile
 	 * 
 	 * @param user
-	 * @return user object modify
+	 * @return user object modified
 	 */
 	public User editUser(User user);
 	
@@ -58,7 +58,7 @@ public interface IUserController {
 	public List<User> displayAllUsers();
 
 	/**
-	 * method for display all users by category
+	 * method for display all users for a category
 	 * 
 	 * @param userCategory
 	 * @return the list users from UserCategory label

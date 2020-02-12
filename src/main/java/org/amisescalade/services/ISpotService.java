@@ -10,7 +10,7 @@ public interface ISpotService {
 	 * method to register a spot
 	 * 
 	 * @param spot
-	 * @return spot Object save
+	 * @return spot object saved
 	 * @throws Exception
 	 */
 	Spot register(Spot spot) throws Exception;
@@ -19,16 +19,16 @@ public interface ISpotService {
 	 * method to modify a spot
 	 * 
 	 * @param spot
-	 * @return spot Object modify
+	 * @return spot object modified
 	 * @throws Exception
 	 */
 	Spot edit(Spot spot) throws Exception;
 	
 	/**
-	 * method to display one spot by his id
+	 * method to display a spot by his id
 	 * 
 	 * @param spot
-	 * @return spot Object to display
+	 * @return spot object
 	 * @throws Exception
 	 */
 	Spot displayOne(Long id) throws Exception;
@@ -45,7 +45,7 @@ public interface ISpotService {
 	 * method to display one spot by his name
 	 * 
 	 * @param spotname
-	 * @return the spot list with his title to display
+	 * @return the spot list with his title
 	 * @throws Exception
 	 */
 	List<Spot> displayBySpotname(String spotname) throws Exception;

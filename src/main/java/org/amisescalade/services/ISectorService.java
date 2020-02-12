@@ -11,7 +11,7 @@ public interface ISectorService {
 	 * method to register a sector
 	 * 
 	 * @param sector
-	 * @return sector Object save
+	 * @return sector object saved
 	 * @throws Exception
 	 */
 	Sector register(Sector sector) throws Exception;
@@ -20,7 +20,7 @@ public interface ISectorService {
 	 * method to modify a sector
 	 * 
 	 * @param sector
-	 * @return sector Object modify
+	 * @return sector object modified
 	 * @throws Exception
 	 */
 	Sector edit(Sector sector) throws Exception;
@@ -29,7 +29,7 @@ public interface ISectorService {
 	 * method to display one sector by his id
 	 * 
 	 * @param sector
-	 * @return sector Object to display
+	 * @return sector object 
 	 * @throws Exception
 	 */
 	Sector displayOne(Long id) throws Exception;
@@ -43,10 +43,10 @@ public interface ISectorService {
 	
 	
 	/**
-	 * method to display one sector by his name
+	 * method to display a sector by his name
 	 * 
 	 * @param sectorName
-	 * @return the sector list with his name to display
+	 * @return the sector list with his name
 	 * @throws Exception
 	 */
 	List<Sector> displayBySectorName(String sectorName) throws Exception;

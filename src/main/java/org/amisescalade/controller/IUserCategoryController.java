@@ -7,31 +7,41 @@ import org.amisescalade.entity.UserCategory;
 public interface IUserCategoryController {
 	
 	/**
+	 * method adding a user category
+	 * 
 	 * @param userCategoryLabel
-	 * @return
+	 * @return userCategory object added
 	 */
 	public UserCategory addUserCategory(String userCategoryLabel);
 	
 	/**
+	 * method editing a user category
+	 * 
 	 * @param userCategory
-	 * @return
+	 * @return userCategory object modified
 	 */
 	public UserCategory editUserCategory(UserCategory userCategory);
 	
 	/**
+	 * method for display a user category
+	 * 
 	 * @param id
-	 * @return
+	 * @return userCategory object to display
 	 */
 	public UserCategory displayUserCategory(Long id);
 	
 	/**
+	 * method for display a user category by his label
+	 * 
 	 * @param label
-	 * @return
+	 * @return the user category list by label
 	 */
 	public List<UserCategory> displayUserCategoryByLabel(String label);
 	
 	/**
-	 * @return
+	 * method for display all user category
+	 * 
+	 * @return the user category list
 	 */
 	public List<UserCategory> displayAllUserCategory();
 	

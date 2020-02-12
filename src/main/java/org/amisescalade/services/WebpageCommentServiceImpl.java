@@ -34,6 +34,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 		webpageComment.setCommentDate(new Date());
 		webpageComment.setCommentStatus(true);
 		webpageComment.setWebpage(webpage);
+		
 		return webpageCommentRepository.save(webpageComment);
 	}
 
@@ -49,7 +50,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 			throw new Exception("Le webpageComment n'existe pas !");
 
 		}
-		webpageComment.setCommentDate(new Date());
+
 		return webpageCommentRepository.saveAndFlush(webpageComment);
 	}
 

@@ -13,7 +13,7 @@ public interface ISpotComponentService {
 	 * method to register a spotComponent
 	 * 
 	 * @param spotComponent
-	 * @return spotComponent Object save
+	 * @return spotComponent object saved
 	 * @throws Exception
 	 */
 	SpotComponent register(SpotComponent spotComponent) throws Exception;
@@ -22,7 +22,7 @@ public interface ISpotComponentService {
 	 * method to modify a spotComponent
 	 * 
 	 * @param spotComponent
-	 * @return spotComponent Object modify
+	 * @return spotComponent object modified
 	 * @throws Exception
 	 */
 	SpotComponent edit(SpotComponent spotComponent) throws Exception;
@@ -31,7 +31,7 @@ public interface ISpotComponentService {
 	 * method to display one spotComponent by his id
 	 * 
 	 * @param spotComponent
-	 * @return spotComponent Object to display
+	 * @return spotComponent object
 	 * @throws Exception
 	 */
 	SpotComponent displayOne(Long id) throws Exception;
@@ -47,30 +47,30 @@ public interface ISpotComponentService {
 	
 	
 	/**
-	 * method to display one spotComponent by his name
+	 * method to display a spotComponent by his name
 	 * 
 	 * @param spotComponentName
-	 * @return the spotComponent list with his name to display
+	 * @return the spotComponent list with his name
 	 * @throws Exception
 	 */
 	List<SpotComponent> displayBySpotComponentName(String spotComponentName) throws Exception;
 	
 	
 	/**
-	 * method to display one spotComponent by his ComponentCategory
+	 * method to display a spotComponent by his ComponentCategory
 	 * 
 	 * @param ComponentCategory
-	 * @return the spotComponent list with his ComponentCategory to display
+	 * @return the spotComponent list with his ComponentCategory
 	 * @throws Exception
 	 */
 	List<SpotComponent> displayBySpotComponentCategory(ComponentCategory ComponentCategory) throws Exception;
 	
 	
 	/**
-	 * method to display one spotComponent by his spot
+	 * method to display a spotComponent by his spot
 	 * 
 	 * @param spot
-	 * @return the spotComponent list with his spot to display
+	 * @return the spotComponent list with his spot
 	 * @throws Exception
 	 */
 	List<SpotComponent> displayBySpot(Spot spot) throws Exception;

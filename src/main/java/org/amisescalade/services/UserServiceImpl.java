@@ -26,18 +26,9 @@ public class UserServiceImpl implements IUserService {
 	private IUserCategoryService iUserCategoryService;
 
 	@Override
-	public User registerByDefault(String firstName, String lastName, String userName, String password) throws Exception {
+	public User registerByDefault(String firstName, String lastName, String userName, String password) throws Exception {		
 		
-		User user = new User();
-		
-		user.setFirstname(firstName);
-		user.setLastname(lastName);
-		user.setUsername(userName);
-		user.setPassword(password);
-		user.setUserCategory(iUserCategoryService.getDefaultUserCategory());
-		
-		
-		User userFind = userRepository.findByUsername(user.getUsername());
+		User userFind = userRepository.findByUsername(userName);
 
 		if (userFind != null) {
 
@@ -47,17 +38,15 @@ public class UserServiceImpl implements IUserService {
 
 		}
 
-		if (user.getFirstname() == null || user.getLastname() == null) {
+		// TODO check password ?
 
-			log.error("Utilisateur mal renseigné ! un champ est vide.");
-
-			throw new Exception("Utilisateur mal renseigné ! un champ est vide.");
-
-		}
-
-		// TODO check password
-		// TODO vérification de la saisie avec Spring Validator ?
-
+		User user = new User();
+		
+		user.setFirstname(firstName);
+		user.setLastname(lastName);
+		user.setUsername(userName);
+		user.setPassword(password);
+		user.setUserCategory(iUserCategoryService.getDefaultUserCategory());
 		user.setUserDate(new Date());
 
 		return userRepository.save(user);
@@ -77,17 +66,7 @@ public class UserServiceImpl implements IUserService {
 
 		}
 
-		if (user.getUserCategory() == null || user.getFirstname() == null || user.getLastname() == null) {
-
-			log.error("Utilisateur mal renseigné ! un champ est vide.");
-
-			throw new Exception("Utilisateur mal renseigné ! un champ est vide.");
-
-		}
-
 		// TODO check password ?
-
-		// TODO vérification de la saisie avec Spring Validator ?
 		// TODO Ajouter date de modification ?
 
 		return userRepository.saveAndFlush(user);

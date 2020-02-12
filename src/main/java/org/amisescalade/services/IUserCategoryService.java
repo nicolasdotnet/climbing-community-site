@@ -11,7 +11,7 @@ public interface IUserCategoryService {
 	 * method to register a userCategory
 	 * 
 	 * @param category
-	 * @return userCategory Object save
+	 * @return userCategory object saved
 	 * @throws Exception
 	 */
 	UserCategory register(String category) throws Exception;
@@ -20,7 +20,7 @@ public interface IUserCategoryService {
 	 * method to modify a userCategory
 	 * 
 	 * @param userCategory
-	 * @return userCategory Object modify
+	 * @return userCategory object modified
 	 * @throws Exception
 	 */
 	UserCategory edit(UserCategory userCategory) throws Exception;
@@ -36,7 +36,7 @@ public interface IUserCategoryService {
 	 * method to get a user category
 	 * 
 	 * @param id
-	 * @return userCategory Object find
+	 * @return userCategory object find
 	 * @throws Exception 
 	 */
 	UserCategory getUserCategory(Long id) throws Exception;
@@ -45,7 +45,7 @@ public interface IUserCategoryService {
 	 * method to get a user category list by label
 	 * 
 	 * @param label
-	 * @return userCategory Object find
+	 * @return userCategory object list find by label
 	 * @throws Exception 
 	 */
 	List<UserCategory> getUserCategoryByLabel(String label);

@@ -11,7 +11,7 @@ public interface ITopoCommentService {
 	 * method to register a topoComment
 	 * 
 	 * @param topoComment
-	 * @return topoComment Object save
+	 * @return topoComment object saved
 	 * @throws Exception
 	 */
 	TopoComment register(TopoComment topoComment) throws Exception;
@@ -20,18 +20,18 @@ public interface ITopoCommentService {
 	 * method to modify a topoComment
 	 * 
 	 * @param topoComment
-	 * @return topoComment Object modify
+	 * @return topoComment object modified
 	 * @throws Exception
 	 */
 	TopoComment edit(TopoComment topoComment) throws Exception;
 	
 	/**
-	 * method to display one topoComment by his id
+	 * method to display a topoComment by his id
 	 * 
 	 * UTILE ?
 	 * 
 	 * @param topoComment
-	 * @return topoComment Object to display
+	 * @return topoComment object
 	 * @throws Exception
 	 */
 	TopoComment displayOne(Long id) throws Exception;
@@ -49,7 +49,7 @@ public interface ITopoCommentService {
 	 * method to display one topoComment by his topo
 	 * 
 	 * @param topo
-	 * @return the topoComment list with his topo to display
+	 * @return the topoComment list with his topo
 	 * @throws Exception
 	 */
 	List<TopoComment> displayByTopo(Topo topo) throws Exception;

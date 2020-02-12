@@ -14,7 +14,7 @@ public interface IWebpageController {
 	 * @param title
 	 * @param body
 	 * @param author
-	 * @return
+	 * @return Webpage object added
 	 */
 	public Webpage addWebpage(String title, String body, User author);
 	
@@ -22,7 +22,7 @@ public interface IWebpageController {
 	 * method editing a web page
 	 * 
 	 * @param webpage
-	 * @return
+	 * @return Webpage object modified
 	 */
 	public Webpage editWebpage(Webpage webpage);
 	
@@ -30,14 +30,14 @@ public interface IWebpageController {
 	 * method for display a web page
 	 * 
 	 * @param id
-	 * @return
+	 * @return Wepage object to display
 	 */
 	public Webpage displayWebpage(Long id);
 	
 	/**
 	 * method for display all web page
 	 * 
-	 * @return
+	 * @return the web page list
 	 */
 	public List<Webpage> displayAllWebpage();
 

@@ -14,24 +14,30 @@ public interface IWebpageCommentController {
 	 * @param body
 	 * @param author
 	 * @param webpage
-	 * @return
+	 * @return WebPageComment object added
 	 */
 	public WebpageComment addWebpageComment(String body, User author, Webpage webpage);
 	
 	/**
+	 * method for display a web page comment
+	 * 
 	 * @param id
-	 * @return
+	 * @return WebPageComment object to display
 	 */
 	public WebpageComment displayWebpageComment(Long id);
 	
 	/**
-	 * @return
+	 * method for display all web page comments
+	 * 
+	 * @return the WebPageComment list
 	 */
 	public List<WebpageComment> displayAllWebpageComment();
 	
 	/**
+	 * method for display all comments for a web page
+	 * 
 	 * @param webpage
-	 * @return
+	 * @return the WebPageComment list by web page
 	 * @throws Exception
 	 */
 	public List<WebpageComment> displayAllWebpageCommentByWebpage(Webpage webpage) throws Exception;

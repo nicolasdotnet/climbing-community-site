@@ -12,7 +12,7 @@ public interface ISectorComponentService {
 	 * method to register a sectorComponent
 	 * 
 	 * @param sectorComponent
-	 * @return sectorComponent Object save
+	 * @return sectorComponent object saved
 	 * @throws Exception
 	 */
 	SectorComponent register(SectorComponent sectorComponent) throws Exception;
@@ -21,16 +21,16 @@ public interface ISectorComponentService {
 	 * method to modify a sectorComponent
 	 * 
 	 * @param sectorComponent
-	 * @return sectorComponent Object modify
+	 * @return sectorComponent object modified
 	 * @throws Exception
 	 */
 	SectorComponent edit(SectorComponent sectorComponent) throws Exception;
 	
 	/**
-	 * method to display one sectorComponent by his id
+	 * method to display a sectorComponent by his id
 	 * 
 	 * @param sectorComponent
-	 * @return sectorComponent Object to display
+	 * @return sectorComponent object
 	 * @throws Exception
 	 */
 	SectorComponent displayOne(Long id) throws Exception;
@@ -46,20 +46,20 @@ public interface ISectorComponentService {
 	
 	
 	/**
-	 * method to display one sectorComponent by his name
+	 * method to display a sectorComponent by his name
 	 * 
 	 * @param sectorComponentName
-	 * @return the sectorComponent list with his name to display
+	 * @return the sectorComponent list with his name
 	 * @throws Exception
 	 */
 	List<SectorComponent> displayBySectorComponentName(String sectorComponentName) throws Exception;
 	
 	
 	/**
-	 * method to display one sectorComponent by his ComponentCategory
+	 * method to display a sectorComponent by his ComponentCategory
 	 * 
 	 * @param ComponentCategory
-	 * @return the sectorComponent list with his ComponentCategory to display
+	 * @return the sectorComponent list from a ComponentCategory
 	 * @throws Exception
 	 */
 	List<SectorComponent> displayBySectorComponentCategory(ComponentCategory ComponentCategory) throws Exception;

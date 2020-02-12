@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 public class InputValidatorImpl implements IInputValidator{
 
 	private static final Logger log = LogManager.getLogger(InputValidatorImpl.class);
+	
+	// regex 
+	private String character = "[^A-Za-z]";
+	private String number = "[^0-9]";
+	private String specialChars = "/*!@#$%^&*()\"{}_[]|\\?/<>,.";
 
 	/**
 	 * private Constructor
@@ -30,8 +35,33 @@ public class InputValidatorImpl implements IInputValidator{
 		return INSTANCE;
 	}
 
-	public Boolean ValidateCharacter(String input) {
-		return null;
+	public Boolean ValidateCharacter(String input) throws Exception {
+		
+		Boolean validate = false;
+		
+		if(input != null) {
+						
+			if(input.matches(character)) {
+			
+				validate = true;
+			
+			}else {
+				
+				log.error("que des caractere A-z");
+
+				throw new Exception("que des caractere A-z");
+			}
+			
+		}else {
+			
+			log.error("Champ vide");
+
+			throw new Exception("champ vide !");
+			
+		}
+		
+		
+		return validate;
 
 	}
 

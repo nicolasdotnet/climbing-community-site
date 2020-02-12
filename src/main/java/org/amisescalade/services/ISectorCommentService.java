@@ -11,7 +11,7 @@ public interface ISectorCommentService {
 	 * method to register a sectorComment
 	 * 
 	 * @param sectorComment
-	 * @return sectorComment Object save
+	 * @return sectorComment object saved
 	 * @throws Exception
 	 */
 	SectorComment register(SectorComment sectorComment) throws Exception;
@@ -20,18 +20,18 @@ public interface ISectorCommentService {
 	 * method to modify a sectorComment
 	 * 
 	 * @param sectorComment
-	 * @return sectorComment Object modify
+	 * @return sectorComment object modified
 	 * @throws Exception
 	 */
 	SectorComment edit(SectorComment sectorComment) throws Exception;
 	
 	/**
-	 * method to display one sectorComment by his id
+	 * method to display a sectorComment by his id
 	 * 
 	 * UTILE ?
 	 * 
 	 * @param sectorComment
-	 * @return sectorComment Object to display
+	 * @return sectorComment object
 	 * @throws Exception
 	 */
 	SectorComment displayOne(Long id) throws Exception;
@@ -46,10 +46,10 @@ public interface ISectorCommentService {
 	List<SectorComment> displayAll();
 	
 	/**
-	 * method to display one sectorComment by his sector
+	 * method to display all sectorComment for a sector
 	 * 
 	 * @param sector
-	 * @return the sectorComment list with his sector to display
+	 * @return the sectorComment list from a sector
 	 * @throws Exception
 	 */
 	List<SectorComment> displayBySector(Sector sector) throws Exception;

@@ -5,6 +5,8 @@ import java.util.List;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.UserCategory;
 import org.amisescalade.services.IUserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional
 public class UserControllerImpl implements IUserController {
+	
+	private static final Logger log = LogManager.getLogger(UserControllerImpl.class);
 
 	@Autowired
 	private IUserService iUserService;
@@ -27,7 +31,26 @@ public class UserControllerImpl implements IUserController {
 
 	public User signUpByDefault(String firstname, String lastname, String username, String password) {
 
-		// TODO check saisie !
+		try {
+			inputValidator.ValidateCharacter(firstname);
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
+		
+		try {
+			inputValidator.ValidateCharacter(lastname);
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
+		
+		try {
+			inputValidator.ValidateCharacter(username);
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
 
 		User userSave = new User();
 
@@ -56,7 +79,26 @@ public class UserControllerImpl implements IUserController {
 
 	public User editUser(User user) {
 
-		// TODO check saisie !
+		try {
+			inputValidator.ValidateCharacter(user.getFirstname());
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
+		
+		try {
+			inputValidator.ValidateCharacter(user.getLastname());
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
+		
+		try {
+			inputValidator.ValidateCharacter(user.getUsername());
+		} catch (Exception e) {
+			
+			this.errorMessage = e.getMessage();
+		}
 
 		User userEdit = new User();
 

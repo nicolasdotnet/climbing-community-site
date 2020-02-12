@@ -14,7 +14,7 @@ public interface IWebpageCommentService {
 	 * @param body
 	 * @param author
 	 * @param webpage
-	 * @return webpageComment Object save
+	 * @return webpageComment object saved
 	 * @throws Exception
 	 */
 	WebpageComment register(String body, User author, Webpage webpage) throws Exception;
@@ -23,7 +23,7 @@ public interface IWebpageCommentService {
 	 * method to modify a webpageComment
 	 * 
 	 * @param webpageComment
-	 * @return webpageComment Object modify
+	 * @return webpageComment object modified
 	 * @throws Exception
 	 */
 	WebpageComment edit(WebpageComment webpageComment) throws Exception;
@@ -34,7 +34,7 @@ public interface IWebpageCommentService {
 	 * UTILE ?
 	 * 
 	 * @param webpageComment
-	 * @return webpageComment Object to display
+	 * @return webpageComment object to display
 	 * @throws Exception
 	 */
 	WebpageComment getWebpageComment(Long id) throws Exception;
@@ -49,10 +49,10 @@ public interface IWebpageCommentService {
 	List<WebpageComment> getAllWebpageComment();
 	
 	/**
-	 * method to get all webpageComment by his webpage
+	 * method to get all webpageComment for a web page
 	 * 
 	 * @param webpage
-	 * @return the webpageComment list 
+	 * @return the webpageComment list from a web page
 	 * @throws Exception
 	 */
 	List<WebpageComment> getCommentByWebpage(Webpage webpage) throws Exception;

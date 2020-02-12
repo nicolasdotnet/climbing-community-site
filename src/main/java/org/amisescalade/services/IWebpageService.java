@@ -13,7 +13,7 @@ public interface IWebpageService {
 	 * @param title
 	 * @param body 
 	 * @param author 
-	 * @return webpage Object save
+	 * @return webpage object saved
 	 * @throws Exception
 	 */
 	Webpage register(String title, String body, User author) throws Exception;
@@ -23,7 +23,7 @@ public interface IWebpageService {
 	 * method to modify a webpage
 	 * 
 	 * @param webpage
-	 * @return webpage Object modify
+	 * @return webpage object modified
 	 * @throws Exception
 	 */
 	Webpage edit(Webpage webpage) throws Exception;
@@ -34,7 +34,7 @@ public interface IWebpageService {
 	 * 
 	 * 
 	 * @param webpage id
-	 * @return webpageComment Object to display
+	 * @return webpageComment object to display
 	 * @throws Exception
 	 */
 	Webpage getWebpage(Long id) throws Exception;

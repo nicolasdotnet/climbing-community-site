@@ -10,7 +10,7 @@ public interface ITopoService {
 	 * method to register a topo
 	 * 
 	 * @param topo
-	 * @return topo Object save
+	 * @return topo object saved
 	 * @throws Exception
 	 */
 	Topo register(Topo topo) throws Exception;
@@ -19,7 +19,7 @@ public interface ITopoService {
 	 * method to modify a topo
 	 * 
 	 * @param topo
-	 * @return topo Object modify
+	 * @return topo object modified
 	 * @throws Exception
 	 */
 	Topo edit(Topo topo) throws Exception;
@@ -28,7 +28,7 @@ public interface ITopoService {
 	 * method to display one topo by his id
 	 * 
 	 * @param topo
-	 * @return topo Object to display
+	 * @return topo object
 	 * @throws Exception
 	 */
 	Topo displayOne(Long id) throws Exception;
@@ -45,7 +45,7 @@ public interface ITopoService {
 	 * method to display one topo by his title
 	 * 
 	 * @param topo
-	 * @return the topo list with his title to display
+	 * @return the topo list with his title
 	 * @throws Exception
 	 */
 	List<Topo> displayByTitle(String title) throws Exception;
