@@ -7,13 +7,18 @@ import org.amisescalade.entity.Spot;
 public interface ISpotService {
 	
 	/**
-	 * method to register a spot
+	 * method to register a sp
 	 * 
-	 * @param spot
+	 * @param spotName
+	 * @param spotRate
+	 * @param spotDescription
+	 * @param spotAccessPath
+	 * @param departement
+	 * @param country
 	 * @return spot object saved
 	 * @throws Exception
 	 */
-	Spot register(Spot spot) throws Exception;
+	Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country) throws Exception;
 	
 	/**
 	 * method to modify a spot
@@ -25,29 +30,29 @@ public interface ISpotService {
 	Spot edit(Spot spot) throws Exception;
 	
 	/**
-	 * method to display a spot by his id
+	 * method to get a spot by his id
 	 * 
 	 * @param spot
 	 * @return spot object
 	 * @throws Exception
 	 */
-	Spot displayOne(Long id) throws Exception;
+	Spot getSpot(Long id) throws Exception;
 	
 	/**
-	 * method to display all spots
+	 * method to get all spots
 	 * 
 	 * @return the spot list 
 	 */
-	List<Spot> displayAll();
+	List<Spot> getAllSpots();
 	
 	
 	/**
-	 * method to display one spot by his name
+	 * method to get all spots by his name
 	 * 
 	 * @param spotname
 	 * @return the spot list with his title
 	 * @throws Exception
 	 */
-	List<Spot> displayBySpotname(String spotname) throws Exception;
+	List<Spot> getAllSpotsByName(String spotname) throws Exception;
 	
 }

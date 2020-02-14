@@ -111,6 +111,10 @@ public class Spot implements Serializable{
 	public String getSpotRate() {
 		return spotRate;
 	}
+	
+	public void setSpotRate(String spotRate) {
+		this.spotRate = spotRate;
+	}
 
 	public void setSpotType(String spotType) {
 		this.spotRate = spotType;

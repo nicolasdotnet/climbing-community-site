@@ -64,9 +64,6 @@ public class Sector implements Serializable{
 		this.sectorComment = sectorComment;
 	}
 	
-	
-	
-	
 
 	public Sector(Date sectorDate, String sectorName, String sectorRate, String sectorDescription,
 			String sectorAccessPath, Spot spot) {
@@ -151,6 +148,14 @@ public class Sector implements Serializable{
 
 	public void setSectorComment(Collection<SectorComment> sectorComment) {
 		this.sectorComment = sectorComment;
+	}
+	
+	public Spot getSpot() {
+		return spot;
+	}
+
+	public void setSpot(Spot spot) {
+		this.spot = spot;
 	}
 
 	@Override

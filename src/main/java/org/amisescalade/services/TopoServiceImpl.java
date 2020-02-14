@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.entity.Topo;
+import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,15 @@ public class TopoServiceImpl implements ITopoService{
 	private TopoRepository topoRepository;
 
 	@Override
-	public Topo register(Topo topo) throws Exception {
+	public Topo register (String topoArea, String topoTitle, String topoDescription, User topoOwner) throws Exception {
 		
-		// check by user & by title for no register double ?
+		// TODO check by user & by title for no register double ?
+		
+		Topo topo = new Topo();
+		topo.setTopoArea(topoArea);
+		topo.setTopoTitle(topoTitle);
+		topo.setTopoDescription(topoDescription);
+		topo.setTopotopoOwner(topoOwner);
 		
 		topo.setTopoDate(new Date());
 		
@@ -40,9 +47,7 @@ public class TopoServiceImpl implements ITopoService{
 			
 			log.error("Modification Impossible ! le topo "+ topo.getTopoId()+" n'existe pas dans la base.");
 			
-			throw new Exception("Le topo n'existe pas !");
-			
-			
+			throw new Exception("Le topo n'existe pas !");	
 		}
 		
 		topo.setTopoDate(new Date());
@@ -51,7 +56,7 @@ public class TopoServiceImpl implements ITopoService{
 	}
 
 	@Override
-	public Topo displayOne(Long id) throws Exception {
+	public Topo getTopo(Long id) throws Exception {
 		
 		Optional<Topo> topoFind = topoRepository.findById(id);
 		
@@ -67,13 +72,13 @@ public class TopoServiceImpl implements ITopoService{
 	}
 
 	@Override
-	public List<Topo> displayAll() {
+	public List<Topo> getAllTopos() {
 		
 		return topoRepository.findAll();
 	}
 
 	@Override
-	public List<Topo>  displayByTitle(String title) throws Exception {
+	public List<Topo>  getTopoByTitle(String title) throws Exception {
 		
 		return topoRepository.findByTopoTitleContainingIgnoreCase(title);
 	}

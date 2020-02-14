@@ -8,6 +8,7 @@ import org.amisescalade.dao.SectorComponentRepository;
 import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.SectorComponent;
+import org.amisescalade.entity.SpotComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,18 @@ public class SectorComponentServiceImpl implements ISectorComponentService {
 	private SectorComponentRepository sectorComponentRepository;
 
 	@Override
-	public SectorComponent register(SectorComponent sectorComponent) throws Exception {
+	public SectorComponent register(String componentCode, String componentName, String componentRate, String componentDescription, ComponentCategory componentCategory,Sector sector) throws Exception {
 		
-		// check by title for no register double ?
+		// TODO check by title for no register double ?
+		
+		SectorComponent sectorComponent = new SectorComponent();
+		
+		sectorComponent.setComponentCode(componentCode);
+		sectorComponent.setComponentName(componentName);
+		sectorComponent.setComponentRate(componentRate);
+		sectorComponent.setComponentDescription(componentDescription);
+		sectorComponent.setComponentCategory(componentCategory);
+		sectorComponent.setSector(sector);
 		
 		sectorComponent.setComponentDate(new Date());
 		return sectorComponentRepository.save(sectorComponent);
@@ -49,7 +59,7 @@ public class SectorComponentServiceImpl implements ISectorComponentService {
 	}
 
 	@Override
-	public SectorComponent displayOne(Long id) throws Exception {
+	public SectorComponent getSectorComponent(Long id) throws Exception {
 		
 		Optional<SectorComponent> sectorComponent = sectorComponentRepository.findById(id);
 
@@ -64,26 +74,26 @@ public class SectorComponentServiceImpl implements ISectorComponentService {
 	}
 
 	@Override
-	public List<SectorComponent> displayAll() {
+	public List<SectorComponent> getAllSectorComponent() {
 		
 		return sectorComponentRepository.findAll();
 	}
 
 	@Override
-	public List<SectorComponent> displayBySectorComponentName(String sectorComponentName) throws Exception {
+	public List<SectorComponent> getAllSectorComponentByName(String sectorComponentName) throws Exception {
 		
 		return sectorComponentRepository.findByComponentNameContainingIgnoreCase(sectorComponentName);
 	}
 
 	@Override
-	public List<SectorComponent> displayBySectorComponentCategory(ComponentCategory ComponentCategory)
+	public List<SectorComponent> getAllSectorComponentByCategory(ComponentCategory ComponentCategory)
 			throws Exception {
 		
 		return sectorComponentRepository.findByComponentCategory(ComponentCategory);
 	}
 
 	@Override
-	public List<SectorComponent> displayBySector(Sector sector) throws Exception {
+	public List<SectorComponent> getAllSectorComponentBySector(Sector sector) throws Exception {
 		
 		return sectorComponentRepository.findBySector(sector);
 	}

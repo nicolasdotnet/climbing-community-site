@@ -15,7 +15,7 @@ public interface ISectorComponentService {
 	 * @return sectorComponent object saved
 	 * @throws Exception
 	 */
-	SectorComponent register(SectorComponent sectorComponent) throws Exception;
+	SectorComponent register(String componentCode, String componentName, String componentRate, String componentDescription, ComponentCategory componentCategory,Sector sector) throws Exception;
 	
 	/**
 	 * method to modify a sectorComponent
@@ -27,51 +27,51 @@ public interface ISectorComponentService {
 	SectorComponent edit(SectorComponent sectorComponent) throws Exception;
 	
 	/**
-	 * method to display a sectorComponent by his id
+	 * method to get a sectorComponent by his id
 	 * 
 	 * @param sectorComponent
 	 * @return sectorComponent object
 	 * @throws Exception
 	 */
-	SectorComponent displayOne(Long id) throws Exception;
+	SectorComponent getSectorComponent(Long id) throws Exception;
 	
 	/**
-	 * method to display all sectorComponents
+	 * method to get all sectorComponents
 	 * 
 	 * UTILE ?
 	 * 
 	 * @return the sectorComponent list 
 	 */
-	List<SectorComponent> displayAll();
+	List<SectorComponent> getAllSectorComponent();
 	
 	
 	/**
-	 * method to display a sectorComponent by his name
+	 * method to get all sectorComponents by his name
 	 * 
 	 * @param sectorComponentName
 	 * @return the sectorComponent list with his name
 	 * @throws Exception
 	 */
-	List<SectorComponent> displayBySectorComponentName(String sectorComponentName) throws Exception;
+	List<SectorComponent> getAllSectorComponentByName(String sectorComponentName) throws Exception;
 	
 	
 	/**
-	 * method to display a sectorComponent by his ComponentCategory
+	 * method to get all sectorComponents by his ComponentCategory
 	 * 
 	 * @param ComponentCategory
 	 * @return the sectorComponent list from a ComponentCategory
 	 * @throws Exception
 	 */
-	List<SectorComponent> displayBySectorComponentCategory(ComponentCategory ComponentCategory) throws Exception;
+	List<SectorComponent> getAllSectorComponentByCategory(ComponentCategory ComponentCategory) throws Exception;
 	
 	
 	/**
-	 * method to display one sectorComponent by his sector
+	 * method to get all sectorComponents by his sector
 	 * 
 	 * @param sector
-	 * @return the sectorComponent list with his sector to display
+	 * @return the sectorComponent list with his sector
 	 * @throws Exception
 	 */
-	List<SectorComponent> displayBySector(Sector sector) throws Exception;
+	List<SectorComponent> getAllSectorComponentBySector(Sector sector) throws Exception;
 
 }

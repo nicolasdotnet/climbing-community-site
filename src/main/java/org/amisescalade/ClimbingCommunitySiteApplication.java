@@ -4,6 +4,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amisescalade.controller.IComponentCategoryController;
+import org.amisescalade.controller.ISectorCommentController;
+import org.amisescalade.controller.ISectorComponentController;
+import org.amisescalade.controller.ISectorController;
+import org.amisescalade.controller.ISpotCommentController;
+import org.amisescalade.controller.ISpotComponentController;
+import org.amisescalade.controller.ISpotController;
+import org.amisescalade.controller.ITopoCommentController;
+import org.amisescalade.controller.ITopoController;
 import org.amisescalade.controller.IUserCategoryController;
 import org.amisescalade.controller.IUserController;
 import org.amisescalade.controller.IWebpageCommentController;
@@ -61,36 +70,30 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 //	@Autowired
 //	private UserCategoryRepository userCategoryRepository;
 
-	@Autowired
-	private TopoRepository topoRepository;
+	/*
+	 * @Autowired private TopoRepository topoRepository;
+	 */
 
 //	@Autowired
 //	private WebpageRepository webpageRepository;
 
-	@Autowired
-	private SpotRepository spotRepository;
-
-	@Autowired
-	private SectorRepository sectorRepository;
-
-	@Autowired
-	private ComponentCategoryRepository componentCategoryRepository;
-
-	@Autowired
-	private SpotComponentRepository spotComponentRepository;
-
-	@Autowired
-	private SectorComponentRepository sectorComponentRepository;
-
-	@Autowired
-	private SectorCommentRepository sectorCommentRepository;
-
-	@Autowired
-	private SpotCommentRepository spotCommentRepository;
-
-	@Autowired
-	private TopoCommentRepository topoCommentRepository;
-
+	/*
+	 * @Autowired private SpotRepository spotRepository;
+	 * 
+	 * @Autowired private SectorRepository sectorRepository;
+	 * 
+	 * @Autowired private ComponentCategoryRepository componentCategoryRepository;
+	 * 
+	 * @Autowired private SpotComponentRepository spotComponentRepository;
+	 * 
+	 * @Autowired private SectorComponentRepository sectorComponentRepository;
+	 * 
+	 * @Autowired private SectorCommentRepository sectorCommentRepository;
+	 * 
+	 * @Autowired private SpotCommentRepository spotCommentRepository;
+	 * 
+	 * @Autowired private TopoCommentRepository topoCommentRepository;
+	 */
 //	@Autowired
 //	private WebpageCommentRepository webpageCommentRepository;
 
@@ -100,36 +103,30 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 //	@Autowired
 //	private IUserCategoryService iUserCategoryService;
 
-	@Autowired
-	private ITopoService iTopoService;
+	/*
+	 * @Autowired private ITopoService iTopoService;
+	 */
 
 //	@Autowired
 //	private IWebpageService iWebpageService;
 
-	@Autowired
-	private ISpotService iSpotService;
-
-	@Autowired
-	private ISectorService iSectorService;
-
-	@Autowired
-	private IComponentCategoryService iComponentCategoryService;
-
-	@Autowired
-	private ISpotComponentService iSpotComponentService;
-
-	@Autowired
-	private ISectorComponentService iSectorComponentService;
-
-	@Autowired
-	private ISectorCommentService iSectorCommentService;
-
-	@Autowired
-	private ISpotCommentService iSpotCommentService;
-
-	@Autowired
-	private ITopoCommentService iTopoCommentService;
-
+	/*
+	 * @Autowired private ISpotService iSpotService;
+	 * 
+	 * @Autowired private ISectorService iSectorService;
+	 * 
+	 * @Autowired private IComponentCategoryService iComponentCategoryService;
+	 * 
+	 * @Autowired private ISpotComponentService iSpotComponentService;
+	 * 
+	 * @Autowired private ISectorComponentService iSectorComponentService;
+	 * 
+	 * @Autowired private ISectorCommentService iSectorCommentService;
+	 * 
+	 * @Autowired private ISpotCommentService iSpotCommentService;
+	 * 
+	 * @Autowired private ITopoCommentService iTopoCommentService;
+	 */
 //	@Autowired
 //	private IWebpageCommentService iWebpageCommentService;
 
@@ -144,6 +141,36 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 	@Autowired
 	private IWebpageCommentController iWebpageCommentController;
+	
+	@Autowired
+	private ITopoController iTopoController;
+	
+	@Autowired
+	private ISpotController iSpotController;
+	
+	@Autowired
+	private ISectorController iSectorController;
+	
+	@Autowired
+	private IComponentCategoryController iComponentCategoryController;
+	
+	@Autowired
+	private ISpotComponentController iSpotComponentController;
+	
+	@Autowired
+	private ISectorComponentController iSectorComponentController;
+	
+	@Autowired
+	private ISectorCommentController iSectorCommentController;
+	
+	@Autowired
+	private ISpotCommentController iSpotCommentController;
+	
+	@Autowired
+	private ITopoCommentController iTopoCommentController;
+	
+	
+
 
 	public static void main(String[] args) {
 
@@ -288,8 +315,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 		// register a topo
+		
+		String topoArea = "Arras";
+		String topoTitle = "Roche d'Arras";
+		String topoDescription = "Fake topo";
+		User topoOwner =  iUserController.displayUser(uV2.getUserId());
 
-		Topo topo1 = iTopoService.register(new Topo(new Date(), "Arras", "Roche d'Arras", "Fake topo", uV1));
+		Topo topo1 = iTopoController.addTopo(topoArea, topoTitle, topoDescription, topoOwner);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -300,7 +332,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		topo1.setTopoArea("L'Arrageois");
 		topo1.setTopoTitle("Les roches d'Arras");
 
-		Topo topo2 = iTopoService.edit(topo1);
+		Topo topo2 = iTopoController.editTopo(topo1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -308,7 +340,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayByTitle topo
 
-		List<Topo> topoList = iTopoService.displayByTitle("Arras");
+		List<Topo> topoList = iTopoController.displayTopoByTitle("Arras");
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -323,7 +355,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			Topo topoFind = iTopoService.displayOne(topo2.getTopoId());
+			Topo topoFind = iTopoController.displayTopo(topo2.getTopoId());
 
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -335,7 +367,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll topo
 
-		topoList = iTopoService.displayAll();
+		topoList = iTopoController.displayAllTopos();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -383,8 +415,14 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// register a spot
 
-		Spot spot1 = iSpotService.register(new Spot(new Date(), "L'ange d'Arras", "A+", "Spiderman à Arras",
-				"A1 puis direction Arras", "62", "France"));
+		String spotName = "L'ange d'Arras";
+		String spotRate = "A+";
+		String spotDescription = "Spiderman à Arras";
+		String spotAccessPath = "A1 puis direction Arras";
+		String departement = "62";
+		String country = "France";
+		
+		Spot spot1 = iSpotController.addSpot(spotName, spotRate, spotDescription, spotAccessPath, departement, country);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -394,7 +432,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		spot1.setSpotName("L'ange Arrasgeois");
 
-		Spot spot2 = iSpotService.edit(spot1);
+		Spot spot2 = iSpotController.editSpot(spot1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -402,7 +440,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayByName Spot
 
-		List<Spot> spotList = iSpotService.displayBySpotname("Arras");
+		List<Spot> spotList = iSpotController.displaySpotByName("Arras");
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -417,7 +455,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			Spot spotFind = iSpotService.displayOne(spot2.getSpotId());
+			Spot spotFind = iSpotController.displaySpot(spot2.getSpotId());
 
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -429,7 +467,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll spot
 
-		spotList = iSpotService.displayAll();
+		spotList = iSpotController.displayAllSpots();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -441,18 +479,27 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a sector without spot
-
-		Sector sector1 = iSectorService.register(
-				new Sector(new Date(), "L'ange Alpha d'Arras", "A+", "firt time !", "A1 puis direction Arras"));
+		
+		String sectorName = "L'ange Alpha d'Arras";
+		String sectorRate = "A+";
+		String sectorDescription = "firt time !";
+		String sectorAccessPath = "A1 puis direction Arras";
+		
+		Sector sector1 = iSectorController.addSectorByDefault(sectorName, sectorRate, sectorDescription, sectorAccessPath);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
 		System.out.println("\n register a sector without spot : " + sector1.toString() + "\n");
 
 // register a sector with a spot
-
-		Sector sectorBis = iSectorService.register(new Sector(new Date(), "Le demon Alpha d'Arras", "A+",
-				"second time !", "A1 puis direction Arras", spot2));
+		
+		sectorName = "Le demon Alpha d'Arras";
+		sectorRate = "A+";
+		sectorDescription = "second time !";
+		sectorAccessPath = "A1 puis direction Arras";
+		Spot spot = iSpotController.displaySpot(spot2.getSpotId());
+		
+		Sector sectorBis = iSectorController.addSectorBySpot(sectorName, sectorRate, sectorDescription, sectorAccessPath, spot);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -462,7 +509,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		sector1.setSectorName("L'ange Alpha");
 
-		Sector sector2 = iSectorService.edit(sector1);
+		Sector sector2 = iSectorController.editSector(sector1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -470,7 +517,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayByName sector
 
-		List<Sector> sectorList = iSectorService.displayBySectorName("alpha");
+		List<Sector> sectorList = iSectorController.displayAllSectorsByName("alpha");
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -485,7 +532,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			Sector sectorFind = iSectorService.displayOne(sector2.getSectorId());
+			Sector sectorFind = iSectorController.displaySector(sector2.getSectorId());
 
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -497,7 +544,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll sector
 
-		sectorList = iSectorService.displayAll();
+		sectorList = iSectorController.displayAllSectors();
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -510,7 +557,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		// displayAll sector for a spot
 
-		spotList = iSpotService.displayBySpotname("Arras");
+		spotList = iSpotController.displaySpotByName("Arras");
 
 		for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
 			Spot spotForSector = (Spot) iterator.next();
@@ -521,7 +568,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll sector for " + spotList.get(0).getSpotName() + " spot >>>><");
 
-		sectorList = iSectorService.displayBySpot(spotList.get(0));
+		sectorList = iSectorController.displayAllSectorsBySpot(spotList.get(0));
 
 		if (sectorList == null) {
 
@@ -539,11 +586,19 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a component with a spot
+		
+		String componentCategoryLabel = "bloc";
+		
+		ComponentCategory cc1 = iComponentCategoryController.addComponentCategory(componentCategoryLabel);
+		
+		String componentCode = "xxxx";
+		String componentName = "la petite roche";
+		String componentRate = "AA+";
+		String componentDescription = "componentDescription";
+		ComponentCategory componentCategory = iComponentCategoryController.displayComponentCategory(cc1.getComponentCategoryId());
+		spot = iSpotController.displaySpot(spot2.getSpotId());
 
-		ComponentCategory cc1 = componentCategoryRepository.save(new ComponentCategory(new Date(), "bloc"));
-
-		SpotComponent spotComponent1 = iSpotComponentService.register(
-				new SpotComponent(new Date(), "xxxx", "la petite roche", "AA+", "componentDescription", cc1, spot2));
+		SpotComponent spotComponent1 = iSpotComponentController.addSpotComponent(componentCode, componentName, componentRate, componentDescription,componentCategory, spot);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -553,7 +608,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		spotComponent1.setComponentName("la petite roche Alpha");
 
-		SpotComponent spotComponent2 = iSpotComponentService.edit(spotComponent1);
+		SpotComponent spotComponent2 = iSpotComponentController.editSpotComponent(spotComponent1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -561,7 +616,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // displayAll component for a lite spot
 
-		spotList = iSpotService.displayBySpotname("Arras");
+		spotList = iSpotController.displaySpotByName("Arras");
 
 		for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
 			Spot spotForComponent = (Spot) iterator.next();
@@ -572,7 +627,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll component for " + spotList.get(0).getSpotName() + " spot >>>><");
 
-		List<SpotComponent> spotComponentList = iSpotComponentService.displayBySpot(spotList.get(0));
+		List<SpotComponent> spotComponentList = iSpotComponentController.displayAllSpotComponentBySpot(spotList.get(0));;
 
 		if (spotComponentList == null) {
 
@@ -590,9 +645,15 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a component with a sector
+		
+		componentCode = "yyyy";
+		componentName = "la petite robe noir";
+		componentRate = "AA+";
+		componentDescription = "componentDescription sector";
+		componentCategory = iComponentCategoryController.displayComponentCategory(cc1.getComponentCategoryId());
+		Sector sector = iSectorController.displaySector(sector2.getSectorId());
 
-		SectorComponent sectorComponent1 = iSectorComponentService.register(new SectorComponent(new Date(), "yyyy",
-				"la petite robe noir", "AA+", "componentDescription", cc1, sector2));
+		SectorComponent sectorComponent1 = iSectorComponentController.addSectorComponent(componentCode, componentName, componentRate, componentDescription, componentCategory, sector);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -602,7 +663,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		sectorComponent1.setComponentName("la petite robe Alpha");
 
-		SectorComponent sectorComponent2 = iSectorComponentService.edit(sectorComponent1);
+		SectorComponent sectorComponent2 = iSectorComponentController.editSectorComponent(sectorComponent1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -610,7 +671,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // displayAll component for a sector
 
-		sectorList = iSectorService.displayBySectorName("Alpha");
+		sectorList = iSectorController.displayAllSectorsByName("Alpha");
 
 		for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
 			Sector sectorForComponent = (Sector) iterator.next();
@@ -621,7 +682,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll component for " + sectorList.get(0).getSectorName() + " sector >>>><");
 
-		List<SectorComponent> sectorComponentList = iSectorComponentService.displayBySector(sectorList.get(0));
+		List<SectorComponent> sectorComponentList = iSectorComponentController.displayAllSectorComponentBySector(sectorList.get(0));
 
 		if (sectorComponentList == null) {
 
@@ -640,9 +701,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a comment with a sector
-
-		SectorComment sectorComment1 = iSectorCommentService
-				.register(new SectorComment(new Date(), "commentBody", true, uV2, sector2));
+		
+		String commentBody = "commentBody";
+		User authorComment = iUserController.displayUser(uV2.getUserId());
+		Sector sectorComment0 = iSectorController.displaySector(sector2.getSectorId());
+		
+		SectorComment sectorComment1 = iSectorCommentController.addSectorComment(commentBody, authorComment,
+				sectorComment0);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -652,7 +717,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		sectorComment1.setCommentBody("comment -> la petite robe Alpha");
 
-		SectorComment sectorComment2 = iSectorCommentService.edit(sectorComment1);
+		SectorComment sectorComment2 = iSectorCommentController.editSectorComponent(sectorComment1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -660,7 +725,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // displayAll comment for a sector
 
-		sectorList = iSectorService.displayBySectorName("Alpha");
+		sectorList = iSectorController.displayAllSectorsByName("Alpha");
 
 		for (Iterator iterator = sectorList.iterator(); iterator.hasNext();) {
 			Sector sectorForComment = (Sector) iterator.next();
@@ -671,7 +736,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll comment for " + sectorList.get(0).getSectorName() + " sector >>>><");
 
-		List<SectorComment> sectorCommentList = iSectorCommentService.displayBySector(sectorList.get(0));
+		List<SectorComment> sectorCommentList = iSectorCommentController.displayAllSectorCommentBySector(sectorList.get(0));
 
 		if (sectorCommentList == null) {
 
@@ -689,9 +754,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a comment with a spot
-
-		SpotComment spotComment1 = iSpotCommentService
-				.register(new SpotComment(new Date(), "commentBody", true, uV2, spot2));
+		
+		commentBody = "commentBody";
+		authorComment = iUserController.displayUser(uV2.getUserId());
+		Spot spotComment0 = iSpotController.displaySpot(spot2.getSpotId());
+		
+		SpotComment spotComment1 = iSpotCommentController.addSpotComment(commentBody, authorComment,
+				spotComment0);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -701,7 +770,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		spotComment1.setCommentBody("comment -> le petit daemon !!");
 
-		SpotComment spotComment2 = iSpotCommentService.edit(spotComment1);
+		SpotComment spotComment2 = iSpotCommentController.editSectorComponent(spotComment1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -711,7 +780,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			spotList = iSpotService.displayBySpotname("Arras");
+			spotList = iSpotController.displaySpotByName("Arras");
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -726,7 +795,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll comment for " + spotList.get(0).getSpotName() + " spot >>>><");
 
-		List<SpotComment> spotCommentList = iSpotCommentService.displayBySpot(spotList.get(0));
+		List<SpotComment> spotCommentList = iSpotCommentController.displayAllSpotCommentBySpot(spotList.get(0));
 
 		if (spotCommentList == null) {
 
@@ -744,9 +813,13 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 		}
 
 // register a comment with a topo
-
-		TopoComment topoComment1 = iTopoCommentService
-				.register(new TopoComment(new Date(), "commentBody", true, uV2, topo2));
+		
+		commentBody = "commentBody";
+		authorComment = iUserController.displayUser(uV2.getUserId());
+		Topo topoComment0 = iTopoController.displayTopo(topo2.getTopoId());
+		
+		TopoComment topoComment1 = iTopoCommentController.addTopoComment(commentBody, authorComment,
+				topoComment0);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -756,7 +829,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		topoComment1.setCommentBody("comment -> un model de topo :) !!");
 
-		TopoComment topoComment2 = iTopoCommentService.edit(topoComment1);
+		TopoComment topoComment2 = iTopoCommentController.editTopoComment(topoComment1);
 
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -766,7 +839,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		try {
 
-			topoList = iTopoService.displayByTitle("Arras");
+			topoList = iTopoController.displayTopoByTitle("Arras");
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -781,7 +854,7 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 		System.out.println(">>>>>> displayAll comment for " + topoList.get(0).getTopoTitle() + " spot >>>><");
 
-		List<TopoComment> topoCommentList = iTopoCommentService.displayByTopo(topoList.get(0));
+		List<TopoComment> topoCommentList = iTopoCommentController.displayAllTopoCommentByTopo(topoList.get(0));
 
 		if (topoCommentList == null) {
 
@@ -800,8 +873,8 @@ public class ClimbingCommunitySiteApplication implements CommandLineRunner {
 
 // register a comment with a webpage
 
-		String commentBody = "commentBody";
-		User authorComment = iUserController.displayUser(uV2.getUserId());
+		commentBody = "commentBody";
+		authorComment = iUserController.displayUser(uV2.getUserId());
 		Webpage webpageComment0 = iWebpageController.displayWebpage(webpage2.getWebpageId());
 
 		WebpageComment webpageComment1 = iWebpageCommentController.addWebpageComment(commentBody, authorComment,

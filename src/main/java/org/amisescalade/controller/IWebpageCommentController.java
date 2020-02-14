@@ -19,6 +19,15 @@ public interface IWebpageCommentController {
 	public WebpageComment addWebpageComment(String body, User author, Webpage webpage);
 	
 	/**
+	 * method to modify a webpageComment
+	 * 
+	 * @param webpageComment
+	 * @return webpageComment object modified
+	 * @throws Exception
+	 */
+	public WebpageComment editWebpageComment (WebpageComment webpageComment);
+	
+	/**
 	 * method for display a web page comment
 	 * 
 	 * @param id

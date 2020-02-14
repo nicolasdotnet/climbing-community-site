@@ -20,22 +20,6 @@ public class SpotComponent extends Component{
 		super();
 	}
 
-	public SpotComponent(Date componentDate, String componentCode, String componentName, String componentRate,
-			String componentDescription, ComponentCategory componentCategory,
-			Collection<ComponentComment> componentComment, Spot spot) {
-		super(componentDate, componentCode, componentName, componentRate, componentDescription,
-				componentCategory, componentComment);
-		this.spot = spot;
-	}
-	
-	
-
-	public SpotComponent(Date componentDate, String componentCode, String componentName, String componentRate,
-			String componentDescription, ComponentCategory componentCategory, Spot spot) {
-		super(componentDate, componentCode, componentName, componentRate, componentDescription, componentCategory);
-		this.spot = spot;
-	}
-
 	public Spot getSpot() {
 		return spot;
 	}

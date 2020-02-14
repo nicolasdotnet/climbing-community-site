@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.amisescalade.dao.SpotCommentRepository;
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.SpotComment;
+import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,17 @@ public class SpotCommentServiceImpl implements ISpotCommentService{
 	private SpotCommentRepository spotCommentRepository;
 
 	@Override
-	public SpotComment register(SpotComment spotComment) throws Exception {
+	public SpotComment register(String body, User author, Spot spot) throws Exception {
 		
+		SpotComment spotComment = new SpotComment();
+		
+		spotComment.setCommentBody(body);
+		spotComment.setCommentAuthor(author);
+		spotComment.setSpot(spot);;
+		
+		spotComment.setCommentStatus(true);
 		spotComment.setCommentDate(new Date());
+		
 		return spotCommentRepository.save(spotComment);
 	}
 
@@ -47,7 +56,7 @@ public class SpotCommentServiceImpl implements ISpotCommentService{
 	}
 
 	@Override
-	public SpotComment displayOne(Long id) throws Exception {
+	public SpotComment getSpotComment(Long id) throws Exception {
 		
 		Optional<SpotComment> spotComment = spotCommentRepository.findById(id);
 
@@ -62,14 +71,14 @@ public class SpotCommentServiceImpl implements ISpotCommentService{
 	}
 
 	@Override
-	public List<SpotComment> displayAll() {
+	public List<SpotComment> getAllSpotComments() {
 		
 		return spotCommentRepository.findAll();
 	}
 	
 
 	@Override
-	public List<SpotComment> displayBySpot(Spot spot) throws Exception {
+	public List<SpotComment> getAllCommentBySpot(Spot spot) throws Exception {
 		
 		return spotCommentRepository.findBySpot(spot);
 	}

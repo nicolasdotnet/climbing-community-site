@@ -18,17 +18,20 @@ import javax.persistence.OneToMany;
  * Block, Route ...
  *
  */
-
-
 @Entity
 public class ComponentCategory implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Id @GeneratedValue
-	private Long idComponentCategory;
+	private Long componentCategoryId;
 	@Column(nullable=false)
-	private Date dateComponentCategory;
+	private Date componentCategoryDate;
 	@Column(nullable=false)
-	private String labelComponentCategory;
+	private String componentCategoryLabel;
 	
 	@OneToMany(mappedBy="componentCategory",fetch=FetchType.LAZY)
 	private Collection<Component> component;
@@ -37,55 +40,59 @@ public class ComponentCategory implements Serializable {
 		super();
 	}
 
-	public ComponentCategory(Date dateComponentCategory, String labelComponentCategory,
-			Collection<Component> component) {
-		super();
-		this.dateComponentCategory = dateComponentCategory;
-		this.labelComponentCategory = labelComponentCategory;
-		this.component = component;
+
+
+	public Long getComponentCategoryId() {
+		return componentCategoryId;
 	}
 
-	public ComponentCategory(Date dateComponentCategory, String labelComponentCategory) {
-		super();
-		this.dateComponentCategory = dateComponentCategory;
-		this.labelComponentCategory = labelComponentCategory;
+
+
+	public void setComponentCategoryId(Long componentCategoryId) {
+		this.componentCategoryId = componentCategoryId;
 	}
 
-	public Long getIdComponentCategory() {
-		return idComponentCategory;
+
+
+	public Date getComponentCategoryDate() {
+		return componentCategoryDate;
 	}
 
-	public void setIdComponentCategory(Long idComponentCategory) {
-		this.idComponentCategory = idComponentCategory;
+
+
+	public void setComponentCategoryDate(Date componentCategoryDate) {
+		this.componentCategoryDate = componentCategoryDate;
 	}
 
-	public Date getDateComponentCategory() {
-		return dateComponentCategory;
+
+
+	public String getComponentCategoryLabel() {
+		return componentCategoryLabel;
 	}
 
-	public void setDateComponentCategory(Date dateComponentCategory) {
-		this.dateComponentCategory = dateComponentCategory;
+
+
+	public void setComponentCategoryLabel(String componentCategoryLabel) {
+		this.componentCategoryLabel = componentCategoryLabel;
 	}
 
-	public String getLabelComponentCategory() {
-		return labelComponentCategory;
-	}
 
-	public void setLabelComponentCategory(String labelComponentCategory) {
-		this.labelComponentCategory = labelComponentCategory;
-	}
 
 	public Collection<Component> getComponent() {
 		return component;
 	}
 
+
+
 	public void setComponent(Collection<Component> component) {
 		this.component = component;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "ComponentCategory [labelComponentCategory=" + labelComponentCategory + "]";
+		return "ComponentCategory [labelComponentCategory=" + componentCategoryLabel + "]";
 	}
 	
 	

@@ -24,8 +24,17 @@ public class SpotComponentServiceImpl implements ISpotComponentService{
 	private SpotComponentRepository spotComponentRepository;
 
 	@Override
-	public SpotComponent register(SpotComponent spotComponent) throws Exception {
-		// check by title for no register double ?
+	public SpotComponent register(String componentCode, String componentName, String componentRate, String componentDescription, ComponentCategory componentCategory, Spot spot) throws Exception {
+		// TODO check by title for no register double ?
+		
+		SpotComponent spotComponent = new SpotComponent();
+		
+		spotComponent.setComponentCode(componentCode);
+		spotComponent.setComponentName(componentName);
+		spotComponent.setComponentRate(componentRate);
+		spotComponent.setComponentDescription(componentDescription);
+		spotComponent.setComponentCategory(componentCategory);
+		spotComponent.setSpot(spot);
 		
 		spotComponent.setComponentDate(new Date());
 		return spotComponentRepository.save(spotComponent);
@@ -48,7 +57,7 @@ public class SpotComponentServiceImpl implements ISpotComponentService{
 	}
 
 	@Override
-	public SpotComponent displayOne(Long id) throws Exception {
+	public SpotComponent getSpotComponent(Long id) throws Exception {
 		
 		Optional<SpotComponent> spotComponent = spotComponentRepository.findById(id);
 
@@ -63,25 +72,25 @@ public class SpotComponentServiceImpl implements ISpotComponentService{
 	}
 
 	@Override
-	public List<SpotComponent> displayAll() {
+	public List<SpotComponent> getAllSpotComponents() {
 		
 		return spotComponentRepository.findAll();
 	}
 
 	@Override
-	public List<SpotComponent> displayBySpotComponentName(String spotComponentName) throws Exception {
+	public List<SpotComponent> getAllSpotComponentByName(String spotComponentName) throws Exception {
 		
 		return spotComponentRepository.findByComponentNameContainingIgnoreCase(spotComponentName);
 	}
 
 	@Override
-	public List<SpotComponent> displayBySpotComponentCategory(ComponentCategory ComponentCategory) throws Exception {
+	public List<SpotComponent> getAllSpotComponentByCategory(ComponentCategory ComponentCategory) throws Exception {
 		
 		return spotComponentRepository.findByComponentCategory(ComponentCategory);
 	}
 
 	@Override
-	public List<SpotComponent> displayBySpot(Spot spot) throws Exception {
+	public List<SpotComponent> getAllSpotComponentBySpot(Spot spot) throws Exception {
 		
 		return spotComponentRepository.findBySpot(spot);
 	}

@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.amisescalade.dao.TopoCommentRepository;
+import org.amisescalade.entity.SpotComment;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.TopoComment;
+import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,15 @@ public class TopoCommentServiceImpl implements ITopoCommentService{
 	private TopoCommentRepository topoCommentRepository;
 
 	@Override
-	public TopoComment register(TopoComment topoComment) throws Exception {
+	public TopoComment register(String body, User author, Topo topo) throws Exception {
 		
+		TopoComment topoComment = new TopoComment();
+		
+		topoComment.setCommentBody(body);
+		topoComment.setCommentAuthor(author);
+		topoComment.setTopo(topo);
+		
+		topoComment.setCommentStatus(true);
 		topoComment.setCommentDate(new Date());
 		return topoCommentRepository.save(topoComment);
 	}
@@ -46,7 +55,7 @@ public class TopoCommentServiceImpl implements ITopoCommentService{
 	}
 
 	@Override
-	public TopoComment displayOne(Long id) throws Exception {
+	public TopoComment getTopoComment(Long id) throws Exception {
 		
 		Optional<TopoComment> topoComment = topoCommentRepository.findById(id);
 
@@ -61,14 +70,14 @@ public class TopoCommentServiceImpl implements ITopoCommentService{
 	}
 
 	@Override
-	public List<TopoComment> displayAll() {
+	public List<TopoComment> getAllTopoCommentS() {
 		
 		return topoCommentRepository.findAll();
 	}
 	
 
 	@Override
-	public List<TopoComment> displayByTopo(Topo topo) throws Exception {
+	public List<TopoComment> getAllTopoCommentsByTopo(Topo topo) throws Exception {
 		
 		return topoCommentRepository.findByTopo(topo);
 	}

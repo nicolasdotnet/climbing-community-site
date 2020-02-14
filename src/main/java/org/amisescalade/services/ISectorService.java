@@ -8,13 +8,29 @@ import org.amisescalade.entity.Spot;
 public interface ISectorService {
 	
 	/**
-	 * method to register a sector
+	 * method to register a sector with a spot
 	 * 
-	 * @param sector
+	 * @param sectorName
+	 * @param sectorRate
+	 * @param sectorDescription
+	 * @param sectorAccessPath
+	 * @param spot
 	 * @return sector object saved
 	 * @throws Exception
 	 */
-	Sector register(Sector sector) throws Exception;
+	Sector registerBySpot (String sectorName, String sectorRate, String sectorDescription, String sectorAccessPath, Spot spot) throws Exception;
+	
+	/**
+	 * method to register a sector by default
+	 * 
+	 * @param sectorName
+	 * @param sectorRate
+	 * @param sectorDescription
+	 * @param sectorAccessPath
+	 * @return sector object saved
+	 * @throws Exception
+	 */
+	Sector registerByDefault (String sectorName, String sectorRate, String sectorDescription, String sectorAccessPath) throws Exception;
 	
 	/**
 	 * method to modify a sector
@@ -26,39 +42,39 @@ public interface ISectorService {
 	Sector edit(Sector sector) throws Exception;
 	
 	/**
-	 * method to display one sector by his id
+	 * method to get a sector by his id
 	 * 
 	 * @param sector
 	 * @return sector object 
 	 * @throws Exception
 	 */
-	Sector displayOne(Long id) throws Exception;
+	Sector getSector(Long id) throws Exception;
 	
 	/**
-	 * method to display all sectors
+	 * method to get all sectors
 	 * 
 	 * @return the sector list 
 	 */
-	List<Sector> displayAll();
+	List<Sector> getAllSectors();
 	
 	
 	/**
-	 * method to display a sector by his name
+	 * method to get all sectors by his name
 	 * 
 	 * @param sectorName
 	 * @return the sector list with his name
 	 * @throws Exception
 	 */
-	List<Sector> displayBySectorName(String sectorName) throws Exception;
+	List<Sector> getAllSectorsByName(String sectorName) throws Exception;
 	
 	
 	/**
-	 * method to display one sector by his spot
+	 * method to get all sectors by his spot
 	 * 
 	 * @param spot
 	 * @return the sector list with his spot to display
 	 * @throws Exception
 	 */
-	List<Sector> displayBySpot(Spot spot) throws Exception;
+	List<Sector> getAllSectorsBySpot(Spot spot) throws Exception;
 
 }

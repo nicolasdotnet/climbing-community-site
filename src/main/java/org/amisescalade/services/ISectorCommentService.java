@@ -4,17 +4,20 @@ import java.util.List;
 
 import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.SectorComment;
+import org.amisescalade.entity.User;
 
 public interface ISectorCommentService {
 	
 	/**
 	 * method to register a sectorComment
 	 * 
-	 * @param sectorComment
+	 * @param body
+	 * @param author
+	 * @param sector
 	 * @return sectorComment object saved
 	 * @throws Exception
 	 */
-	SectorComment register(SectorComment sectorComment) throws Exception;
+	SectorComment register(String body, User author, Sector sector)throws Exception;
 	
 	/**
 	 * method to modify a sectorComment
@@ -26,7 +29,7 @@ public interface ISectorCommentService {
 	SectorComment edit(SectorComment sectorComment) throws Exception;
 	
 	/**
-	 * method to display a sectorComment by his id
+	 * method to get a sectorComment by his id
 	 * 
 	 * UTILE ?
 	 * 
@@ -34,24 +37,24 @@ public interface ISectorCommentService {
 	 * @return sectorComment object
 	 * @throws Exception
 	 */
-	SectorComment displayOne(Long id) throws Exception;
+	SectorComment getSectorComment(Long id) throws Exception;
 	
 	/**
-	 * method to display all sectorComments
+	 * method to get all sectorComments
 	 * 
 	 * UTILE ?
 	 * 
 	 * @return the sectorComment list 
 	 */
-	List<SectorComment> displayAll();
+	List<SectorComment> getAllSectorComments();
 	
 	/**
-	 * method to display all sectorComment for a sector
+	 * method to get all sectorComments for a sector
 	 * 
 	 * @param sector
 	 * @return the sectorComment list from a sector
 	 * @throws Exception
 	 */
-	List<SectorComment> displayBySector(Sector sector) throws Exception;
+	List<SectorComment> getCommentBySector(Sector sector) throws Exception;
 
 }

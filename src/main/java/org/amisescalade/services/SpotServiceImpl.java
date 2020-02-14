@@ -22,10 +22,19 @@ public class SpotServiceImpl implements ISpotService {
 	private SpotRepository spotRepository;
 
 	@Override
-	public Spot register(Spot spot) throws Exception {
+	public Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country) throws Exception {
 
 		// TODO check by title for no register double ?
 
+		Spot spot = new Spot();
+		
+		spot.setSpotName(spotName);
+		spot.setSpotRate(spotRate);
+		spot.setSpotDescription(spotDescription);
+		spot.setSpotAccessPath(spotAccessPath);
+		spot.setDepartement(departement);
+		spot.setCountry(country);
+		
 		spot.setSpotDate(new Date());
 		return spotRepository.save(spot);
 	}
@@ -49,7 +58,7 @@ public class SpotServiceImpl implements ISpotService {
 	}
 
 	@Override
-	public Spot displayOne(Long id) throws Exception {
+	public Spot getSpot(Long id) throws Exception {
 
 		Optional<Spot> spotFind = spotRepository.findById(id);
 
@@ -64,13 +73,13 @@ public class SpotServiceImpl implements ISpotService {
 	}
 
 	@Override
-	public List<Spot> displayAll() {
+	public List<Spot> getAllSpots() {
 
 		return spotRepository.findAll();
 	}
 
 	@Override
-	public List<Spot> displayBySpotname(String spotname) throws Exception {
+	public List<Spot> getAllSpotsByName(String spotname) throws Exception {
 
 		return spotRepository.findBySpotNameContainingIgnoreCase(spotname);
 	}

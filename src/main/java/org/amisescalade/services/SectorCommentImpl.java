@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.amisescalade.dao.SectorCommentRepository;
 import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.SectorComment;
+import org.amisescalade.entity.SpotComment;
+import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,17 @@ private static final Logger log = LogManager.getLogger(SectorCommentImpl.class);
 	private SectorCommentRepository sectorCommentRepository;
 
 	@Override
-	public SectorComment register(SectorComment sectorComment) throws Exception {
+	public SectorComment register(String body, User author, Sector sector) throws Exception {
 		
+		SectorComment sectorComment = new SectorComment();
+		
+		sectorComment.setCommentBody(body);
+		sectorComment.setCommentAuthor(author);
+		sectorComment.setSector(sector);;
+		
+		sectorComment.setCommentStatus(true);
 		sectorComment.setCommentDate(new Date());
+		
 		return sectorCommentRepository.save(sectorComment);
 	}
 
@@ -46,7 +56,7 @@ private static final Logger log = LogManager.getLogger(SectorCommentImpl.class);
 	}
 
 	@Override
-	public SectorComment displayOne(Long id) throws Exception {
+	public SectorComment getSectorComment(Long id) throws Exception {
 		
 		Optional<SectorComment> sectorComment = sectorCommentRepository.findById(id);
 
@@ -61,14 +71,14 @@ private static final Logger log = LogManager.getLogger(SectorCommentImpl.class);
 	}
 
 	@Override
-	public List<SectorComment> displayAll() {
+	public List<SectorComment> getAllSectorComments() {
 		
 		return sectorCommentRepository.findAll();
 	}
 	
 
 	@Override
-	public List<SectorComment> displayBySector(Sector sector) throws Exception {
+	public List<SectorComment> getCommentBySector(Sector sector) throws Exception {
 		
 		return sectorCommentRepository.findBySector(sector);
 	}

@@ -4,17 +4,20 @@ import java.util.List;
 
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.TopoComment;
+import org.amisescalade.entity.User;
 
 public interface ITopoCommentService {
 	
 	/**
 	 * method to register a topoComment
 	 * 
-	 * @param topoComment
+	 * @param body
+	 * @param author
+	 * @param topo
 	 * @return topoComment object saved
 	 * @throws Exception
 	 */
-	TopoComment register(TopoComment topoComment) throws Exception;
+	TopoComment register(String body, User author, Topo topo) throws Exception;
 	
 	/**
 	 * method to modify a topoComment
@@ -26,7 +29,7 @@ public interface ITopoCommentService {
 	TopoComment edit(TopoComment topoComment) throws Exception;
 	
 	/**
-	 * method to display a topoComment by his id
+	 * method to get a topoComment by his id
 	 * 
 	 * UTILE ?
 	 * 
@@ -34,24 +37,24 @@ public interface ITopoCommentService {
 	 * @return topoComment object
 	 * @throws Exception
 	 */
-	TopoComment displayOne(Long id) throws Exception;
+	TopoComment getTopoComment(Long id) throws Exception;
 	
 	/**
-	 * method to display all topoComments
+	 * method to get all topoComments
 	 * 
 	 * UTILE ?
 	 * 
 	 * @return the topoComment list 
 	 */
-	List<TopoComment> displayAll();
+	List<TopoComment> getAllTopoCommentS();
 	
 	/**
-	 * method to display one topoComment by his topo
+	 * method to get all topoComments by his topo
 	 * 
 	 * @param topo
 	 * @return the topoComment list with his topo
 	 * @throws Exception
 	 */
-	List<TopoComment> displayByTopo(Topo topo) throws Exception;
+	List<TopoComment> getAllTopoCommentsByTopo(Topo topo) throws Exception;
 
 }

@@ -15,17 +15,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class SectorServiceImpl implements ISectorService{
-	
+public class SectorServiceImpl implements ISectorService {
+
 	private static final Logger log = LogManager.getLogger(SectorServiceImpl.class);
 
 	@Autowired
 	private SectorRepository sectorRepository;
 
 	@Override
-	public Sector register(Sector sector) throws Exception {
-		
-		// check by title for no register double ?
+	public Sector registerBySpot(String sectorName, String sectorRate, String sectorDescription,
+			String sectorAccessPath, Spot spot) throws Exception {
+		// TODO check by title for no register double ?
+
+		Sector sector = new Sector();
+
+		sector.setSectorName(sectorName);
+		sector.setSectorRate(sectorRate);
+		sector.setSectorDescription(sectorDescription);
+		sector.setSectorAccessPath(sectorAccessPath);
+		sector.setSpot(spot);
+
+		sector.setSectorDate(new Date());
+		return sectorRepository.save(sector);
+	}
+	
+	@Override
+	public Sector registerByDefault(String sectorName, String sectorRate, String sectorDescription,
+			String sectorAccessPath) throws Exception {
+		// TODO check by title for no register double ?
+
+		Sector sector = new Sector();
+
+		sector.setSectorName(sectorName);
+		sector.setSectorRate(sectorRate);
+		sector.setSectorDescription(sectorDescription);
+		sector.setSectorAccessPath(sectorAccessPath);
 
 		sector.setSectorDate(new Date());
 		return sectorRepository.save(sector);
@@ -33,7 +57,7 @@ public class SectorServiceImpl implements ISectorService{
 
 	@Override
 	public Sector edit(Sector sector) throws Exception {
-		
+
 		Optional<Sector> sectorFind = sectorRepository.findById(sector.getSectorId());
 
 		if (sectorFind.isEmpty()) {
@@ -48,8 +72,8 @@ public class SectorServiceImpl implements ISectorService{
 	}
 
 	@Override
-	public Sector displayOne(Long id) throws Exception {
-		
+	public Sector getSector(Long id) throws Exception {
+
 		Optional<Sector> sectorFind = sectorRepository.findById(id);
 
 		if (sectorFind.isEmpty()) {
@@ -63,20 +87,20 @@ public class SectorServiceImpl implements ISectorService{
 	}
 
 	@Override
-	public List<Sector> displayAll() {
-		
+	public List<Sector> getAllSectors() {
+
 		return sectorRepository.findAll();
 	}
 
 	@Override
-	public List<Sector> displayBySectorName(String sectorName) throws Exception {
-		
+	public List<Sector> getAllSectorsByName(String sectorName) throws Exception {
+
 		return sectorRepository.findBySectorNameContainingIgnoreCase(sectorName);
 	}
 
 	@Override
-	public List<Sector> displayBySpot(Spot spot) throws Exception {
-		
+	public List<Sector> getAllSectorsBySpot(Spot spot) throws Exception {
+
 		return sectorRepository.findBySpot(spot);
 	}
 

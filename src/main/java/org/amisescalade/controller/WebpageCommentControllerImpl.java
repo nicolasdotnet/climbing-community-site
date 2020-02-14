@@ -38,6 +38,21 @@ public class WebpageCommentControllerImpl implements IWebpageCommentController{
 		return webpageCommentSave;
 		
 	}
+	
+	@Override
+	public WebpageComment editWebpageComment(WebpageComment webpageComment) {
+		
+		WebpageComment webpageCommentEdit = new WebpageComment();
+
+		try {
+			webpageCommentEdit = iWebpageCommentService.edit(webpageComment);
+		} catch (Exception e) {
+
+			this.errorMessage = e.getMessage();
+		}
+
+		return webpageCommentEdit;
+	}
 
 	@Override
 	public WebpageComment displayWebpageComment(Long id) {

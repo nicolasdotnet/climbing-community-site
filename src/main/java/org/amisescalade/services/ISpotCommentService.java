@@ -4,17 +4,20 @@ import java.util.List;
 
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.SpotComment;
+import org.amisescalade.entity.User;
 
 public interface ISpotCommentService {
 	
 	/**
 	 * method to register a spotComment
 	 * 
-	 * @param spotComment
+	 * @param body
+	 * @param author
+	 * @param spot
 	 * @return spotComment object saved
 	 * @throws Exception
 	 */
-	SpotComment register(SpotComment spotComment) throws Exception;
+	SpotComment register(String body, User author, Spot spot) throws Exception;
 	
 	/**
 	 * method to modify a spotComment
@@ -26,7 +29,7 @@ public interface ISpotCommentService {
 	SpotComment edit(SpotComment spotComment) throws Exception;
 	
 	/**
-	 * method to display a spotComment by his id
+	 * method to get a spotComment by his id
 	 * 
 	 * UTILE ?
 	 * 
@@ -34,25 +37,25 @@ public interface ISpotCommentService {
 	 * @return spotComment object
 	 * @throws Exception
 	 */
-	SpotComment displayOne(Long id) throws Exception;
+	SpotComment getSpotComment(Long id) throws Exception;
 	
 	/**
-	 * method to display all spotComments
+	 * method to get all spotComments
 	 * 
 	 * UTILE ?
 	 * 
 	 * @return the spotComment list 
 	 */
-	List<SpotComment> displayAll();
+	List<SpotComment> getAllSpotComments();
 	
 	/**
-	 * method to display one spotComment by his spot
+	 * method to get all spotComments by his spot
 	 * 
 	 * @param spot
 	 * @return the spotComment list with his spot
 	 * @throws Exception
 	 */
-	List<SpotComment> displayBySpot(Spot spot) throws Exception;
+	List<SpotComment> getAllCommentBySpot(Spot spot) throws Exception;
 
 
 }
