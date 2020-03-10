@@ -6,10 +6,13 @@
 package org.amisescalade.web;
 
 import org.amisescalade.controller.IUserController;
+import org.amisescalade.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *
@@ -25,6 +28,8 @@ public class ClimbingCommunitySiteController{
     @GetMapping("/")
     public String index(Model model){
         
+        model.addAttribute("user2", new User()); // valeur par default
+        
         System.out.println("ça marche !!"+iUserController.displayUser(2L).toString());
         
         model.addAttribute("user", iUserController.displayUser(2L).getFirstname());
@@ -34,6 +39,18 @@ public class ClimbingCommunitySiteController{
         return "login";
     }
     
-    
+    @PostMapping("/test")
+    public String saveUser (@ModelAttribute("user2") User user) {
+        
+//        iUserController.signUpByDefault(firstname, lastname, username, password);
+
+
+
+System.out.println("le post marche !!" + user.getLastname());
+        
+        
+        return "login";
+        
+    }
     
 }
