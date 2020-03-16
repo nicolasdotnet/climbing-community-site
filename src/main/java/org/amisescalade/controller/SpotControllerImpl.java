@@ -90,4 +90,11 @@ public class SpotControllerImpl implements ISpotController {
 		return iSpotService.getAllSpots();
 	}
 
+    @Override
+    public void removeSpot(Long id) {
+        
+        iSpotService.delete(id);
+        
+    }
+
 }

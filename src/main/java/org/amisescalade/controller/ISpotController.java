@@ -51,4 +51,12 @@ public interface ISpotController {
 	 */
 	public List<Spot> displayAllSpots();
 
+    	/**
+	 * method to delete a spot
+	 * 
+	 * 
+	 */
+        
+        public void removeSpot(Long id);
+
 }

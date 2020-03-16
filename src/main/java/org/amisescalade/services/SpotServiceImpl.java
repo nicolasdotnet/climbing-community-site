@@ -16,72 +16,75 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SpotServiceImpl implements ISpotService {
 
-	private static final Logger log = LogManager.getLogger(SpotServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(SpotServiceImpl.class);
 
-	@Autowired
-	private SpotRepository spotRepository;
+    @Autowired
+    private SpotRepository spotRepository;
 
-	@Override
-	public Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country) throws Exception {
+    @Override
+    public Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country) throws Exception {
 
-		// TODO check by title for no register double ?
+        // TODO check by title for no register double ?
+        Spot spot = new Spot();
 
-		Spot spot = new Spot();
-		
-		spot.setSpotName(spotName);
-		spot.setSpotRate(spotRate);
-		spot.setSpotDescription(spotDescription);
-		spot.setSpotAccessPath(spotAccessPath);
-		spot.setDepartement(departement);
-		spot.setCountry(country);
-		
-		spot.setSpotDate(new Date());
-		return spotRepository.save(spot);
-	}
-	
-	
+        spot.setSpotName(spotName);
+        spot.setSpotRate(spotRate);
+        spot.setSpotDescription(spotDescription);
+        spot.setSpotAccessPath(spotAccessPath);
+        spot.setDepartement(departement);
+        spot.setCountry(country);
 
-	@Override
-	public Spot edit(Spot spot) throws Exception {
+        spot.setSpotDate(new Date());
+        return spotRepository.save(spot);
+    }
 
-		Optional<Spot> topoFind = spotRepository.findById(spot.getSpotId());
+    @Override
+    public Spot edit(Spot spot) throws Exception {
 
-		if (topoFind.isEmpty()) {
+        Optional<Spot> topoFind = spotRepository.findById(spot.getSpotId());
 
-			log.error("Modification Impossible ! le spot " + spot.getSpotId() + " n'existe pas dans la base.");
+        if (!topoFind.isPresent()) {
 
-			throw new Exception("Le spot n'existe pas !");
+            log.error("Modification Impossible ! le spot " + spot.getSpotId() + " n'existe pas dans la base.");
 
-		}
-		
-		return spotRepository.saveAndFlush(spot);
-	}
+            throw new Exception("Le spot n'existe pas !");
 
-	@Override
-	public Spot getSpot(Long id) throws Exception {
+        }
 
-		Optional<Spot> spotFind = spotRepository.findById(id);
+        return spotRepository.saveAndFlush(spot);
+    }
 
-		if (spotFind.isEmpty()) {
+    @Override
+    public Spot getSpot(Long id) throws Exception {
 
-			log.error("Modification Impossible ! le spot " + id + " n'existe pas dans la base.");
+        Optional<Spot> spotFind = spotRepository.findById(id);
 
-			throw new Exception("Le spot n'existe pas !");
+        if (!spotFind.isPresent()) {
 
-		}
-		return spotFind.get();
-	}
+            log.error("Modification Impossible ! le spot " + id + " n'existe pas dans la base.");
 
-	@Override
-	public List<Spot> getAllSpots() {
+            throw new Exception("Le spot n'existe pas !");
 
-		return spotRepository.findAll();
-	}
+        }
+        return spotFind.get();
+    }
 
-	@Override
-	public List<Spot> getAllSpotsByName(String spotname) throws Exception {
+    @Override
+    public List<Spot> getAllSpots() {
 
-		return spotRepository.findBySpotNameContainingIgnoreCase(spotname);
-	}
+        return spotRepository.findAll();
+    }
+
+    @Override
+    public List<Spot> getAllSpotsByName(String spotname) throws Exception {
+
+        return spotRepository.findBySpotNameContainingIgnoreCase(spotname);
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        spotRepository.deleteById(id);
+    }
 
 }

@@ -45,7 +45,7 @@ public class SpotComponentServiceImpl implements ISpotComponentService{
 		
 		Optional<SpotComponent> componentFind = spotComponentRepository.findById(spotComponent.getComponentId());
 
-		if (componentFind.isEmpty()) {
+		if (!componentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le spotComponent " + spotComponent.getComponentId() + " n'existe pas dans la base.");
 
@@ -61,7 +61,7 @@ public class SpotComponentServiceImpl implements ISpotComponentService{
 		
 		Optional<SpotComponent> spotComponent = spotComponentRepository.findById(id);
 
-		if (spotComponent.isEmpty()) {
+		if (!spotComponent.isPresent()) {
 
 			log.error("Modification Impossible ! le spotComponent " + id + " n'existe pas dans la base.");
 

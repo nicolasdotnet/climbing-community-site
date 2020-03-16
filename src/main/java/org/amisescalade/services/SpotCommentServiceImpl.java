@@ -44,7 +44,7 @@ public class SpotCommentServiceImpl implements ISpotCommentService{
 		
 		Optional<SpotComment> commentFind = spotCommentRepository.findById(spotComment.getCommentId());
 
-		if (commentFind.isEmpty()) {
+		if (!commentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le spotComment " + spotComment.getCommentId() + " n'existe pas dans la base.");
 
@@ -60,7 +60,7 @@ public class SpotCommentServiceImpl implements ISpotCommentService{
 		
 		Optional<SpotComment> spotComment = spotCommentRepository.findById(id);
 
-		if (spotComment.isEmpty()) {
+		if (!spotComment.isPresent()) {
 
 			log.error("Modification Impossible ! le spotComment " + id + " n'existe pas dans la base.");
 

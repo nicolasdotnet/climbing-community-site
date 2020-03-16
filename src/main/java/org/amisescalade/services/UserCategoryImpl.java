@@ -45,7 +45,7 @@ public class UserCategoryImpl implements IUserCategoryService {
 
 		Optional<UserCategory> categoryFind = userCategoryRepository.findById(userCategory.getUserCategoryId());
 
-		if (categoryFind.isEmpty()) {
+		if (!categoryFind.isPresent()) {
 
 			log.error("Modification Impossible ! la categorie " + userCategory.getUserCategoryId()
 					+ " n'existe pas dans la base.");
@@ -70,7 +70,7 @@ public class UserCategoryImpl implements IUserCategoryService {
 
 		Optional<UserCategory> categoryFind = userCategoryRepository.findById(id);
 
-		if (categoryFind.isEmpty()) {
+		if (!categoryFind.isPresent()) {
 
 			log.error("Modification Impossible ! la categorie " + id
 					+ " n'existe pas dans la base.");
@@ -86,7 +86,7 @@ public class UserCategoryImpl implements IUserCategoryService {
 
 		Optional<UserCategory> defaultCategory = userCategoryRepository.findById(1L);
 
-		if (defaultCategory.isEmpty()) {
+		if (!defaultCategory.isPresent()) {
 
 			log.error("La categorie par défault n'existe pas dans la base.");
 

@@ -47,7 +47,7 @@ public class SectorComponentServiceImpl implements ISectorComponentService {
 		
 		Optional<SectorComponent> componentFind = sectorComponentRepository.findById(sectorComponent.getComponentId());
 
-		if (componentFind.isEmpty()) {
+		if (!componentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le sectorComponent " + sectorComponent.getComponentId() + " n'existe pas dans la base.");
 
@@ -63,7 +63,7 @@ public class SectorComponentServiceImpl implements ISectorComponentService {
 		
 		Optional<SectorComponent> sectorComponent = sectorComponentRepository.findById(id);
 
-		if (sectorComponent.isEmpty()) {
+		if (!sectorComponent.isPresent()) {
 
 			log.error("Modification Impossible ! le sectorComponent " + id + " n'existe pas dans la base.");
 

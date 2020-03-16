@@ -43,7 +43,7 @@ public class TopoCommentServiceImpl implements ITopoCommentService{
 		
 		Optional<TopoComment> commentFind = topoCommentRepository.findById(topoComment.getCommentId());
 
-		if (commentFind.isEmpty()) {
+		if (!commentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le topoComment " + topoComment.getCommentId() + " n'existe pas dans la base.");
 
@@ -59,7 +59,7 @@ public class TopoCommentServiceImpl implements ITopoCommentService{
 		
 		Optional<TopoComment> topoComment = topoCommentRepository.findById(id);
 
-		if (topoComment.isEmpty()) {
+		if (!topoComment.isPresent()) {
 
 			log.error("Modification Impossible ! le topoComment " + id + " n'existe pas dans la base.");
 

@@ -43,7 +43,7 @@ public class TopoServiceImpl implements ITopoService{
 		
 		Optional<Topo> topoFind = topoRepository.findById(topo.getTopoId());
 		
-		if (topoFind.isEmpty()) {
+		if (!topoFind.isPresent()) {
 			
 			log.error("Modification Impossible ! le topo "+ topo.getTopoId()+" n'existe pas dans la base.");
 			
@@ -60,7 +60,7 @@ public class TopoServiceImpl implements ITopoService{
 		
 		Optional<Topo> topoFind = topoRepository.findById(id);
 		
-		if (topoFind.isEmpty()) {
+		if (!topoFind.isPresent()) {
 			
 			log.error("Modification Impossible ! le topo "+ id +" n'existe pas dans la base.");
 			

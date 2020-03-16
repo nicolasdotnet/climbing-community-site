@@ -54,5 +54,7 @@ public interface ISpotService {
 	 * @throws Exception
 	 */
 	List<Spot> getAllSpotsByName(String spotname) throws Exception;
+
+    public void delete(Long id);
 	
 }

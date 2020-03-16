@@ -60,7 +60,7 @@ public class SectorServiceImpl implements ISectorService {
 
 		Optional<Sector> sectorFind = sectorRepository.findById(sector.getSectorId());
 
-		if (sectorFind.isEmpty()) {
+		if (!sectorFind.isPresent()) {
 
 			log.error("Modification Impossible ! le sector " + sector.getSectorId() + " n'existe pas dans la base.");
 
@@ -76,7 +76,7 @@ public class SectorServiceImpl implements ISectorService {
 
 		Optional<Sector> sectorFind = sectorRepository.findById(id);
 
-		if (sectorFind.isEmpty()) {
+		if (!sectorFind.isPresent()) {
 
 			log.error("Modification Impossible ! le sector " + id + " n'existe pas dans la base.");
 

@@ -58,7 +58,7 @@ public class UserServiceImpl implements IUserService {
 
 		Optional<User> userFind = userRepository.findById(user.getUserId());
 
-		if (userFind.isEmpty()) {
+		if (!userFind.isPresent()) {
 
 			log.error("Modification Impossible ! l'utilisateur " + user.getUserId() + " n'existe pas dans la base.");
 
@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService {
 
 		Optional<User> userFind = userRepository.findById(id);
 
-		if (userFind.isEmpty()) {
+		if (!userFind.isPresent()) {
 
 			log.error("Affichage Impossible ! l'utilisateur " + id + " n'existe pas dans la base.");
 

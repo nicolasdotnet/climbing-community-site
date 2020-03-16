@@ -44,7 +44,7 @@ private static final Logger log = LogManager.getLogger(SectorCommentImpl.class);
 		
 		Optional<SectorComment> commentFind = sectorCommentRepository.findById(sectorComment.getCommentId());
 
-		if (commentFind.isEmpty()) {
+		if (!commentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le sectorComment " + sectorComment.getCommentId() + " n'existe pas dans la base.");
 
@@ -60,7 +60,7 @@ private static final Logger log = LogManager.getLogger(SectorCommentImpl.class);
 		
 		Optional<SectorComment> sectorComment = sectorCommentRepository.findById(id);
 
-		if (sectorComment.isEmpty()) {
+		if (!sectorComment.isPresent()) {
 
 			log.error("Modification Impossible ! le sectorComment " + id + " n'existe pas dans la base.");
 

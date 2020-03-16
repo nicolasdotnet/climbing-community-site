@@ -52,7 +52,7 @@ public class WebpageServiceImpl implements IWebpageService{
 		
 		Optional<Webpage> webpageFind = webpageRepository.findById(webpage.getWebpageId());
 		
-		if (webpageFind.isEmpty()) {
+		if (!webpageFind.isPresent()) {
 			
 			log.error("Modification Impossible ! la webpage "+ webpage.getWebpageId()+" n'existe pas dans la base.");
 			
@@ -69,7 +69,7 @@ public class WebpageServiceImpl implements IWebpageService{
 		
 		Optional<Webpage> webpageFind = webpageRepository.findById(id);
 
-		if (webpageFind.isEmpty()) {
+		if (!webpageFind.isPresent()) {
 
 			log.error("Modification Impossible ! le webpage " + id + " n'existe pas dans la base.");
 

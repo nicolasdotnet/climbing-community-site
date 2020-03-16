@@ -44,7 +44,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 		
 		Optional<WebpageComment> commentFind = webpageCommentRepository.findById(webpageComment.getCommentId());
 
-		if (commentFind.isEmpty()) {
+		if (!commentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le webpageComment " + webpageComment.getCommentId() + " n'existe pas dans la base.");
 
@@ -60,7 +60,7 @@ private static final Logger log = LogManager.getLogger(WebpageCommentServiceImpl
 		
 		Optional<WebpageComment> webpageCommentFind = webpageCommentRepository.findById(id);
 
-		if (webpageCommentFind.isEmpty()) {
+		if (!webpageCommentFind.isPresent()) {
 
 			log.error("Modification Impossible ! le webpageComment " + id + " n'existe pas dans la base.");
 

@@ -48,7 +48,7 @@ public class ComponentCategoryServiceImpl implements IComponentCategoryService {
 		
 		Optional<ComponentCategory> categoryFind = componentCategoryRepository.findById(componentCategory.getComponentCategoryId());
 		
-		if (categoryFind.isEmpty()) { 
+		if (!categoryFind.isPresent()) { 
 			
 			log.error("Modification Impossible ! la component categorie "+ componentCategory.getComponentCategoryId()+" n'existe pas dans la base.");
 		
@@ -66,7 +66,7 @@ public class ComponentCategoryServiceImpl implements IComponentCategoryService {
 		
 		Optional<ComponentCategory> categoryFind = componentCategoryRepository.findById(id);
 
-		if (categoryFind.isEmpty()) {
+		if (!categoryFind.isPresent()) {
 
 			log.error("Modification Impossible ! la categorie " + id
 					+ " n'existe pas dans la base.");
