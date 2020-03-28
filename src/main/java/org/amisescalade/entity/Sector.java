@@ -51,41 +51,6 @@ public class Sector implements Serializable{
 		super();
 	}
 
-	public Sector(Date sectorDate, String sectorname, String sectorRate, String sectorDescription,
-			String sectorAccessPath, Collection<SectorComponent> component,
-			Collection<SectorComment> sectorComment) {
-		super();
-		this.sectorDate = sectorDate;
-		this.sectorName = sectorname;
-		this.sectorRate = sectorRate;
-		this.sectorDescription = sectorDescription;
-		this.sectorAccessPath = sectorAccessPath;
-		this.component = component;
-		this.sectorComment = sectorComment;
-	}
-	
-
-	public Sector(Date sectorDate, String sectorName, String sectorRate, String sectorDescription,
-			String sectorAccessPath, Spot spot) {
-		super();
-		this.sectorDate = sectorDate;
-		this.sectorName = sectorName;
-		this.sectorRate = sectorRate;
-		this.sectorDescription = sectorDescription;
-		this.sectorAccessPath = sectorAccessPath;
-		this.spot = spot;
-	}
-
-	public Sector(Date sectorDate, String sectorName, String sectorRate, String sectorDescription,
-			String sectorAccessPath) {
-		super();
-		this.sectorDate = sectorDate;
-		this.sectorName = sectorName;
-		this.sectorRate = sectorRate;
-		this.sectorDescription = sectorDescription;
-		this.sectorAccessPath = sectorAccessPath;
-	}
-
 	public Long getSectorId() {
 		return sectorId;
 	}
@@ -161,10 +126,5 @@ public class Sector implements Serializable{
 	@Override
 	public String toString() {
 		return "Sector [sectorname=" + sectorName + "]";
-	}
-	
-	
-	
-	
-	
+	}	
 }

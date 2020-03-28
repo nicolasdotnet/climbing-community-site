@@ -51,38 +51,6 @@ public class Spot implements Serializable{
 	public Spot() {
 		super();
 	}
-	
-	
-
-	public Spot(Date spotDate, String spotName, String spotRate, String spotDescription, String spotAccessPath,
-			String departement, String country) {
-		super();
-		this.spotDate = spotDate;
-		this.spotName = spotName;
-		this.spotRate = spotRate;
-		this.spotDescription = spotDescription;
-		this.spotAccessPath = spotAccessPath;
-		this.departement = departement;
-		this.country = country;
-	}
-
-
-
-	public Spot(Date spotdate, String spotname, String spotRate, String spotDescription, String spotAccessPath,
-			String departement, String country,
-			Collection<SpotComment> spotComment, Collection<Sector> sector, Collection<SpotComponent> component) {
-		super();
-		this.spotDate = spotdate;
-		this.spotName = spotname;
-		this.spotRate = spotRate;
-		this.spotDescription = spotDescription;
-		this.spotAccessPath = spotAccessPath;
-		this.departement = departement;
-		this.country = country;
-		this.spotComment = spotComment;
-		this.sector = sector;
-		this.component = component;
-	}
 
 	public Long getSpotId() {
 		return spotId;
@@ -179,11 +147,6 @@ public class Spot implements Serializable{
 	@Override
 	public String toString() {
 		return "Spot [spotname=" + spotName + "]";
-	}
-	
-	
-	
-	
-	
+	}	
 }
 	

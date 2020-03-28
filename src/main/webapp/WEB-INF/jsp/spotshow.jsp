@@ -29,9 +29,9 @@
         <td><c:out value="${spotFind.departement}">Valeur par défaut</c:out> </td>
         <td><c:out value="${spotFind.country}">Valeur par défaut</c:out> </td>
         <td>
-            <spring:url value="/spots/${spotFind.spotId}" var="spotUrl" />
-            <spring:url value="/spots/${spotFind.spotId}/delete" var="deleteUrl" /> 
-            <spring:url value="/spots/${spotFind.spotId}/update" var="updateUrl" />
+            <spring:url value="/spot/${spotFind.spotId}" var="spotUrl" />
+            <spring:url value="/spot/${spotFind.spotId}/delete" var="deleteUrl" /> 
+            <spring:url value="/spot/${spotFind.spotId}/update" var="updateUrl" />
             <spring:url value="/sectors/${spotFind.spotId}" var="sectorsUrl" />
 
             <form action="${spotUrl}">

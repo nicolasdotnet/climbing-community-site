@@ -59,4 +59,6 @@ public interface ISpotController {
         
         public void removeSpot(Long id);
 
+    public List<Spot> searchSpots(String spotName, String spotRate, String departement);
+
 }

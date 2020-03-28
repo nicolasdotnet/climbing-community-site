@@ -97,4 +97,8 @@ public class SpotControllerImpl implements ISpotController {
         
     }
 
+    @Override
+    public List<Spot> searchSpots(String spotName, String spotRate, String departement) {
+        return iSpotService.getAllSpotsByNameRateDepartement(spotName,spotRate,departement);
+    }
 }

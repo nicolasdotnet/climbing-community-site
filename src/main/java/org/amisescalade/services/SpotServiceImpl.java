@@ -87,4 +87,10 @@ public class SpotServiceImpl implements ISpotService {
         spotRepository.deleteById(id);
     }
 
+    @Override
+    public List<Spot> getAllSpotsByNameRateDepartement(String spotName, String spotRate, String departement) {
+        return null;
+//        return spotRepository.findAllBySpotNameContainingNotNullAndSpotRateNotNullAndDepartementNotNullAllIgnoreCase(spotName, spotRate, departement);
+    }
+
 }
