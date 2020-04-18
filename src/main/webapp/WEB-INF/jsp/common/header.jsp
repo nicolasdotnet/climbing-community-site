@@ -4,6 +4,11 @@
     Author     : nicolasdotnet
 --%>
 
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="secu" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -23,7 +28,17 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/spots">Spots</a></li>
                     <li><a href="/multisearch">Chercher</a></li>
-                    <li><a href="/topos">Topos</a></li>
+                    <li><a href="/topos/user">Topos</a></li>
+                    <li><a href="/bookings/topo">Demande de réservations</a></li>
+                    <li><a href="/bookings/user">Mes réservations</a></li>
+                    <li><a href="/user/add">Inscription</a></li>
+                    <li><a href="/users">Users</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login?logout">
+                            Logout
+                        </a></li>
+                        <li><a href="/userinfo">Users</a></li>
                 </ul>
             </div>
         </div>

@@ -2,15 +2,15 @@ package org.amisescalade.dao;
 
 import java.util.List;
 
-import org.amisescalade.entity.UserCategory;
+import org.amisescalade.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserCategoryRepository extends JpaRepository<UserCategory, Long>{
+public interface UserCategoryRepository extends JpaRepository<Role, Long>{
 
-	UserCategory findByUserCategoryLabel(String userCategoryLabel);
+	Role findByUserCategoryLabel(String userCategoryLabel);
 
-	UserCategory findByUserCategoryLabelIgnoreCase(String category);
+	Role findByUserCategoryLabelIgnoreCase(String category);
 
-	List<UserCategory> findByUserCategoryLabelContainingIgnoreCase(String label);
+	List<Role> findByUserCategoryLabelContainingIgnoreCase(String label);
 
 }

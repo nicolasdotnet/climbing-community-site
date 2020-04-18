@@ -8,9 +8,21 @@ and open the template in the editor.
     Author     : nicolasdotnet
 */
 h1{
-	color:#0000FF;
+    
 }
 
 h2{
-	color:#FF0000;
+
+}
+
+.error {
+    
+    color: red;
+    
+}
+
+.msg{
+    
+    color: green;
+    
 }

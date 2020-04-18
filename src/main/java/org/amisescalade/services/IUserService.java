@@ -3,7 +3,8 @@ package org.amisescalade.services;
 import java.util.List;
 
 import org.amisescalade.entity.User;
-import org.amisescalade.entity.UserCategory;
+import org.amisescalade.entity.Role;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IUserService {
 	
@@ -28,6 +29,17 @@ public interface IUserService {
 	 * @throws Exception
 	 */
 	User edit(User user) throws Exception;
+        
+        	/**
+	 * method to upload profile a user
+	 * 
+     * @param file
+     * @param userId
+	 * @return user object modified
+	 * @throws Exception
+	 */
+	User uploadProfile(MultipartFile file, int userId) throws Exception;
+        
 	
 	/**
 	 * method to get a user
@@ -59,9 +71,9 @@ public interface IUserService {
 	 * method to get all users for a category
 	 * 
 	 * @param UserCategory
-	 * @return the list users from UserCategory label
+	 * @return the list users from Role label
 	 */
-	List<User> getUsersByCategory(UserCategory UserCategory);
+	List<User> getUsersByCategory(Role UserCategory);
 	
 	
 	

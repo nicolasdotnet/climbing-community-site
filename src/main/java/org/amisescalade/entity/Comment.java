@@ -5,14 +5,10 @@ import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -25,10 +21,8 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name ="TYPE_COMMENT",discriminatorType = DiscriminatorType.STRING,length = 3 )
 
-public abstract class Comment implements Serializable {
+public class Comment implements Serializable {
 	
 	@Id @GeneratedValue
 	private Long commentId;
@@ -47,17 +41,13 @@ public abstract class Comment implements Serializable {
 	private Comment subComment;
 	@OneToMany(mappedBy = "subComment",fetch = FetchType.LAZY)
 	private Collection<Comment> comments;
+        
+        	@ManyToOne
+//	@JoinColumn(nullable=false)
+	private Spot spot;
 	
 	public Comment() {
 		super();
-	}
-
-	public Comment(Date commentDate, String commentBody, Boolean commentStatus, User commentAuthor) {
-		super();
-		this.commentDate = commentDate;
-		this.commentBody = commentBody;
-		this.commentStatus = commentStatus;
-		this.commentAuthor = commentAuthor;
 	}
 
 	public Long getCommentId() {
@@ -115,6 +105,16 @@ public abstract class Comment implements Serializable {
 	public void setComments(Collection<Comment> comments) {
 		this.comments = comments;
 	}
+
+    public Spot getSpot() {
+        return spot;
+    }
+
+    public void setSpot(Spot spot) {
+        this.spot = spot;
+    }
+        
+        
 
 	@Override
 	public String toString() {

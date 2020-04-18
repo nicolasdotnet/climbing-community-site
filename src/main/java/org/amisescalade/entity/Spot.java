@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -38,15 +40,20 @@ public class Spot implements Serializable{
 	private String departement;
 	@Column(length = 100, nullable=false)
 	private String country;
+        private boolean official;
 	
 	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)
-	private Collection<SpotComment> spotComment;
-	
-	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)
-	private Collection<Sector> sector;
-	
-	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)
-	private Collection<SpotComponent> component;
+	private Collection<Comment> Comment;
+        
+        private String sectorCount;
+        private String sectorDescription;
+        
+        private String routeCount;
+        private String routeDescription;
+        
+        @ManyToOne
+	@JoinColumn(nullable=false)
+	private User spotAuthor;
 	
 	public Spot() {
 		super();
@@ -120,29 +127,63 @@ public class Spot implements Serializable{
 		this.country = country;
 	}
 
-	public Collection<SpotComment> getSpotComment() {
-		return spotComment;
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
+
+	public Collection<Comment> getSpotComment() {
+		return Comment;
 	}
 
-	public void setSpotComment(Collection<SpotComment> spotComment) {
-		this.spotComment = spotComment;
+	public void setSpotComment(Collection<Comment> spotComment) {
+		this.Comment = Comment;
 	}
+        
+    public String getSectorCount() {
+        return sectorCount;
+    }
 
-	public Collection<Sector> getSector() {
-		return sector;
-	}
+    public void setSectorCount(String sectorCount) {
+        this.sectorCount = sectorCount;
+    }
 
-	public void setSector(Collection<Sector> sector) {
-		this.sector = sector;
-	}
+        public String getSectorDescription() {
+        return sectorDescription;
+    }
 
-	public Collection<SpotComponent> getComponent() {
-		return component;
-	}
+    public void setSectorDescription(String sectorDescription) {
+        this.sectorDescription = sectorDescription;
+    }
+    
+    
 
-	public void setComponent(Collection<SpotComponent> component) {
-		this.component = component;
-	}
+    public String getRouteCount() {
+        return routeCount;
+    }
+
+    public void setRouteCount(String routeCount) {
+        this.routeCount = routeCount;
+    }
+
+    public String getRouteDescription() {
+        return routeDescription;
+    }
+
+    public void setRouteDescription(String routeDescription) {
+        this.routeDescription = routeDescription;
+    }
+
+    public User getSpotAuthor() {
+        return spotAuthor;
+    }
+
+    public void setSpotAuthor(User spotAuthor) {
+        this.spotAuthor = spotAuthor;
+    }
 
 	@Override
 	public String toString() {

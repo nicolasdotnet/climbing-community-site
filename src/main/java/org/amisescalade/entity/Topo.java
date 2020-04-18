@@ -1,17 +1,14 @@
 package org.amisescalade.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -35,8 +32,8 @@ public class Topo implements Serializable{
 	@Column(length = 200, nullable=false)
 	private String topoTitle;
 	private String topoDescription;
-	@Column(length = 50)
-	private String topoTag;
+	@Column(nullable=false)
+	private Boolean topoStatus;
 	
 	@ManyToOne
 	@JoinColumn(nullable=false)
@@ -45,32 +42,8 @@ public class Topo implements Serializable{
 	@OneToOne
 	private Booking booking;
 	
-	@OneToMany(mappedBy = "topo",fetch = FetchType.LAZY)
-	private Collection<TopoComment>topoComments;
-	
 	public Topo() {
 		super();
-	}
-
-	public Topo(Date topoDate, String topoArea, String topoTitle, String topoDescription,
-			User topoOwner, Booking booking, Collection<TopoComment> topoComments) {
-		super();
-		this.topoDate = topoDate;
-		this.topoArea = topoArea;
-		this.topoTitle = topoTitle;
-		this.topoDescription = topoDescription;
-		this.topoOwner = topoOwner;
-		this.booking = booking;
-		this.topoComments = topoComments;
-	}
-
-	public Topo(Date topoDate, String topoArea, String topoTitle, String topoDescription, User topoOwner) {
-		super();
-		this.topoDate = topoDate;
-		this.topoArea = topoArea;
-		this.topoTitle = topoTitle;
-		this.topoDescription = topoDescription;
-		this.topoOwner = topoOwner;
 	}
 
 	public Long getTopoId() {
@@ -129,14 +102,13 @@ public class Topo implements Serializable{
 		this.booking = booking;
 	}
 
-	public Collection<TopoComment> getTopoComment() {
-		return topoComments;
-	}
+    public Boolean getTopoStatus() {
+        return topoStatus;
+    }
 
-	public void setTopoComment(Collection<TopoComment> topoComments) {
-		this.topoComments = topoComments;
-	}
-
+    public void setTopoStatus(Boolean topoStatus) {
+        this.topoStatus = topoStatus;
+    }
 	@Override
 	public String toString() {
 		return "Topo [topoTitle=" + topoTitle + ", topoOwner=" + topoOwner + "]";

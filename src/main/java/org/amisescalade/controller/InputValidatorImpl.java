@@ -8,82 +8,94 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
-public class InputValidatorImpl implements IInputValidator{
+public class InputValidatorImpl implements IInputValidator {
 
-	private static final Logger log = LogManager.getLogger(InputValidatorImpl.class);
-	
-	// regex 
-	private String character = "[^A-Za-z]";
-	private String number = "[^0-9]";
-	private String specialChars = "/*!@#$%^&*()\"{}_[]|\\?/<>,.";
+    private static final Logger log = LogManager.getLogger(InputValidatorImpl.class);
 
-	/**
-	 * private Constructor
-	 */
-	public InputValidatorImpl() {
-	}
+    // regex 
+    private String character = "[^A-Za-z]";
+    private String number = "[^0-9]";
+    private String specialChars = "/*!@#$%^&*()\"{}_[]|\\?/<>,.";
 
-	/**
-	 * Single instance pre-initialized
-	 */
-	private static InputValidatorImpl INSTANCE = new InputValidatorImpl();
+    /**
+     * private Constructor
+     */
+    public InputValidatorImpl() {
+    }
 
-	/**
-	 * Access point for singleton single instance
-	 */
-	public static InputValidatorImpl getInstance() {
-		return INSTANCE;
-	}
+    /**
+     * Single instance pre-initialized
+     */
+    private static InputValidatorImpl INSTANCE = new InputValidatorImpl();
 
-	public Boolean ValidateCharacter(String input) throws Exception {
-		
-		Boolean validate = false;
-		
-		if(input != null) {
-						
-			if(input.matches(character)) {
-			
-				validate = true;
-			
-			}else {
-				
-				log.error("que des caractere A-z");
+    /**
+     * Access point for singleton single instance
+     */
+    public static InputValidatorImpl getInstance() {
+        return INSTANCE;
+    }
 
-				throw new Exception("que des caractere A-z");
-			}
-			
-		}else {
-			
-			log.error("Champ vide");
+    public Boolean validateCharacter(String input) throws Exception {
 
-			throw new Exception("champ vide !");
-			
-		}
-		
-		
-		return validate;
+        Boolean validate = false;
 
-	}
+        if (input != null) {
 
-	public Boolean ValidateNumber(String input) {
-		return null;
+            if (input.matches(character)) {
 
-	}
-	
-	public Boolean ValidateAlphanumeric(String input) {
-		return null;
+                validate = true;
 
-	}
-	
-	public Boolean ValidateEmail(String input) {
-		return null;
+            } else {
 
-	}
-	
-	public Boolean ValidateEmpty (String input) {
-		return null;
-		
-		
-	}
+                log.error("que des caractere A-z");
+
+                throw new Exception("que des caractere A-z");
+            }
+
+        } else {
+
+            log.error("Champ vide");
+
+            throw new Exception("champ vide !");
+
+        }
+
+        return validate;
+
+    }
+
+    public Boolean validateNumber(String input) {
+        return null;
+
+    }
+
+    public Boolean validateAlphanumeric(String input) {
+        return null;
+
+    }
+
+    public Boolean validateEmail(String input) {
+        return null;
+
+    }
+
+    public Boolean validateIsEmpty(String input) throws Exception {
+
+        Boolean validate = false;
+
+        if (input != null) {
+
+            validate = true;
+
+        } else {
+
+            log.error("champ non renseigné");
+
+            throw new Exception("champ non renseigné");
+        }
+
+        return validate;
+
+    }
 
 }

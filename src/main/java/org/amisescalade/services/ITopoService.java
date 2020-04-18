@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
+import org.springframework.data.domain.Page;
 
 public interface ITopoService {
 	
@@ -43,6 +44,14 @@ public interface ITopoService {
 	 * @return the topo list 
 	 */
 	List<Topo> getAllTopos();
+        
+        
+        	/**
+	 * method to get all topos by Owner
+	 * 
+	 * @return the topo list
+	 */
+	List<Topo> getAllToposByOwner(User OwnerTopo);
 	
 	
 	/**
@@ -53,6 +62,15 @@ public interface ITopoService {
 	 * @throws Exception
 	 */
 	List<Topo> getTopoByTitle(String title) throws Exception;
+                
+                  /**
+     * method to remove a topo
+     *
+     * @param id
+     */
+    void delete(Long topoId);
+    
+    Topo makeAvailable (Topo topo) throws Exception;
 	
 	
 	

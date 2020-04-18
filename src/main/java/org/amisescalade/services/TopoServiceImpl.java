@@ -10,6 +10,9 @@ import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,7 @@ public class TopoServiceImpl implements ITopoService{
 		topo.setTopotopoOwner(topoOwner);
 		
 		topo.setTopoDate(new Date());
+                topo.setTopoStatus(true);
 		
 		return topoRepository.save(topo);
 	}
@@ -50,9 +54,11 @@ public class TopoServiceImpl implements ITopoService{
 			throw new Exception("Le topo n'existe pas !");	
 		}
 		
-		topo.setTopoDate(new Date());
+		topoFind.get().setTopoArea(topo.getTopoArea());
+                topoFind.get().setTopoDescription(topo.getTopoDescription());
+                topoFind.get().setTopoTitle(topo.getTopoTitle());
 		
-		return topoRepository.saveAndFlush(topo);
+		return topoRepository.saveAndFlush(topoFind.get());
 	}
 
 	@Override
@@ -82,5 +88,36 @@ public class TopoServiceImpl implements ITopoService{
 		
 		return topoRepository.findByTopoTitleContainingIgnoreCase(title);
 	}
+
+    @Override
+    public void delete(Long topoId) {
+        
+        topoRepository.deleteById(topoId);
+        
+    }
+
+    @Override
+    public Topo makeAvailable(Topo topo) throws Exception {
+        
+        		Optional<Topo> topoFind = topoRepository.findById(topo.getTopoId());
+		
+		if (!topoFind.isPresent()) {
+			
+			log.error("Modification Impossible ! le topo "+ topo.getTopoId()+" n'existe pas dans la base.");
+			
+			throw new Exception("Le topo n'existe pas !");	
+		}
+		
+                topoFind.get().setTopoStatus(topo.getTopoStatus());
+		
+		return topoRepository.saveAndFlush(topoFind.get());
+        
+    }
+
+    @Override
+    public List<Topo> getAllToposByOwner(User ownerTopo) {
+            return topoRepository.findByTopoOwner(ownerTopo);
+        
+    }
 
 }

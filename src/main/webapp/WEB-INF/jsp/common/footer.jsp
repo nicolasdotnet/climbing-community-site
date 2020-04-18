@@ -3,7 +3,9 @@
     Created on : 9 mars 2020, 09:03:34
     Author     : nicolasdotnet
 --%>
-<footer class="footer">
+
+<footer class="footer navbar-fixed-bottom">
+    <div class="container">
     <div class="footer-crags col-sm-3 hidden-xs">
         <h3>Parcourir les sites d'escalade</h3>
         <ul>
@@ -46,6 +48,7 @@
     <div>
         <div class="clearfix"></div>
         <div class="copyright">Les Amis de l'escalade &copy; 2020</div>
+    </div>
     </div>
 </footer>
 </div>

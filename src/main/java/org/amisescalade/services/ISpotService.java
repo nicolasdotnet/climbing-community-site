@@ -3,6 +3,8 @@ package org.amisescalade.services;
 import java.util.List;
 
 import org.amisescalade.entity.Spot;
+import org.amisescalade.entity.User;
+import org.springframework.data.domain.Page;
 
 public interface ISpotService {
 
@@ -15,10 +17,11 @@ public interface ISpotService {
      * @param spotAccessPath
      * @param departement
      * @param country
+     * @param spotAuthor
      * @return spot object saved
      * @throws Exception
      */
-    Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country) throws Exception;
+    Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String departement, String country, String sectorCount, String sectorDescription, String routeCount, String routeDescription,User spotAuthor) throws Exception;
 
     /**
      * method to modify a spot
@@ -43,7 +46,7 @@ public interface ISpotService {
      *
      * @return the spot list
      */
-    List<Spot> getAllSpots();
+    public Page<Spot> getAllSpots(int p, int s);
 
     /**
      * method to get all spots by his name
@@ -54,8 +57,13 @@ public interface ISpotService {
      */
     List<Spot> getAllSpotsByName(String spotname) throws Exception;
 
-    void delete(Long id);
+    /**
+     * method to remove a spot
+     *
+     * @param id
+     */
+    void delete(Long spotId);
 
-    List<Spot> getAllSpotsByNameRateDepartement(String spotName, String spotRate, String departement);
+    List<Spot> getAllSpotsByNameRateDepartement(String spotRate, String departement, String sectorCount);
 
 }

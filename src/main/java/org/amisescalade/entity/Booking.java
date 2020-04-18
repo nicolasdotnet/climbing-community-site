@@ -20,7 +20,6 @@ import javax.persistence.OneToOne;
 
 
 @Entity
-
 public class Booking implements Serializable{
 	
 	@Id @GeneratedValue
@@ -37,17 +36,9 @@ public class Booking implements Serializable{
 	@OneToOne
 	@JoinColumn(nullable=false)
 	private Topo bookingTopo;
-	
+    
 	public Booking() {
 		super();
-	}
-
-	public Booking(Date bookingDate, Boolean bookingStatus, User bookingUser, Topo bookingTopo) {
-		super();
-		this.bookingDate = bookingDate;
-		this.bookingStatus = bookingStatus;
-		this.bookingUser = bookingUser;
-		this.bookingTopo = bookingTopo;
 	}
 
 	public Long getBookingId() {
@@ -89,7 +80,5 @@ public class Booking implements Serializable{
 	public void setBookingTopo(Topo bookingTopo) {
 		this.bookingTopo = bookingTopo;
 	}
-	
-	
-
+        
 }
