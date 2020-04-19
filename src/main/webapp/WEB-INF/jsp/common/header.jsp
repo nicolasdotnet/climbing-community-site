@@ -35,7 +35,7 @@
                     <li><a href="/users">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login?logout">
+                    <li><a href="/logout">
                             Logout
                         </a></li>
                         <li><a href="/userinfo">Users</a></li>

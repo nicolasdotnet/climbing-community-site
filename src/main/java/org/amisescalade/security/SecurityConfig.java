@@ -61,11 +61,11 @@ auth.userDetailsService(userDetailsService);
  
         // /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
-        http.authorizeRequests().antMatchers("/userInfo").hasAnyRole("USER","ADMIN");
+//        http.authorizeRequests().antMatchers("/userInfo").hasAnyRole("grimpeur");
  
         // For ADMIN only.
 //        http.authorizeRequests().antMatchers("/admin").hasAnyRole("ADMIN");
-        http.authorizeRequests().antMatchers("/user/add").hasAnyRole("ADMIN");
+        http.authorizeRequests().antMatchers("/user/add").hasAnyRole("grimpeur");
  
         // When the user has logged in as XX.
         // But access a page that requires role YY,
