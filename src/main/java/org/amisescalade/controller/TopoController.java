@@ -48,7 +48,7 @@ public class TopoController {
         return "topo/list";
     }
 
-    @GetMapping("/topos/user")
+    @GetMapping("/user/topos")
     public String showAllTopoByUser(Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAllTopoByUser()");
@@ -68,7 +68,7 @@ public class TopoController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
 
-            return "redirect:/topos";
+            return "redirect:/user/topos";
         }
 
         System.out.println("le post marche !! comment");
@@ -81,7 +81,7 @@ public class TopoController {
     }
 
     // show add topo form with user
-    @GetMapping("/topo/add")
+    @GetMapping("/user/topo/add")
     public String showAddTopoForm(Model model) {
 
         log.debug("showAddTopoForm()");
@@ -92,7 +92,7 @@ public class TopoController {
     }
 
     // save topo with user
-    @PostMapping("/topoSave")
+    @PostMapping("/user/topoSave")
     public String saveSectorSpot(@ModelAttribute("topoForm") Topo topo, final RedirectAttributes redirectAttributes, Model model) {
 
         System.out.println("le post marche !! topoForm : " + topo.getTopoTitle());
@@ -128,12 +128,12 @@ public class TopoController {
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/topo/" + Math.toIntExact(topoNew.getTopoId());
+        return "redirect:/user/topo/" + Math.toIntExact(topoNew.getTopoId());
 
     }
 
     // show update topo form :
-    @GetMapping("/topo/{id}/update")
+    @GetMapping("/user/topo/{id}/update")
     public String showUpdateTopoForm(@PathVariable("id") int id, Model model) {
 
         log.debug("showUpdateTopoForm() : {}", id);
@@ -155,7 +155,7 @@ public class TopoController {
     }
 
     // update topo
-    @PostMapping("/topoUpdate")
+    @PostMapping("/user/topoUpdate")
     public String UpdateTopo(@ModelAttribute("topoFind") Topo topo, final RedirectAttributes redirectAttributes, Model model) {
 
         String sublink = "updateform";
@@ -180,11 +180,11 @@ public class TopoController {
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/topo/" + Math.toIntExact(topoUpdate.getTopoId());
+        return "redirect:/user/topo/" + Math.toIntExact(topoUpdate.getTopoId());
     }
 
     //delette topo
-    @PostMapping("/topo/{id}/delete")
+    @PostMapping("/user/topo/{id}/delete")
     public String deleteTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteTopo() id: {}", id);
@@ -214,7 +214,7 @@ public class TopoController {
     }
 
     // show topo
-    @GetMapping("/topo/{id}")
+    @GetMapping("/user/topo/{id}")
     public String showTopo(@PathVariable("id") Long id, Model model) {
 
         Topo topoFind = null;

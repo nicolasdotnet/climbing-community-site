@@ -38,8 +38,8 @@
 
     <div class="panel panel-default col-md-6">
         <div class="panel-body">
-            <spring:url value="/spot/${spotFind.spotId}/delete" var="deleteUrl" /> 
-            <spring:url value="/spot/${spotFind.spotId}/update" var="updateUrl" />
+            <spring:url value="/user/spot/${spotFind.spotId}/delete" var="deleteUrl" /> 
+            <spring:url value="/user/spot/${spotFind.spotId}/update" var="updateUrl" />
 
             <form action="${updateUrl}">
                 <button class="btn btn-primary" 
@@ -55,7 +55,7 @@
 </div>
 
 <div> 
-    <spring:url value="/spot/${spotFind.spotId}/comments" var="url" htmlEscape="true"/>
+    <spring:url value="/user/spot/${spotFind.spotId}/comments" var="url" htmlEscape="true"/>
 
     <p><a href="${url}"> Consulter les commentaires</a></p>
 

@@ -7,7 +7,7 @@
 <%@ include file="../common/header.jsp" %>
 
 <form:form method="POST"
-           action="/spotUpdate" modelAttribute="spotFind">
+           action="/user/spotUpdate" modelAttribute="spotFind">
 
     <form:hidden path="spotId"/>
 

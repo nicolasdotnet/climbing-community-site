@@ -34,41 +34,41 @@ public class Role implements Serializable{
 	// Author, Climber, moderator,
 	
 	@Id @GeneratedValue
-	private Long userCategoryId;
+	private Long roleId;
 	@Column(nullable=false)
-	private Date userCategoryDate;
+	private Date roleDate;
 	@Column(length = 100, nullable=false)
-	private String userCategoryLabel;
+	private String roleName;
 	
-	@OneToMany(mappedBy="userCategory",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="role",fetch=FetchType.LAZY)
 	private Collection<User> users;
 	
 	public Role() {
 		super();
 	}
 
-	public Long getUserCategoryId() {
-		return userCategoryId;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setUserCategoryId(Long userCategoryId) {
-		this.userCategoryId = userCategoryId;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
-	public Date getUserCategoryDate() {
-		return userCategoryDate;
+	public Date getRoleDate() {
+		return roleDate;
 	}
 
-	public void setUserCategoryDate(Date userCategoryDate) {
-		this.userCategoryDate = userCategoryDate;
+	public void setRoleDate(Date roleDate) {
+		this.roleDate = roleDate;
 	}
 
-	public String getUserCategoryLabel() {
-		return userCategoryLabel;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setUserCategoryLabel(String userCategoryLabel) {
-		this.userCategoryLabel = userCategoryLabel;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public Collection<User> getUsers() {
@@ -82,7 +82,7 @@ public class Role implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "UserCategory [userCategoryLabel=" + userCategoryLabel + "]";
+		return "UserCategory [userCategoryLabel=" + roleName + "]";
 	}
 	
 

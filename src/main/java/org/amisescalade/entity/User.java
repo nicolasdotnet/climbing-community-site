@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author nicolasdotnet
@@ -23,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  */
 @Entity
-public class User implements Serializable , UserDetails {
+public class User implements Serializable {
 
     /**
      *
@@ -46,11 +44,13 @@ public class User implements Serializable , UserDetails {
     @Column(nullable = false)
     private String password;
     
-    private boolean  userStatus;
+    private boolean enabled;
+    
+    private boolean tokenExpired;
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Role userCategory;
+    private Role role;
 
     @OneToMany(mappedBy = "topoOwner", fetch = FetchType.LAZY)
     private Collection<Topo> topos;
@@ -119,12 +119,12 @@ public class User implements Serializable , UserDetails {
         this.password = password;
     }
 
-    public Role getUserCategory() {
-        return userCategory;
+    public Role getRole() {
+        return role;
     }
 
-    public void setUserCategory(Role userCategory) {
-        this.userCategory = userCategory;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Collection<Topo> getTopos() {
@@ -154,7 +154,7 @@ public class User implements Serializable , UserDetails {
     @Override
     public String toString() {
         return "User [userDate=" + userDate + ", userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
-                + username + ", UserCategory=" + userCategory + "]";
+                + username + ", UserCategory=" + role + "]";
     }
 
     public byte[] getProfile() {
@@ -163,32 +163,6 @@ public class User implements Serializable , UserDetails {
 
     public void setProfile(byte[] profile) {
         this.profile = profile;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-     
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-       return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
 

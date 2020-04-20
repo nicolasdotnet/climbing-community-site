@@ -24,8 +24,8 @@
         </tr>
     </table>
 
-<spring:url value="/spotcomment/${commentFind.commentId}/delete" var="deleteUrl" htmlEscape="true"/>
-<spring:url value="/spotcomment/${commentFind.commentId}/update" var="updateUrl" htmlEscape="true"/>
+<spring:url value="/user/spotcomment/${commentFind.commentId}/delete" var="deleteUrl" htmlEscape="true"/>
+<spring:url value="/user/spotcomment/${commentFind.commentId}/update" var="updateUrl" htmlEscape="true"/>
 
 <form action="${deleteUrl}" method="POST">
 

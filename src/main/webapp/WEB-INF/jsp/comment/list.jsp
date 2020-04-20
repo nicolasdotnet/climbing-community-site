@@ -4,11 +4,9 @@
     Author     : nicolasdotnet
 --%>
 <%@ include file="../common/header.jsp" %>
-<spring:url value="/spot/${spot.spotId}/comments/add" var="url" htmlEscape="true"/>
+<spring:url value="/user/spot/${spot.spotId}/comments/add" var="url" htmlEscape="true"/>
 
-<h1>Commentaires sur le spot <c:out value="${spot.spotName}">Valeur par défaut</c:out></h1>
-
-<p><a href="${url}"> ajouter un commentaire </a></p>
+<h1 class="">Commentaires sur le spot <c:out value="${spot.spotName}">Valeur par défaut</c:out></h1>
 
 <%@ include file="addform.jsp" %>
 
@@ -29,15 +27,15 @@
         <td><c:out value="${c.commentAuthor.lastname}">Valeur par défaut</c:out> </td>
 
 
-        <spring:url value="/comment/${c.commentId}" var="commentUrl" />
-        <spring:url value="/comment/${c.commentId}/delete" var="deleteUrl" /> 
-        <spring:url value="/comment/${c.commentId}/update" var="updateUrl" />
+        <spring:url value="/user/comment/${c.commentId}" var="commentUrl" />
+        <spring:url value="/user/comment/${c.commentId}/delete" var="deleteUrl" /> 
+        <spring:url value="/user/comment/${c.commentId}/update" var="updateUrl" />
 
         <td><a href="${updateUrl}" id="update" name="update" class="btn btn-primary">Modifier</a></td>
 
         <td><form action="${deleteUrl}" method="POST">
-            <button class="btn btn-danger" 
-                    onclick="return confirm('Are you sure?')">Supprimer</button>
+                <button class="btn btn-danger" 
+                        onclick="return confirm('Are you sure?')">Supprimer</button>
             </form></td>
         </tr>
 

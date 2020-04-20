@@ -35,7 +35,7 @@
 
     <div class="panel panel-default col-md-6">
         <div class="panel-body">
-            <spring:url value="/booking/${bookingFind.bookingId}/cancel" var="deleteUrl"/> 
+            <spring:url value="/user/booking/${bookingFind.bookingId}/cancel" var="deleteUrl"/> 
 
             <form action="${deleteUrl}" method="POST">
                 <button class="btn btn-danger" 

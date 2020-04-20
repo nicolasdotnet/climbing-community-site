@@ -5,7 +5,7 @@
 --%>
 
 <%@ include file="../common/header.jsp" %>
-<form class="form-horizontal" action="/findSpots"> 
+<form class="form-horizontal" action="/spot/findSpots"> 
     <div class="form-group">
         <input class="form-control" type="text" name="spotRate" placeholder="Difficulté"/>
     </div>

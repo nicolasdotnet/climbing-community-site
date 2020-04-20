@@ -38,9 +38,9 @@
 
     <div class="panel panel-default col-md-6">
         <div class="panel-body">
-            <spring:url value="/topo/${topoFind.topoId}/delete" var="deleteUrl" /> 
-            <spring:url value="/topo/${topoFind.topoId}/update" var="updateUrl" />
-            <spring:url value="/topo/${topoFind.topoId}/booking" var="bookingUrl" />
+            <spring:url value="/user/topo/${topoFind.topoId}/delete" var="deleteUrl" /> 
+            <spring:url value="/user/topo/${topoFind.topoId}/update" var="updateUrl" />
+            <spring:url value="/user/topo/${topoFind.topoId}/booking" var="bookingUrl" />
             
             <form action="${bookingUrl}" method="POST">
                 <button class="btn btn-default" 

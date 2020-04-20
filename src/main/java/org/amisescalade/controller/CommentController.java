@@ -46,7 +46,7 @@ public class CommentController {
     }
 
     // comment list page by spot
-    @GetMapping("/spot/{id}/comments")
+    @GetMapping("/user/spot/{id}/comments")
     public String showAllComments(@PathVariable("id") int id, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAllComments()");
@@ -79,7 +79,7 @@ public class CommentController {
     }
 
     // show add spotcomment form :
-    @GetMapping("/spot/{id}/comments/add")
+    @GetMapping("/user/spot/{id}/comments/add")
     public String showAddCommentForm(@PathVariable("id") int id, Model model) {
 
         log.debug("showAddCommentForm()");
@@ -91,7 +91,7 @@ public class CommentController {
     }
 
     // save comment
-    @PostMapping("/commentSave/{id}")
+    @PostMapping("/user/commentSave/{id}")
     public String saveComment(@ModelAttribute("spotCommentForm") Comment Comment, @PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         System.out.println("le post marche !! spotCommentForm : ");
@@ -124,12 +124,12 @@ public class CommentController {
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/spot/" + id + "/comments";
+        return "redirect:/user/spot/" + id + "/comments";
 
     }
 
     // show comment
-    @GetMapping("/comment/{id}")
+    @GetMapping("/user/comment/{id}")
     public String showComment(@PathVariable("id") Long id, Model model) {
 
         log.debug("showComment() id: {}", id);
@@ -156,7 +156,7 @@ public class CommentController {
     }
 
     //delette Comment
-    @PostMapping("/comment/{id}/delete")
+    @PostMapping("/user/comment/{id}/delete")
     public String deleteComment(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteComment() id: {}", id);
@@ -179,12 +179,12 @@ public class CommentController {
 
         redirectAttributes.addFlashAttribute("msg", "delete");
 
-        return "redirect:/spot/" + comment.getSpot().getSpotId() + "/comments";
+        return "redirect:/user/spot/" + comment.getSpot().getSpotId() + "/comments";
 
     }
 
     // show update Comment form :
-    @GetMapping("/comment/{id}/update")
+    @GetMapping("/user/comment/{id}/update")
     public String showUpdateCommentForm(@PathVariable("id") int id, Model model) {
 
         log.debug("showUpdateCommentForm() : {}", id);
@@ -206,7 +206,7 @@ public class CommentController {
     }
 
     //update Comment
-    @PostMapping("/commentUpdate")
+    @PostMapping("/user/commentUpdate")
     public String updateComment(@ModelAttribute("spotCommentFind") Comment spotComment, final RedirectAttributes redirectAttributes) {
 
         log.debug("updateComment()");
@@ -224,7 +224,7 @@ public class CommentController {
 
         redirectAttributes.addFlashAttribute("msg", "delete");
 
-        return "redirect:/spot/" + Math.toIntExact(spotCommentFind.getSpot().getSpotId()) + "/comments";
+        return "redirect:/user/spot/" + Math.toIntExact(spotCommentFind.getSpot().getSpotId()) + "/comments";
 
     }
 }

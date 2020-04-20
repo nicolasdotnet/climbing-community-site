@@ -4,7 +4,7 @@
     Author     : nicolasdotnet
 --%>
     <form:form method="POST"
-               action="/commentSave/${spotId}" modelAttribute="spotCommentForm">
+               action="/user/commentSave/${spotId}" modelAttribute="spotCommentForm">
         <table>
             <tr>
                 <td><form:input path="commentBody" placeholder="Entrer un message"/></td>

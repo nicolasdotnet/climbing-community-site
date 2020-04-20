@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserCategoryRepository extends JpaRepository<Role, Long>{
 
-	Role findByUserCategoryLabel(String userCategoryLabel);
+	Role findByRoleName(String userCategoryLabel);
 
-	Role findByUserCategoryLabelIgnoreCase(String category);
+	Role findByRoleNameIgnoreCase(String category);
 
-	List<Role> findByUserCategoryLabelContainingIgnoreCase(String label);
+	List<Role> findByRoleNameContainingIgnoreCase(String label);
 
 }

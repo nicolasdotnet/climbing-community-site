@@ -5,6 +5,7 @@
  */
 package org.amisescalade.security;
 
+import org.amisescalade.services.CustomUserServiceDetail;
 import org.amisescalade.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,24 +22,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-    
-        @Autowired
-    UserServiceImpl userDetailsService;
-        
-            @Bean
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    CustomUserServiceDetail userDetailsService;
+
+    @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
-    
-        @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception { 
- 
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
         // Setting Service to find User in the database.
         // And Setting PassswordEncoder
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());     
- 
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+
     }
 
     @Override
@@ -46,39 +47,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //        auth.inMemoryAuthentication().withUser("root").password("{noop}123").roles("ADMIN", "USER");
 //        auth.inMemoryAuthentication().withUser("user").password("{noop}123").roles("USER");
 
-auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService);
 
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
-        
-          http.csrf().disable();
- 
+
+        http.csrf().disable(); 
+//pour REST
+
         // The pages does not require login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
- 
-        // /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
+        http.authorizeRequests().antMatchers("/","/signup","/login", "/style.css", "/bootstrap/**", "/webjars/**", "/spot/**", "/spots").permitAll();
+
+        // /userinfo page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
-//        http.authorizeRequests().antMatchers("/userInfo").hasAnyRole("grimpeur");
- 
-        // For ADMIN only.
-//        http.authorizeRequests().antMatchers("/admin").hasAnyRole("ADMIN");
-        http.authorizeRequests().antMatchers("/user/add").hasAnyRole("grimpeur");
- 
+// http.authorizeRequests().antMatchers("/userinfo").hasRole("grimpeur");
+        
+        http.authorizeRequests().antMatchers("/user/**").hasAuthority("grimpeur");
+        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
+
         // When the user has logged in as XX.
         // But access a page that requires role YY,
         // AccessDeniedException will be thrown.
-//        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-        
-        http.exceptionHandling().accessDeniedPage("/403");
+//        http.exceptionHandling().accessDeniedPage("/403");
 
         http.formLogin();
-//        http.formLogin().loginPage("/login");
-      
+        //http.formLogin().loginPage("/login");
+        
+        http.authorizeRequests().anyRequest().authenticated();
+
     }
-    
-    
-    
+
 }

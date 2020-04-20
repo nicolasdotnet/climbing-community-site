@@ -27,18 +27,18 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li><a href="/spots">Spots</a></li>
-                    <li><a href="/multisearch">Chercher</a></li>
-                    <li><a href="/topos/user">Topos</a></li>
-                    <li><a href="/bookings/topo">Demande de réservations</a></li>
-                    <li><a href="/bookings/user">Mes réservations</a></li>
-                    <li><a href="/user/add">Inscription</a></li>
-                    <li><a href="/users">Users</a></li>
+                    <li><a href="/spot/multisearch">Chercher</a></li>
+                    <li><a href="/user/topos">Topos</a></li>
+                    <li><a href="/user/bookings/topo">Demande de réservations</a></li>
+                    <li><a href="/user/bookings">Mes réservations</a></li>
+                    <li><a href="/signup">Inscription</a></li>
+                    <li><a href="/admin/users">Users</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout">
                             Logout
                         </a></li>
-                        <li><a href="/userinfo">Users</a></li>
+                        <li><a href="/user/account">Users</a></li>
                 </ul>
             </div>
         </div>

@@ -13,12 +13,12 @@
 
 <table class="table table-striped">
     <tr>
+        <th>Identifiant</th>
         <th>Prenom</th>
         <th>Nom</th>
-        <th>Identifiant</th>
-        <th>Officiel</th>
-        <th>Département</th>
-        <th>Pays</th>
+        <th>Mot de passe</th>
+        <th>Category</th>
+        <th>Date de créa</th>
         <th>Actions</th>
     </tr>
 
@@ -32,8 +32,8 @@
             <td><a href="${userUrl}"><c:out value="${u.username}">Valeur par défaut</c:out></a> </td>
             <td><c:out value="${u.firstname}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.lastname}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${u.username}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.password}">Valeur par défaut</c:out> </td>
+<td><c:out value="${u.role.role}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.userDate}">Valeur par défaut</c:out> </td>
         <td>
 

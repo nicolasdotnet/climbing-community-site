@@ -7,7 +7,7 @@
 <%@ include file="../common/header.jsp" %>
 
     <form:form method="POST"
-               action="/topoSave" modelAttribute="topoForm">
+               action="/user/topoSave" modelAttribute="topoForm">
         <table>
             <tr>
                 <td><form:label path="topoTitle">Title</form:label></td>

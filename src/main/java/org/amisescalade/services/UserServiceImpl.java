@@ -3,7 +3,6 @@ package org.amisescalade.services;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.amisescalade.dao.UserRepository;
@@ -13,9 +12,6 @@ import static org.amisescalade.security.EncrytedPasswordUtils.encrytePassword;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -23,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService, UserDetailsService {
+public class UserServiceImpl implements IUserService {
 
     private static final Logger log = LogManager.getLogger(UserServiceImpl.class);
 
@@ -53,7 +49,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
         user.setLastname(lastName);
         user.setUsername(userName);        
         user.setPassword(encrytePassword(password));
-        user.setUserCategory(iUserCategoryService.getDefaultUserCategory());
+        user.setRole(iUserCategoryService.getDefaultUserCategory());
         user.setUserDate(new Date());
 
         return userRepository.save(user);
@@ -167,23 +163,13 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
     @Override
     public List<User> getUsersByCategory(Role UserCategory) {
 
-        return userRepository.findByUserCategory(UserCategory);
+        return userRepository.findByRole(UserCategory);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
-        Objects.requireNonNull(username);
-        
-               User userFind = userRepository.findByUsername(username);
-
-        if (userFind == null) {
-
-            log.error("L'identifiant n'existe pas !");
-            throw new UsernameNotFoundException("L'identifiant n'existe pas !");
-        }
-        
-        return userFind;
+    public User getUserByUsername(String userName) {
+        return userRepository.findByUsername(userName);
     }
+
 
 }

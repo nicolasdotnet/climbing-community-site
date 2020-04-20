@@ -55,7 +55,7 @@ public class UserController {
     }
 
     // show add user form :
-    @GetMapping("/user/add")
+    @GetMapping("/signup")
     public String showAddUserForm(Model model) {
 
         log.debug("showAddUserForm()");
@@ -66,7 +66,7 @@ public class UserController {
     }
     
         // save user
-    @PostMapping("/userSave")
+    @PostMapping("/user/userSave")
     public String saveUser(@ModelAttribute("userForm") User user, final RedirectAttributes redirectAttributes, Model model) {
 
         log.debug("saveUser()");
@@ -170,14 +170,18 @@ try {
                 
                 System.out.println("org.amisescalade.controller.UserController.getPhoto() FINI");
 	}
-        @GetMapping("/userinfo")
         
-    public String userInfo(Model model, Principal principal) {
+        
+        @GetMapping("/user/account")
+        
+    public String userAccount(Model model, Principal principal) {
  
 
         String userName = principal.getName();
  
-        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+//        User loginedUser = (User) ((Authentication) principal).getPrincipal();
+        
+       User loginedUser = iUserService.getUserByUsername(userName);
         
         model.addAttribute("userFind", loginedUser);
  

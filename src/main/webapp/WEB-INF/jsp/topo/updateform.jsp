@@ -7,7 +7,7 @@
 <%@ include file="../common/header.jsp" %>
 
  <form:form method="POST"
-               action="/topoUpdate" modelAttribute="topoFind">
+               action="/user/topoUpdate" modelAttribute="topoFind">
         <table>
         
                 <td hidden=""><form:input path="topoId" value="${sectorFind.sectorId}"/></td>

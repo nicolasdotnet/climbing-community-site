@@ -50,7 +50,7 @@ public class BookingController {
     }
 
     // save booking with topo
-    @PostMapping("/topo/{id}/booking")
+    @PostMapping("/user/topo/{id}/booking")
     public String saveBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         User user = null;
@@ -73,7 +73,7 @@ public class BookingController {
             
             redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-            return "redirect:/topo/" + id;
+            return "redirect:/user/topo/" + id;
             
         }
 
@@ -92,17 +92,17 @@ public class BookingController {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-            return "redirect:/topo/" + id;
+            return "redirect:/user/topo/" + id;
         }
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/booking/" + Math.toIntExact(bookingNew.getBookingId());
+        return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
     }
 
     // show booking
-    @GetMapping("/booking/{id}")
+    @GetMapping("/user/booking/{id}")
     public String showBooking(@PathVariable("id") Long id, Model model) {
 
         log.debug("showBooking() id: {}", id);
@@ -129,7 +129,7 @@ public class BookingController {
     }
 
     // booking list page by owner ask
-    @GetMapping("/bookings/user")
+    @GetMapping("/user/bookings")
     public String showAllBookingByUser(Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAllBookingsbyUser()");
@@ -161,7 +161,7 @@ public class BookingController {
     }
 
     // booking list page by owner topo
-    @GetMapping("/bookings/topo")
+    @GetMapping("/user/bookings/topo")
     public String showAllBookingByOwnerTopo(Model model, final RedirectAttributes redirectAttributes) {
         
         
@@ -194,7 +194,7 @@ public class BookingController {
     }
 
     // validate booking 
-    @PostMapping("/booking/{id}/validate")
+    @PostMapping("/user/booking/{id}/validate")
     public String validateBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         Booking bookingFind = null;
@@ -216,12 +216,12 @@ public class BookingController {
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/booking/" + Math.toIntExact(bookingNew.getBookingId());
+        return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
     }
 
     // avalidate booking 
-    @PostMapping("/booking/{id}/available")
+    @PostMapping("/user/booking/{id}/available")
     public String makeAvailableBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         Booking bookingFind = null;
@@ -243,12 +243,12 @@ public class BookingController {
 
         redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
 
-        return "redirect:/booking/" + Math.toIntExact(bookingNew.getBookingId());
+        return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
     }
 
     //cancel booking
-    @PostMapping("/booking/{id}/cancel")
+    @PostMapping("/user/booking/{id}/cancel")
     public String cancelBooking(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteBooking() id: {}", id);
@@ -270,7 +270,7 @@ public class BookingController {
 
         redirectAttributes.addFlashAttribute("msg", "delete");
 
-        return "redirect:/bookings/user";
+        return "redirect:/user/bookings";
 
     }
 

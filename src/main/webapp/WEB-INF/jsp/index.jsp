@@ -11,6 +11,6 @@
 </ol>
 <div class="row">
 <%@ include file="../jsp/spot/search.jsp" %>
-<p><a href="/multisearch">Avancée</a></p>
+<p><a href="/spot/multisearch">Avancée</a></p>
 </div>
 <%@ include file="../jsp/common/footer.jsp" %>

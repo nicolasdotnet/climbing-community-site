@@ -9,7 +9,7 @@
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
 
-<p><a href="/spot/add"> ajouter un spot </a></p>
+<p><a href="/user/spot/add"> ajouter un spot </a></p>
 
 <%@ include file="search.jsp" %>
 
@@ -27,11 +27,11 @@
     <c:forEach items="${spots}" var="s">
 
         <spring:url value="/spot/${s.spotId}" var="spotUrl" />
-        <spring:url value="/spot/${s.spotId}/delete" var="deleteUrl" /> 
-        <spring:url value="/spot/${s.spotId}/update" var="updateUrl" />
+        <spring:url value="/user/spot/${s.spotId}/delete" var="deleteUrl" /> 
+        <spring:url value="/user/spot/${s.spotId}/update" var="updateUrl" />
         <spring:url value="/sectors/${s.spotId}/spot" var="sectorsUrl" />
         <spring:url value="/components/${s.spotId}/spot" var="componentsUrl" />
-        <spring:url value="/spot/${s.spotId}/comments/" var="commentsUrl" />
+        <spring:url value="/user/spot/${s.spotId}/comments/" var="commentsUrl" />
 
         <tr>
             <td><a href="${spotUrl}"><c:out value="${s.spotName}">Valeur par défaut</c:out></a> </td>
@@ -59,7 +59,7 @@
 
         <c:forEach items="${pages}" var="pa" varStatus="status">
             
-            <spring:url value="spots?page=${status.index}&size=${size}" var="pageUrl" />
+            <spring:url value="/spots?page=${status.index}&size=${size}" var="pageUrl" />
 
             <li>
                 <a href="${pageUrl}"> <c:out value="${status.index}"></c:out> </a>

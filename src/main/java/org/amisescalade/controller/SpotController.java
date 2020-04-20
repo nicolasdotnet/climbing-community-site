@@ -40,7 +40,7 @@ public class SpotController {
     }
 
     // show add spot form :
-    @GetMapping("/spot/add")
+    @GetMapping("/user/spot/add")
     public String showAddSpotForm(Model model) {
 
         log.debug("showAddSpotForm()");
@@ -51,7 +51,7 @@ public class SpotController {
     }
 
     // save spot
-    @PostMapping("/spotSave")
+    @PostMapping("/user/spotSave")
     public String saveSpot(@ModelAttribute("spotForm") Spot spot, final RedirectAttributes redirectAttributes, Model model) {
 
         log.debug("saveSpot()");
@@ -96,7 +96,7 @@ public class SpotController {
     }
 
     // show update spot form :
-    @GetMapping("/spot/{id}/update")
+    @GetMapping("/user/spot/{id}/update")
     public String showUpdateSpotForm(@PathVariable("id") int id, Model model) {
 
         log.debug("showUpdateSpotForm() : {}", id);
@@ -119,7 +119,7 @@ public class SpotController {
     }
 
     // update spot
-    @PostMapping("/spotUpdate")
+    @PostMapping("/user/spotUpdate")
     public String UpdateSpot(@ModelAttribute("spotFind") Spot spot, final RedirectAttributes redirectAttributes, Model model) {
 
         log.debug("updateSpot() id: {}", spot.getSpotId());
@@ -222,7 +222,7 @@ public class SpotController {
     }
 
     //delette spot
-    @PostMapping("/spot/{id}/delete")
+    @PostMapping("/user/spot/{id}/delete")
     public String deleteSpot(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteSpot() id: {}", id);
@@ -238,7 +238,7 @@ public class SpotController {
     }
 
     // multisearch spot
-    @GetMapping("/multisearch")
+    @GetMapping("/spot/multisearch")
     public String multisearch(Model model) {
 
         log.debug("multisearch()");
@@ -246,7 +246,7 @@ public class SpotController {
         return "spot/multisearch";
     }
 
-    @GetMapping("/findSpots")
+    @GetMapping("/spot/findSpots")
     public String findSpots(@RequestParam("spotRate") String spotRate, @RequestParam("departement") String departement, @RequestParam("sectorCount") String sectorCount, Model model) {
 
         log.debug("findSpots()");

@@ -24,7 +24,7 @@ public class RoleImpl implements IRoleService {
 	@Override
 	public Role register(String category) throws Exception {
 
-		if (userCategoryRepository.findByUserCategoryLabelIgnoreCase(category) != null) {
+		if (userCategoryRepository.findByRoleNameIgnoreCase(category) != null) {
 
 			log.error("La catégorie existe déjà !");
 
@@ -34,8 +34,8 @@ public class RoleImpl implements IRoleService {
 		
 		Role userCategory = new Role();
 		
-		userCategory.setUserCategoryLabel(category);
-		userCategory.setUserCategoryDate(new Date());
+		userCategory.setRoleName(category);
+		userCategory.setRoleDate(new Date());
 
 		return userCategoryRepository.save(userCategory);
 	}
@@ -43,11 +43,11 @@ public class RoleImpl implements IRoleService {
 	@Override
 	public Role edit(Role userCategory) throws Exception {
 
-		Optional<Role> categoryFind = userCategoryRepository.findById(userCategory.getUserCategoryId());
+		Optional<Role> categoryFind = userCategoryRepository.findById(userCategory.getRoleId());
 
 		if (!categoryFind.isPresent()) {
 
-			log.error("Modification Impossible ! la categorie " + userCategory.getUserCategoryId()
+			log.error("Modification Impossible ! la categorie " + userCategory.getRoleId()
 					+ " n'existe pas dans la base.");
 
 			throw new Exception("La catégorie n'existe pas !");
@@ -100,7 +100,7 @@ public class RoleImpl implements IRoleService {
 	@Override
 	public List<Role> getUserCategoryByLabel(String label) {
 		
-		return userCategoryRepository.findByUserCategoryLabelContainingIgnoreCase(label);
+		return userCategoryRepository.findByRoleNameContainingIgnoreCase(label);
 	}
 
 }

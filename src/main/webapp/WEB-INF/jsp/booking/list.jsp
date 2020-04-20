@@ -17,10 +17,10 @@
 
     <c:forEach items="${bookings}" var="b">
 
-        <spring:url value="/booking/${b.bookingId}" var="bookingUrl" />
-        <spring:url value="/booking/${b.bookingId}/available" var="availableUrl" /> 
-        <spring:url value="/booking/${b.bookingId}/validate" var="validateUrl" />
-        <spring:url value="/booking/${b.bookingId}/cancel" var="deleteUrl" />
+        <spring:url value="/user/booking/${b.bookingId}" var="bookingUrl" />
+        <spring:url value="/user/booking/${b.bookingId}/available" var="availableUrl" /> 
+        <spring:url value="/user/booking/${b.bookingId}/validate" var="validateUrl" />
+        <spring:url value="/user/booking/${b.bookingId}/cancel" var="deleteUrl" />
 
         <tr>
             <td><c:out value="${b.bookingDate}">Valeur par défaut</c:out> </td>

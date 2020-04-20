@@ -4,7 +4,7 @@
     Author     : nicolasdotnet
 --%>
 <%@ include file="../common/header.jsp" %>
-<spring:url value="/topo/add" var="url" htmlEscape="true"/>
+<spring:url value="/user/topo/add" var="url" htmlEscape="true"/>
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
 
@@ -22,10 +22,10 @@
 
     <c:forEach items="${topos}" var="t">
 
-        <spring:url value="/topo/${t.topoId}" var="topoUrl" />
-        <spring:url value="/topo/${t.topoId}/delete" var="deleteUrl" /> 
-        <spring:url value="/topo/${t.topoId}/update" var="updateUrl" />
-        <spring:url value="/topo/${t.topoId}/booking" var="bookingUrl" />
+        <spring:url value="/user/topo/${t.topoId}" var="topoUrl" />
+        <spring:url value="/user/topo/${t.topoId}/delete" var="deleteUrl" /> 
+        <spring:url value="/user/topo/${t.topoId}/update" var="updateUrl" />
+        <spring:url value="/user/topo/${t.topoId}/booking" var="bookingUrl" />
 
         <tr>
             <td><c:out value="${t.topoDate}">Valeur par défaut</c:out> </td>

@@ -120,7 +120,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         System.out.println("\n register : " + ucV1.toString() + "\n");
 
         // edit Role
-        ucV1.setUserCategoryLabel("admin");
+        ucV1.setRoleName("admin");
 
         Role ucV2 = iUserCategoryService.edit(ucV1);
 
@@ -128,7 +128,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
         System.out.println("\n edit : " + ucV2.toString() + "\n");
 
-        uV2.setUserCategory(ucV2);
+        uV2.setRole(ucV2);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
         System.out.println("\n display uV2 modifed with ucV2 category : " + uV2.toString() + "\n");
@@ -164,7 +164,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         for (Iterator iterator = usersFind2.iterator(); iterator.hasNext();) {
             User user = (User) iterator.next();
 
-            System.out.println("\n display All User with the " + user.getUserCategory() + " : " + user + "\n");
+            System.out.println("\n display All User with the " + user.getRole() + " : " + user + "\n");
 
         }
 

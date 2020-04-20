@@ -9,7 +9,7 @@
 
 
 <form:form method="POST"
-           action="/spotSave" modelAttribute="spotForm">
+           action="/user/spotSave" modelAttribute="spotForm">
     <form class="form-horizontal">
 
 

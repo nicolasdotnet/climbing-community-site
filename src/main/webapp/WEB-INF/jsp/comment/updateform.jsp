@@ -7,7 +7,7 @@
 <%@ include file="../common/header.jsp" %>
 
  <form:form method="POST"
-               action="/commentUpdate" modelAttribute="spotCommentFind">
+               action="/user/commentUpdate" modelAttribute="spotCommentFind">
         <table>
         
                 <td hidden=""><form:input path="commentId" value="${spotCommentFind.commentId}"/></td>

@@ -74,6 +74,8 @@ public interface IUserService {
 	 * @return the list users from Role label
 	 */
 	List<User> getUsersByCategory(Role UserCategory);
+
+    public User getUserByUsername(String userName);
 	
 	
 	
