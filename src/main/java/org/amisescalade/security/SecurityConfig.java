@@ -6,7 +6,6 @@
 package org.amisescalade.security;
 
 import org.amisescalade.services.CustomUserServiceDetail;
-import org.amisescalade.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,15 +64,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 // http.authorizeRequests().antMatchers("/userinfo").hasRole("grimpeur");
         
         http.authorizeRequests().antMatchers("/user/**").hasAuthority("grimpeur");
-        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
+        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("grimpeur");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,
         // AccessDeniedException will be thrown.
-//        http.exceptionHandling().accessDeniedPage("/403");
+        http.exceptionHandling().accessDeniedPage("/403");
 
-        http.formLogin();
-        //http.formLogin().loginPage("/login");
+//        http.formLogin();
+        http.formLogin().loginPage("/login").defaultSuccessUrl("/", true);
         
         http.authorizeRequests().anyRequest().authenticated();
 

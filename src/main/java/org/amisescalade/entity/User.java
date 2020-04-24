@@ -33,14 +33,19 @@ public class User implements Serializable {
     private Long userId;
     @JoinColumn(nullable = false)
     private Date userDate;
+
     @Column(length = 100, nullable = false)
     private String firstname;
+
     @Column(length = 100, nullable = false)
     private String lastname;
+    
+    @Column(nullable = false)
+    private String email;
+
     @Column(length = 50, nullable = false)
     private String username;
 
-    // TODO encodage du mot de passe (ds un Spring Bean) avec Spring Security ?
     @Column(nullable = false)
     private String password;
     
@@ -163,6 +168,14 @@ public class User implements Serializable {
 
     public void setProfile(byte[] profile) {
         this.profile = profile;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 

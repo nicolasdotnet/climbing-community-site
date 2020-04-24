@@ -28,17 +28,20 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/spots">Spots</a></li>
                     <li><a href="/spot/multisearch">Chercher</a></li>
-                    <li><a href="/user/topos">Topos</a></li>
                     <li><a href="/user/bookings/topo">Demande de réservations</a></li>
                     <li><a href="/user/bookings">Mes réservations</a></li>
-                    <li><a href="/signup">Inscription</a></li>
-                    <li><a href="/admin/users">Users</a></li>
+                    <secu:authorize access="hasAuthority('grimpeur')">
+                        <li><a href="/admin">Administration</a></li>
+                    </secu:authorize>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/logout">
-                            Logout
-                        </a></li>
-                        <li><a href="/user/account">Users</a></li>
+                    <secu:authorize access="isAuthenticated()">
+                        <li><a href="/logout">Logout</a></li>
+                        <li class="username"><a href="/user/account"><secu:authentication property="principal.username"/></a></li>
+                    </secu:authorize>
+                    <secu:authorize access="isAnonymous()">
+                        <li><a href="/login">Se connecter</a></li>
+                    </secu:authorize>
                 </ul>
             </div>
         </div>

@@ -18,4 +18,6 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>
 
+<a class="btn btn-default" href="/signup" role="button">Créer un compte</a>
+
 <%@ include file="../common/footer.jsp" %>

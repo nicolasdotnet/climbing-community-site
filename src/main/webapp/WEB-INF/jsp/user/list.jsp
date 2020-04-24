@@ -33,7 +33,7 @@
             <td><c:out value="${u.firstname}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.lastname}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.password}">Valeur par défaut</c:out> </td>
-<td><c:out value="${u.role.role}">Valeur par défaut</c:out> </td>
+        <td><c:out value="${u.role.roleName}">Valeur par défaut</c:out> </td>
         <td><c:out value="${u.userDate}">Valeur par défaut</c:out> </td>
         <td>
 

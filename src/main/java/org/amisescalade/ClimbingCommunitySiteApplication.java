@@ -60,10 +60,11 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         String lastname = "desdevises";
         String username = "nico";
         String password = "123";
+        String email = "nicolas.desdevises@yahoo.com";
 
         User uV1 = new User();
 
-        uV1 = iUserService.registerByDefault(firstname, lastname, username, password);
+        uV1 = iUserService.registerByDefault(firstname, lastname, email, username,password);
   
 
 //        System.out.println(iUserService.getErrorMessage());
@@ -157,7 +158,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
             System.out.println("\n" + categoryFind + "\n");
         }
 
-        List<User> usersFind2 = iUserService.getUsersByCategory(categoryFind);
+        List<User> usersFind2 = iUserService.getUsersByRole(categoryFind);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 

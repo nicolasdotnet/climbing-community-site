@@ -1,5 +1,6 @@
 package org.amisescalade.services;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements IUserService {
     private IRoleService iUserCategoryService;
 
     @Override
-    public User registerByDefault(String firstName, String lastName, String userName, String password) throws Exception {
+    public User registerByDefault(String firstName, String lastName, String email, String userName, String password) throws Exception {
 
         User userFind = userRepository.findByUsername(userName);
 
@@ -47,7 +48,8 @@ public class UserServiceImpl implements IUserService {
 
         user.setFirstname(firstName);
         user.setLastname(lastName);
-        user.setUsername(userName);        
+        user.setUsername(userName);
+        user.setEmail(email);
         user.setPassword(encrytePassword(password));
         user.setRole(iUserCategoryService.getDefaultUserCategory());
         user.setUserDate(new Date());
@@ -57,7 +59,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User uploadProfile(MultipartFile file, int userId) throws Exception {
+    public User uploadProfile(MultipartFile file, Long userId) throws Exception {
 
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -65,7 +67,7 @@ public class UserServiceImpl implements IUserService {
         try {
             // Check if the file's name contains invalid characters
 
-            Optional<User> userFind = userRepository.findById(Long.valueOf(userId));
+            Optional<User> userFind = userRepository.findById(userId);
 
             if (!userFind.isPresent()) {
 
@@ -83,10 +85,35 @@ public class UserServiceImpl implements IUserService {
             userFind.get().setProfile(file.getBytes());
 
             return userRepository.saveAndFlush(userFind.get());
-            
+
         } catch (IOException ex) {
             throw new Exception("Could not store file " + fileName + ". Please try again!", ex);
         }
+    }
+
+    @Override
+    public ByteArrayInputStream getProfile(Long id) throws Exception {
+
+        Optional<User> userFind = userRepository.findById(id);
+
+        if (!userFind.isPresent()) {
+
+            log.error("Modification Impossible ! l'utilisateur " + id + " n'existe pas dans la base.");
+
+            throw new Exception("Utilisateur n'existe pas !");
+
+        }
+
+        byte[] imageBytes = userFind.get().getProfile();
+
+        if (imageBytes == null) {
+
+            throw new Exception("Pas de profil !");
+
+        }
+
+        return new ByteArrayInputStream(imageBytes);
+
     }
 
     @Override
@@ -102,9 +129,14 @@ public class UserServiceImpl implements IUserService {
 
         }
 
+        userFind.get().setFirstname(user.getFirstname());
+        userFind.get().setLastname(user.getLastname());
+        userFind.get().setEmail(user.getEmail());
+
+        System.out.println(userFind.get().getPassword());
         // TODO check password ?
         // TODO Ajouter date de modification ?
-        return userRepository.saveAndFlush(user);
+        return userRepository.saveAndFlush(userFind.get());
     }
 
     @Override
@@ -124,46 +156,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Boolean sampleLogin(String userName, String password) throws Exception {
-
-        Boolean signIn = false;
-
-        User userFind = userRepository.findByUsername(userName);
-
-        if (userFind == null) {
-
-            log.error("L'identifiant n'existe pas !");
-            throw new Exception("L'identifiant n'existe pas !");
-        }
-
-        if (userFind.getPassword().equals(password)) {
-
-            signIn = true;
-
-        } else {
-
-            log.error("Mot de passe incorrect !");
-            System.out.println("Alerte  : UserFind ps : " + userFind.getPassword() + " saissie : " + password);
-            throw new Exception("Mot de passe incorrect !");
-
-        }
-
-        System.out.println("A" + signIn);
-
-        return signIn;
-
-    }
-
-    @Override
     public List<User> getAllUsers() {
 
         return userRepository.findAll();
     }
 
     @Override
-    public List<User> getUsersByCategory(Role UserCategory) {
+    public List<User> getUsersByRole(Role userCategory) {
 
-        return userRepository.findByRole(UserCategory);
+        return userRepository.findByRole(userCategory);
     }
 
     @Override
@@ -171,5 +172,9 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findByUsername(userName);
     }
 
+    @Override
+    public void delete(Long userId) {
+        userRepository.deleteById(userId);
+    }
 
 }

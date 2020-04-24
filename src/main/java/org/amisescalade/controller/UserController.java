@@ -1,22 +1,17 @@
 package org.amisescalade.controller;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.security.Principal;
-import java.util.Base64;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.amisescalade.entity.User;
-import org.amisescalade.entity.Role;
 import org.amisescalade.services.IUserService;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -37,24 +32,16 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @Autowired
-    private IInputValidator inputValidator;
-
-    private String errorMessage;
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-    
+    // show admination page
     @GetMapping("/admin")
-    public String adminPage(Model model, Principal principal) {
-         
-        principal.getName();
-         
+    public String showAdminPage() {
+
+        log.debug("showAdminPage()");
+
         return "user/adminpage";
     }
 
-    // show add user form :
+    // show add user form
     @GetMapping("/signup")
     public String showAddUserForm(Model model) {
 
@@ -64,30 +51,25 @@ public class UserController {
         return "user/addform";
 
     }
-    
-        // save user
-    @PostMapping("/user/userSave")
-    public String saveUser(@ModelAttribute("userForm") User user, final RedirectAttributes redirectAttributes, Model model) {
+
+    // save user
+    @PostMapping("signup")
+    public String saveUser(@ModelAttribute("userForm") User user, @RequestParam("passwordMatch") String passwordMatch, final RedirectAttributes redirectAttributes, Model model) {
 
         log.debug("saveUser()");
-
-        User authorFind = null;
-
-
-        String sublink = "addform";
-
-        String link = validateIsEmpty(user, sublink, model);
-
-        if (link != null) {
-
-            return link;
-        }
 
         User userSave = null;
 
         try {
-            
-            userSave = iUserService.registerByDefault(user.getFirstname(), user.getLastname(), user.getUsername(), user.getPassword());
+
+            String link = validateAccount(user, passwordMatch, "addform", model);
+
+            if (link != null) {
+
+                return link;
+            }
+
+            userSave = iUserService.registerByDefault(user.getFirstname(), user.getLastname(), user.getEmail(), user.getUsername(), user.getPassword());
 
         } catch (Exception e) {
 
@@ -96,15 +78,14 @@ public class UserController {
             return "user/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "enregisté !");
+        redirectAttributes.addFlashAttribute("msg", "compte créé ! ");
 
         return "redirect:/user/" + Math.toIntExact(userSave.getUserId());
     }
-    
-    
-        // show user
+
+    // show user
     @GetMapping("/user/{id}")
-    public String showUser(@PathVariable("id") Long id, Model model) {
+    public String showUser(@PathVariable("id") int id, Model model, Principal principal) {
 
         log.debug("showUser() id: {}", id);
 
@@ -118,82 +99,53 @@ public class UserController {
 
             return "redirect:/users";
         }
-        
-        byte[] imageBytes = userFind.getProfile();
-        
-        if (imageBytes != null) {
-            
-            ResponseEntity<byte[]> x = ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-            
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            
-            x.toString();
-           
-            
 
-            model.addAttribute("profilex", x);
-            model.addAttribute("profileToString", x.toString());
-            model.addAttribute("profile", base64Image);
-            
-        }
+        boolean owner = isOwner(principal.getName(), userFind.getUsername());
 
         model.addAttribute("userFind", userFind);
-        model.addAttribute("userId", id);
+        model.addAttribute("owner", owner);
 
         return "user/show";
 
     }
-    
-    	@GetMapping("/getPhoto/{id}")
-	public void getPhoto(HttpServletResponse response, @PathVariable("id") int id) throws Exception {
-		response.setContentType("image/jpeg");
-                
-                        log.debug("getPhoto() id: {}", id);
-                        
-                        System.out.println("org.amisescalade.controller.UserController.getPhoto()");
 
-        User userFind = null;
+    // show user photo
+    @GetMapping("/getPhoto/{id}")
+    public void getPhoto(HttpServletResponse response, @PathVariable("id") int id) {
 
-try {
-            userFind = iUserService.getUser(Long.valueOf(id));
+        log.debug("getPhoto() id: {}", id);
+
+        response.setContentType("image/jpeg");
+
+        ByteArrayInputStream inputStream = null;
+
+        try {
+
+            inputStream = iUserService.getProfile(Long.valueOf(id));
+
+            IOUtils.copy(inputStream, response.getOutputStream());
+
         } catch (Exception e) {
 
-
         }
-        
-        byte[] imageBytes = userFind.getProfile();
-        
-            System.out.println("org.amisescalade.controller.UserController.getPhoto()"+imageBytes.length);
+    }
 
-		InputStream inputStream = new ByteArrayInputStream(imageBytes);
-		IOUtils.copy(inputStream, response.getOutputStream());
-                
-                System.out.println("org.amisescalade.controller.UserController.getPhoto() FINI");
-	}
-        
-        
-        @GetMapping("/user/account")
-        
+    // show user account
+    @GetMapping("/user/account")
     public String userAccount(Model model, Principal principal) {
- 
 
         String userName = principal.getName();
- 
-//        User loginedUser = (User) ((Authentication) principal).getPrincipal();
-        
-       User loginedUser = iUserService.getUserByUsername(userName);
-        
+
+        User loginedUser = iUserService.getUserByUsername(userName);
+
         model.addAttribute("userFind", loginedUser);
- 
+        model.addAttribute("owner", true);
+
         return "user/show";
     }
-        
-        
-        
-        
-    
-     // user list page
-    @GetMapping("/users")
+
+    // user list page
+    @GetMapping("admin/users")
     public String showAllUsers(Model model) {
 
         log.debug("showAllUsers()");
@@ -204,7 +156,7 @@ try {
 
         return "/user/list";
     }
-    
+
     // show uploadform :
     @GetMapping("/user/{id}/upload")
     public String showUploadForm(@PathVariable("id") int id, Model model) {
@@ -219,7 +171,7 @@ try {
 
             model.addAttribute("error", e.getMessage());
 
-            return "redirect:/user/"+id;
+            return "redirect:/user/" + id;
         }
 
         model.addAttribute("userFind", userFind);
@@ -232,13 +184,13 @@ try {
     @PostMapping("/userUpload")
     public String uploadProfile(@RequestParam("id") int id, @RequestParam("profile") MultipartFile file, final RedirectAttributes redirectAttributes, Model model) {
 
-        log.debug("uploadProfile() id: {}", id);  
-        
+        log.debug("uploadProfile() id: {}", id);
+
         User userUpdate = null;
 
         try {
-            userUpdate = iUserService.uploadProfile(file, id);
-                    
+            userUpdate = iUserService.uploadProfile(file, Long.valueOf(id));
+
         } catch (Exception e) {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -246,140 +198,104 @@ try {
             return "redirect:/users";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "photo enregistrée ! ");
 
-        return "redirect:/user/" + Math.toIntExact(userUpdate.getUserId());
-
-    }
-    
-    // login
-    
-    @GetMapping("/login")
-    public String login() {
-        return "user/login";
-        
-        
-    }
-    
-        // 403
-    
-    @GetMapping("/403")
-    public String accessDenied() {
-        return "user/403";
-        
-        
-    }
-
-    
-    
-    public User signUpByDefault(String firstname, String lastname, String username, String password) {
-
-        try {
-            inputValidator.validateCharacter(firstname);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        try {
-            inputValidator.validateCharacter(lastname);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        try {
-            inputValidator.validateCharacter(username);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        User userSave = new User();
-
-        try {
-            userSave = iUserService.registerByDefault(firstname, lastname, username, password);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return userSave;
+        return "redirect:/user/" + Math.toIntExact(userUpdate.getUserId()) + "/update";
 
     }
 
-    public User displayUser(Long id) {
+    // show update user form :
+    @GetMapping("/user/{id}/update")
+    public String showUpdateUserForm(@PathVariable("id") int id, Model model, Principal principal) {
+
+        log.debug("showUpdateUserForm() : {id}", id);
 
         User userFind = new User();
 
         try {
-            userFind = iUserService.getUser(id);
+            userFind = iUserService.getUser(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
-        }
-        return userFind;
-    }
+            model.addAttribute("error", e.getMessage());
 
-    public User editUser(User user) {
-
-        try {
-            inputValidator.validateCharacter(user.getFirstname());
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
+            return "redirect:/users";
         }
 
-        try {
-            inputValidator.validateCharacter(user.getLastname());
-        } catch (Exception e) {
+        model.addAttribute("userFind", userFind);
 
-            this.errorMessage = e.getMessage();
-        }
-
-        try {
-            inputValidator.validateCharacter(user.getUsername());
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        User userEdit = new User();
-
-        try {
-            userEdit = iUserService.edit(user);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        return userEdit;
-    }
-
-    public Boolean signInUser(String username, String password) {
-
-        Boolean loginStatus = false;
-
-        try {
-            loginStatus = iUserService.sampleLogin(username, password);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return loginStatus;
+        return "user/updateform";
 
     }
 
-    public List<User> displayAllUsers() {
+    // update user
+    @PostMapping("/user/userupdate")
+    public String updateUser(@ModelAttribute("userFind") User user, final RedirectAttributes redirectAttributes, Model model) {
 
-        return iUserService.getAllUsers();
+        log.debug("updateUser() id: {}", user.getUserId());
+
+        User userUpdate = null;
+
+        try {
+
+            String link = validateAccountDetail(user, "updateform", model);
+
+            if (link != null) {
+                return link;
+
+            }
+
+            userUpdate = iUserService.edit(user);
+        } catch (Exception e) {
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/users";
+        }
+
+        redirectAttributes.addFlashAttribute("msg", "Modifications enregistrées ! ");
+
+        return "redirect:/user/" + Math.toIntExact(userUpdate.getUserId());
+
     }
 
-    public List<User> displayAllUsersByUserCategory(Role userCategory) {
+    // delette user
+    @PostMapping("/user/{id}/delete")
+    public String deleteUser(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
-        return iUserService.getUsersByCategory(userCategory);
+        log.debug("deleteUser() id: {}", id);
+
+        iUserService.delete(Long.valueOf(id));
+
+        redirectAttributes.addFlashAttribute("msg", "Membre supprimé !");
+
+        return "redirect:/confirmation";
+
+    }
+
+    // confirmation
+    @GetMapping("/confirmation")
+    public String confirmation() {
+        return "user/confirmation";
+
+    }
+
+    // login
+    @GetMapping("/login")
+    public String login() {
+        return "user/login";
+
+    }
+
+    // 403
+    @GetMapping("/403")
+    public String accessDenied() {
+        return "user/403";
+
     }
     
-    public String validateIsEmpty(User user, String link, Model model) {
+    // controle methode 
+
+    public String validateAccount(User user, String passwordMatch, String link, Model model) {
 
         if (user.getFirstname().isEmpty()) {
 
@@ -412,8 +328,97 @@ try {
             return "user/" + link;
 
         }
+
+        if (!user.getPassword().equals(passwordMatch)) {
+
+            model.addAttribute("error", "vos mots de pase ne correspond pas");
+
+            return "user/" + link;
+
+        }
+
+        if (user.getEmail().isEmpty()) {
+
+            model.addAttribute("error", "votre email isEmpty");
+
+            return "user/" + link;
+
+        }
+
+        if (!isValidEmail(user.getEmail())) {
+
+            model.addAttribute("error", "email invalide");
+
+            return "user/" + link;
+
+        }
+
         return null;
 
     }
 
+    public String validateAccountDetail(User user, String link, Model model) {
+
+        if (user.getFirstname().isEmpty()) {
+
+            model.addAttribute("error", "le prénom  isEmpty");
+
+            return "user/" + link;
+
+        }
+
+        if (user.getLastname().isEmpty()) {
+
+            model.addAttribute("error", "le nom  isEmpty");
+
+            return "user/" + link;
+
+        }
+
+        if (user.getEmail().isEmpty()) {
+
+            model.addAttribute("error", "votre email isEmpty");
+
+            return "user/" + link;
+
+        }
+
+        if (!isValidEmail(user.getEmail())) {
+
+            model.addAttribute("error", "email invalide");
+
+            return "user/" + link;
+
+        }
+
+        return null;
+
+    }
+
+    public boolean isValidEmail(String email) {
+        // create the EmailValidator instance
+        EmailValidator validator = EmailValidator.getInstance();
+
+        // check for valid email addresses using isValid method
+        return validator.isValid(email);
+
+    }
+
+    public boolean isOwner(String username, String userFind) {
+
+        System.out.println(username);
+
+        System.out.println(userFind);
+
+        System.out.println(username.equals(userFind));
+
+        if (username.equals(userFind)) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
 }
