@@ -5,8 +5,8 @@
  */
 package org.amisescalade.controller;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.logging.Level;
 import org.amisescalade.entity.Booking;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
@@ -43,49 +43,29 @@ public class BookingController {
     @Autowired
     private IUserService iUserService;
 
-    private String errorMessage;
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
     // save booking with topo
     @PostMapping("/user/topo/{id}/booking")
-    public String saveBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
+    public String saveBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Principal principal) {
+
+        log.debug("saveBookingTopo() id: {}", id);
 
         User user = null;
-
-        try {
-            // author par défault
-
-            user = iUserService.getUser(2L);
-        } catch (Exception e) {
-            
-            this.errorMessage = e.getMessage();
-        }
-
         Topo topoFind = null;
+        Booking bookingNew = null;
 
         try {
+
+            user = iUserService.getUserByUsername(principal.getName());
+
             topoFind = iTopoService.getTopo(Long.valueOf(id));
 
-        } catch (Exception e) {
-            
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            if (!topoFind.getTopoStatus()) {
 
-            return "redirect:/user/topo/" + id;
-            
-        }
+                redirectAttributes.addFlashAttribute("error", "Topo déjà réservé");
 
-        if (!topoFind.getTopoStatus()) {
+                return "redirect:/user/topo/" + id;
+            }
 
-            redirectAttributes.addFlashAttribute("error", "Not Full succès ! ");
-
-            return "topo/list";
-        }
-
-        Booking bookingNew = null;
-        try {
             bookingNew = iBookingService.register(user, topoFind);
 
         } catch (Exception e) {
@@ -95,7 +75,7 @@ public class BookingController {
             return "redirect:/user/topo/" + id;
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Réservation réalisée ");
 
         return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
@@ -103,11 +83,9 @@ public class BookingController {
 
     // show booking
     @GetMapping("/user/booking/{id}")
-    public String showBooking(@PathVariable("id") Long id, Model model) {
+    public String showBooking(@PathVariable("id") Long id, Model model, Principal principal) {
 
         log.debug("showBooking() id: {}", id);
-
-        System.out.println("showBooking() id: {}" + id);
 
         Booking bookingFind = null;
 
@@ -117,12 +95,15 @@ public class BookingController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            model.addAttribute("error", e.getMessage());
+
+            return "/user/confirmation";
         }
+        
+        boolean owner = isOwner(principal.getName(), bookingFind.getBookingUser().getUsername());
 
         model.addAttribute("bookingFind", bookingFind);
-
-        System.out.println("bookingSpot() id: {}" + bookingFind.getBookingTopo().getTopoTitle());
+        model.addAttribute("owner", owner);
 
         return "/booking/show";
 
@@ -130,7 +111,7 @@ public class BookingController {
 
     // booking list page by owner ask
     @GetMapping("/user/bookings")
-    public String showAllBookingByUser(Model model, final RedirectAttributes redirectAttributes) {
+    public String showAllBookingByUser(Model model, Principal principal) {
 
         log.debug("showAllBookingsbyUser()");
 
@@ -138,56 +119,17 @@ public class BookingController {
         List<Booking> bookingList = null;
 
         try {
-            userFind = iUserService.getUser(2L);
-        } catch (Exception e) {
+            userFind = iUserService.getUserByUsername(principal.getName());
 
-            this.errorMessage = e.getMessage();
-        }
-
-        try {
             bookingList = iBookingService.getAllBookingByUser(userFind);
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            model.addAttribute("error", e.getMessage());
         }
 
-        System.out.println("le post marche !! sector");
-
         model.addAttribute("bookings", bookingList);
-
-        return "/booking/list";
-
-    }
-
-    // booking list page by owner topo
-    @GetMapping("/user/bookings/topo")
-    public String showAllBookingByOwnerTopo(Model model, final RedirectAttributes redirectAttributes) {
-        
-        
-        log.debug("showAllBookingsbyOwnerTopo()");
-
-        User userFind = null;
-        List<Booking> bookingList = null;
-
-        try {
-            userFind = iUserService.getUser(2L);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-//        try {
-//            bookingList = iBookingService.getAllBookingByOwnertopo(userFind);
-//
-//        } catch (Exception e) {
-//
-//            this.errorMessage = e.getMessage();
-//        }
-
-        System.out.println("le post marche !! sector");
-
-        model.addAttribute("bookings", bookingList);
+        model.addAttribute("user", userFind);
 
         return "/booking/list";
 
@@ -197,24 +139,24 @@ public class BookingController {
     @PostMapping("/user/booking/{id}/validate")
     public String validateBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
+        log.debug("validateBookingTopo id: {}", id);
+        
         Booking bookingFind = null;
-        try {
-            bookingFind = iBookingService.getBooking(Long.valueOf(id));
-
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
         Booking bookingNew = null;
 
         try {
+            bookingFind = iBookingService.getBooking(Long.valueOf(id));
+
             bookingNew = iBookingService.validate(bookingFind);
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (Exception e) {
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/user/bookings/topos";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Réservation acceptée ! ");
 
         return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
@@ -224,53 +166,66 @@ public class BookingController {
     @PostMapping("/user/booking/{id}/available")
     public String makeAvailableBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
+        log.debug("makeAvailableBookingTopo id: {}", id);
+        
         Booking bookingFind = null;
+        Booking bookingNew = null;
+        
         try {
             bookingFind = iBookingService.getBooking(Long.valueOf(id));
+            
+            bookingNew = iBookingService.makeAvailable(bookingFind);
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/user/bookings/topos";
         }
 
-        Booking bookingNew = null;
-
-        try {
-            bookingNew = iBookingService.makeAvailable(bookingFind);
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Réservation refusée ");
 
         return "redirect:/user/booking/" + Math.toIntExact(bookingNew.getBookingId());
 
     }
 
-    //cancel booking
+    // cancel booking
     @PostMapping("/user/booking/{id}/cancel")
     public String cancelBooking(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteBooking() id: {}", id);
-
-        System.out.println("deleteBooking() id: {}" + id);
-
-        Booking bookingFind = null;
+        
         try {
-            bookingFind = iBookingService.getBooking(Long.valueOf(id));
+            
+            iBookingService.delete(Long.valueOf(id));
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/user/bookings/topos";
         }
-
-        Long userId = bookingFind.getBookingUser().getUserId();
-
-        iBookingService.delete(Long.valueOf(id));
 
         redirectAttributes.addFlashAttribute("msg", "delete");
 
         return "redirect:/user/bookings";
+
+    }
+    
+        public boolean isOwner(String username, String userFind) {
+
+        System.out.println(username);
+
+        System.out.println(userFind);
+
+        System.out.println(username.equals(userFind));
+
+        if (username.equals(userFind)) {
+
+            return true;
+
+        }
+
+        return false;
 
     }
 

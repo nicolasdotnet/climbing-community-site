@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.amisescalade.dao.BookingRepository;
+import org.amisescalade.dao.TopoRepository;
 import org.amisescalade.entity.Booking;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
@@ -30,6 +31,9 @@ public class BookingServiceImpl implements IBookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
+    
+    @Autowired
+    private TopoRepository topoRepository;
 
     @Override
     public Booking register(User bookingUser, Topo bookingTopo) throws Exception {
@@ -108,6 +112,11 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public void delete(Long bookingId) {
+        
+        Booking booking = bookingRepository.getOne(bookingId);
+        
+        booking.getBookingTopo().setTopoStatus(true);
+        
         bookingRepository.deleteById(bookingId);
     }
 

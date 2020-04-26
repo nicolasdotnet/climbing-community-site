@@ -7,7 +7,8 @@
 <%@ include file="../common/header.jsp" %>
 <div class="row">
     <h1>${userFind.username}</h1>
-    <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if> 
+    <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+    <c:if test="${!empty error}"><span class="error">${error}</span></c:if> 
 
     <div>
         <img width="150" height="150" src="/getPhoto/<c:out value='${userFind.userId}'/>" alt=";)" class="img-thumbnail img-responsive">
@@ -33,6 +34,10 @@
                 <label>Membre</label>
                 <span><c:out value="${userFind.role.roleName}">Valeur par défaut</c:out></span>
             </div>
+                        <div>
+                <label>Email</label>
+                <a href="mailto:${userFind.email}"><c:out value="${userFind.email}">Valeur par défaut</c:out></a>
+            </div>
         </div>
     </div>
     <c:if test="${owner}">
@@ -56,6 +61,8 @@
 </div>
 
 <div> 
-    <a href="/user/topos">Topos</a>
+    <c:if test="${!owner}">
+    <a href="/user/${userFind.userId}/owner">Topos</a>
+    </c:if>
 
     <%@ include file="../common/footer.jsp" %>

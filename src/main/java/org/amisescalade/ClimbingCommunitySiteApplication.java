@@ -95,6 +95,21 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         System.out.println("\n displayOne : " + uV2.toString() + "\n");
+        
+                // register User
+        firstname = "laure";
+        lastname = "desdevises";
+        username = "alpha";
+        password = "123";
+        email = "laure@mail.com";
+
+        User uVA = new User();
+
+        uVA = iUserService.registerByDefault(firstname, lastname, email, username,password);
+        
+        
+        
+        
 
         // sampleLogin User
 //        iUserService.sampleLogin("nico", "xxx"); // Ok entraine un log error en console

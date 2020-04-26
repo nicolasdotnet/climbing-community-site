@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -39,7 +40,7 @@ public class Topo implements Serializable{
 	@JoinColumn(nullable=false)
 	private User topoOwner;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "bookingTopo", fetch = FetchType.LAZY)
 	private Booking booking;
 	
 	public Topo() {
@@ -86,11 +87,11 @@ public class Topo implements Serializable{
 		this.topoDescription = topoDescription;
 	}
 
-	public User getTopotopoOwner() {
+	public User getTopoOwner() {
 		return topoOwner;
 	}
 
-	public void setTopotopoOwner(User topoOwner) {
+	public void setTopoOwner(User topoOwner) {
 		this.topoOwner = topoOwner;
 	}
 

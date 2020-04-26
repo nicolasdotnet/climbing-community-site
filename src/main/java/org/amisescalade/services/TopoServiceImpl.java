@@ -10,9 +10,6 @@ import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +31,7 @@ public class TopoServiceImpl implements ITopoService{
 		topo.setTopoArea(topoArea);
 		topo.setTopoTitle(topoTitle);
 		topo.setTopoDescription(topoDescription);
-		topo.setTopotopoOwner(topoOwner);
+		topo.setTopoOwner(topoOwner);
 		
 		topo.setTopoDate(new Date());
                 topo.setTopoStatus(true);
@@ -57,6 +54,7 @@ public class TopoServiceImpl implements ITopoService{
 		topoFind.get().setTopoArea(topo.getTopoArea());
                 topoFind.get().setTopoDescription(topo.getTopoDescription());
                 topoFind.get().setTopoTitle(topo.getTopoTitle());
+                topoFind.get().setTopoStatus(topo.getTopoStatus());
 		
 		return topoRepository.saveAndFlush(topoFind.get());
 	}

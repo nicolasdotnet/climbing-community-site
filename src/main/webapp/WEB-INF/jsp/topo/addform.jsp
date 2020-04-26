@@ -6,26 +6,32 @@
 
 <%@ include file="../common/header.jsp" %>
 
-    <form:form method="POST"
-               action="/user/topoSave" modelAttribute="topoForm">
-        <table>
-            <tr>
-                <td><form:label path="topoTitle">Title</form:label></td>
-                <td><form:input path="topoTitle"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="topoArea">Lieu</form:label></td>
-                <td><form:input path="topoArea"/></td>
-            </tr>
-            <tr>
-                <td><form:label path="topoDescription">Description</form:label></td>
-                <td><form:input path="topoDescription"/></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Enregistrer"/></td>
-            </tr>
-        </table>
-    </form:form> 
+<form:form method="POST"
+           action="/user/topoSave" modelAttribute="topoForm">
+    <form class="form-horizontal">
+        <h2> Informations obligatoires</h2>
+
+        <div class="form-group">
+            <form:input class="form-control" path="topoTitle" autofocus="true" value="${topoForm.topoTitle}" placeholder="Titre du topo"/>
+            <form:errors path="topoTitle" class="error"/>
+        </div>
+
+        <div class="form-group">
+            <form:input class="form-control" path="topoArea" value="${topoForm.topoArea}" placeholder="Lieu"/>
+            <form:errors path="topoArea" class="error"/>
+        </div>
+
+        <div class="form-group">
+            <form:input class="form-control" path="topoDescription" value="${topoForm.topoDescription}" placeholder="Description"/>
+            <form:errors path="topoDescription" class="error"/>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="/user/topos" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+            <button type="submit" class="btn btn-info">Ajouter</button>
+        </div>
+    </form>
+</form:form> 
 
 <c:if test="${!empty error}"><span>${error}</span></c:if> 
 

@@ -28,8 +28,12 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/spots">Spots</a></li>
                     <li><a href="/spot/multisearch">Chercher</a></li>
-                    <li><a href="/user/bookings/topo">Demande de réservations</a></li>
+                    <secu:authorize access="isAuthenticated()">
+                    <li><a href="/user/bookings/topos">Demande de réservations</a></li>
                     <li><a href="/user/bookings">Mes réservations</a></li>
+                    <li><a href="/user/topos">Mes topos</a></li>
+                    <li><a href="/user/spots">Mes sites</a></li>
+                    </secu:authorize>
                     <secu:authorize access="hasAuthority('grimpeur')">
                         <li><a href="/admin">Administration</a></li>
                     </secu:authorize>

@@ -7,17 +7,24 @@
 <spring:url value="/user/topo/add" var="url" htmlEscape="true"/>
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
+<c:if test="${!empty msg}"><span>${msg}</span></c:if>
 
-<p><a href="${url}"> ajouter un topo</a></p>
+
+<h1>Les topos de ${user.username}</h1>
+
+
+<c:if test="${owner}">
+    <div class="nav navbar-right">
+        <a href="${url}" class="btn btn-default"> ajouter un topo</a>
+    </div>
+</c:if>
 
 <table class="table table-striped">
     <tr>
-        <th>Date</th>
         <th>Titre</th>
-        <th>Description</th>
         <th>Lieu</th>
         <th>Statut</th>
-        <th>Actions</th>
+        <th>Booking</th>
     </tr>
 
     <c:forEach items="${topos}" var="t">
@@ -28,32 +35,31 @@
         <spring:url value="/user/topo/${t.topoId}/booking" var="bookingUrl" />
 
         <tr>
-            <td><c:out value="${t.topoDate}">Valeur par défaut</c:out> </td>
-        <td><a href="${topoUrl}"><c:out value="${t.topoTitle}">Valeur par défaut</c:out></a> </td>
-        <td><c:out value="${t.topoDescription}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${t.topoArea}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${t.topoStatus}">Valeur par défaut</c:out> </td>
-
-        <td>    
-            <form action="${bookingUrl}" method="POST">
-                <button class="btn btn-default" 
-                        onclick="return confirm('Are you sure?')">Réserver</button>
-            </form>
-            <form action="${updateUrl}">
-                <button class="btn btn-primary" 
-                        onclick="return confirm('Are you sure?')">Modifier</button>
-            </form>
-            <form action="${deleteUrl}" method="POST">
-                <button class="btn btn-danger" 
-                        onclick="return confirm('Are you sure?')">Supprimer</button>
-            </form>
-
-        </td>
+            <td><a href="${topoUrl}"><c:out value="${t.topoTitle}">Valeur par défaut</c:out></a> </td>
+            <td><c:out value="${t.topoArea}">Valeur par défaut</c:out> </td>
+        <c:choose>                
+            <c:when test = "${t.topoStatus == true}">
+                <td>réservation possible</td>
+            </c:when>
+            <c:when test = "${t.topoStatus == false}">
+                <td>réservation impossible</td>
+            </c:when>
+        </c:choose> 
+        <c:choose>                
+            <c:when test = "${t.booking.bookingStatus == true}">
+                <td>demande validée</td>
+            </c:when>
+            <c:when test = "${t.booking.bookingStatus == false}">
+                <td>demande en attente</td>
+            </c:when>
+            <c:otherwise>
+                <td>pas de demande</td>
+            </c:otherwise>
+        </c:choose>
         </tr>
-
     </c:forEach>
 </table>
 
-
+<a href="#" class="edit" title="edit"><span class="glyphicon glyphicon-search" aria-hidden="false" ></span></a>
 
 <%@ include file="../common/footer.jsp" %>
