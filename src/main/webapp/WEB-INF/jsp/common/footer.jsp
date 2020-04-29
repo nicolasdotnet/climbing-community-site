@@ -3,8 +3,8 @@
     Created on : 9 mars 2020, 09:03:34
     Author     : nicolasdotnet
 --%>
-
-<footer class="footer navbar-fixed-bottom">
+</main>
+<footer class="footer">
     <div class="container">
     <div class="footer-crags col-sm-3 hidden-xs">
         <h3>Parcourir les sites d'escalade</h3>
@@ -52,6 +52,6 @@
     </div>
 </footer>
 </div>
-<script type='text/javascript' src='/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='/webjars/bootstrap/3.3.7-1/js/bootstrap.js'></script>
 </body>
 </html>

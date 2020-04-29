@@ -36,11 +36,11 @@ public interface IUserService {
      * method to upload profile a user
      *
      * @param file
-     * @param userId
+     * @param username
      * @return user object modified
      * @throws Exception
      */
-    User uploadProfile(MultipartFile file, Long userId) throws Exception;
+    User uploadProfile(MultipartFile file, String username) throws Exception;
 
     /**
      * method to get a user
@@ -86,8 +86,35 @@ public interface IUserService {
     /**
      * method to remove a user
      *
-     * @param userId
+     * @param username
      */
-    public void delete(Long userId);
+    public void delete(String username)throws Exception;
+
+    /**
+     * method to desactivate a user
+     *
+     * @param userId
+     * @throws java.lang.Exception
+     */
+    public void desactivate(Long userId) throws Exception;
+
+    /**
+     * method to get all users by username
+     *
+     * @param userName
+     * @return the list users with the username
+     * @throws java.lang.Exception
+     */
+    public List<User> getAllUserByUsername(String userName) throws Exception;
+
+    /**
+     * method to update password
+     *
+     * @param passwordNew
+     * @param username
+     * @return user objet update
+     * @throws java.lang.Exception
+     */
+    public User updatePassword(String passwordNew, String username) throws Exception;
 
 }

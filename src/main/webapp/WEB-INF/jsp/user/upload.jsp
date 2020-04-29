@@ -15,11 +15,13 @@
             <span hidden><input name="id" value="${userFind.userId}"/></span>
 
             <div class="btn-group" role="group" aria-label="...">
-                <a href="/user/${userFind.userId}/update" name="cancel" class="btn btn-default">Annuler</a>
+                <a href="/user/update" name="cancel" class="btn btn-default">Annuler</a>
                 <button type="submit" class="btn btn-info">Ajouter</button>
             </div>
 </form:form> 
 
         <c:if test="${!empty error}"><span>${error}</span></c:if> 
+        
+        required="required"
 
         <%@ include file="../common/footer.jsp" %>

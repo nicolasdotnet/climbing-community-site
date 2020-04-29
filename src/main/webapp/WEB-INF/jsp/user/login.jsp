@@ -15,9 +15,9 @@
         <label for="password" class="sr-only">Mot de passe</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required>
     </p>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
 </form>
-
+<div>
 <a class="btn btn-default" href="/signup" role="button">Créer un compte</a>
-
+</div>
 <%@ include file="../common/footer.jsp" %>

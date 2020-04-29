@@ -5,10 +5,12 @@
  */
 package org.amisescalade.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *
@@ -16,13 +18,20 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class indexController {
-   
-    
+
     private final Logger log = LogManager.getLogger(indexController.class);
-    
-     @GetMapping("/")
+
+    @GetMapping("/")
     public String index() {
         log.debug("index()");
         return "index";
-    }    
+    }
+
+    @PostMapping("/rate")
+    public String rateHandler(HttpServletRequest request) {
+        //your controller code
+        String referer = request.getHeader("Referer");
+        System.out.println("org.amisescalade.controller.indexController.rateHandler() : "+referer);
+        return "redirect:" + referer;
+    }
 }

@@ -43,7 +43,6 @@ public class UserServiceImpl implements IUserService {
 
         }
 
-        // TODO check password ?
         User user = new User();
 
         user.setFirstname(firstName);
@@ -52,6 +51,7 @@ public class UserServiceImpl implements IUserService {
         user.setEmail(email);
         user.setPassword(encrytePassword(password));
         user.setRole(iUserCategoryService.getDefaultUserCategory());
+        user.setEnabled(true);
         user.setUserDate(new Date());
 
         return userRepository.save(user);
@@ -59,7 +59,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User uploadProfile(MultipartFile file, Long userId) throws Exception {
+    public User uploadProfile(MultipartFile file, String username) throws Exception {
 
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -67,11 +67,11 @@ public class UserServiceImpl implements IUserService {
         try {
             // Check if the file's name contains invalid characters
 
-            Optional<User> userFind = userRepository.findById(userId);
+            Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
 
             if (!userFind.isPresent()) {
 
-                log.error("Modification Impossible ! l'utilisateur " + userId + " n'existe pas dans la base.");
+                log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
 
                 throw new Exception("Utilisateur n'existe pas !");
 
@@ -132,11 +132,24 @@ public class UserServiceImpl implements IUserService {
         userFind.get().setFirstname(user.getFirstname());
         userFind.get().setLastname(user.getLastname());
         userFind.get().setEmail(user.getEmail());
-
-        System.out.println(userFind.get().getPassword());
-        // TODO check password ?
-        // TODO Ajouter date de modification ?
         return userRepository.saveAndFlush(userFind.get());
+    }
+
+    @Override
+    public void desactivate(Long userId) throws Exception {
+
+        Optional<User> userFind = userRepository.findById(userId);
+
+        if (!userFind.isPresent()) {
+
+            log.error("Modification Impossible ! l'utilisateur " + Math.toIntExact(userId) + " n'existe pas dans la base.");
+
+            throw new Exception("Utilisateur n'existe pas !");
+
+        }
+
+        userFind.get().setEnabled(false);
+
     }
 
     @Override
@@ -173,8 +186,42 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void delete(Long userId) {
-        userRepository.deleteById(userId);
+    public void delete(String username) throws Exception {
+
+        Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
+
+        if (!userFind.isPresent()) {
+
+            log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
+
+            throw new Exception("Utilisateur n'existe pas !");
+
+        }
+
+        userRepository.deleteById(userFind.get().getUserId());
+    }
+
+    @Override
+    public List<User> getAllUserByUsername(String userName) throws Exception {
+        return userRepository.findAllByUsernameContainingIgnoreCase(userName);
+    }
+
+    @Override
+    public User updatePassword(String passwordNew, String username) throws Exception {
+
+        Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
+
+        if (!userFind.isPresent()) {
+
+            log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
+
+            throw new Exception("Utilisateur n'existe pas !");
+
+        }
+
+        userFind.get().setPassword(encrytePassword(passwordNew));
+        return userRepository.saveAndFlush(userFind.get());
+
     }
 
 }

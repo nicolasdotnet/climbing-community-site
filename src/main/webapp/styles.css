@@ -7,8 +7,19 @@ and open the template in the editor.
     Created on : 11 mars 2020, 09:31:31
     Author     : nicolasdotnet
 */
-h1{
+main{
+
+    height: 700px;
     
+}
+
+nav{
+
+    padding-bottom: 10px;
+    
+}
+h1{
+
 }
 
 h2{
@@ -16,25 +27,29 @@ h2{
 }
 
 .error {
-    
+
     color: red;
-    
+
 }
 
 .msg{
-    
+
     color: green;
-    
+
 }
 
 .username{
-    
+
     color: white;
-    
+
 }
 
 .x{
-    
-    display:inline;
-    
+    margin-left: 5px;
+    display:inline-block;
+}
+
+.vcenter {
+    display: flex;
+    align-items: center;
 }
