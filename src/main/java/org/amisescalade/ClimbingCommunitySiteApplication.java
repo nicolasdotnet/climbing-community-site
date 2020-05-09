@@ -1,23 +1,28 @@
 package org.amisescalade;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.Comment;
+import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.Role;
-import org.amisescalade.services.ISpotService;
-import org.amisescalade.services.ITopoService;
-import org.amisescalade.services.IUserService;
+import org.amisescalade.services.interfaces.ISpotService;
+import org.amisescalade.services.interfaces.ITopoService;
+import org.amisescalade.services.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.amisescalade.services.ICommentService;
-import org.amisescalade.services.IRoleService;
+import org.amisescalade.services.interfaces.ICommentService;
+import org.amisescalade.services.interfaces.IComponentCategoryService;
+import org.amisescalade.services.interfaces.IRoleService;
 
 @SpringBootApplication
 public class ClimbingCommunitySiteApplication extends SpringBootServletInitializer implements CommandLineRunner {
@@ -35,6 +40,9 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
     @Autowired
     private ICommentService iCommentService;
+
+    @Autowired
+    private IComponentCategoryService iComponentCategoryService;
 
     public static void main(String[] args) {
 
@@ -64,11 +72,9 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
         User uV1 = new User();
 
-        uV1 = iUserService.registerByDefault(firstname, lastname, email, username,password);
-  
+        uV1 = iUserService.registerByDefault(firstname, lastname, email, username, password);
 
 //        System.out.println(iUserService.getErrorMessage());
-
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         System.out.println("\n register : " + uV1.toString() + "\n");
@@ -85,9 +91,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
         // displayOne User
 //        iUserService.getUser(0L); // Ok entraine un log error en console
-
 //        System.out.println(iUserService.getErrorMessage());
-
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         iUserService.getUser(uV2.getUserId());
@@ -95,8 +99,8 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         System.out.println("\n displayOne : " + uV2.toString() + "\n");
-        
-                // register User
+
+        // register User
         firstname = "laure";
         lastname = "desdevises";
         username = "alpha";
@@ -105,16 +109,11 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
         User uVA = new User();
 
-        uVA = iUserService.registerByDefault(firstname, lastname, email, username,password);
-        
-        
-        
-        
+        uVA = iUserService.registerByDefault(firstname, lastname, email, username, password);
 
         // sampleLogin User
 //        iUserService.sampleLogin("nico", "xxx"); // Ok entraine un log error en console
 //        iUserService.sampleLogin("nico", "123"); // Ok entraine pas un log error en console
-
         // displayAll User
         List<User> userList = iUserService.getAllUsers();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
@@ -188,9 +187,20 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         String topoArea = "Arras";
         String topoTitle = "Roche d'Arras";
         String topoDescription = "Fake topo";
+
+        //default time zone
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        //creating the instance of LocalDate using the day, month, year info
+        LocalDate localDateReleaseDate = LocalDate.of(2016, 8, 19);
+
+        //local date + atStartOfDay() + default time zone + toInstant() = Date
+        Date dateReleaseDate = Date.from(localDateReleaseDate.atStartOfDay(defaultZoneId).toInstant());
+
+        Date topoReleaseDate = dateReleaseDate;
         User topoOwner = iUserService.getUser(uV2.getUserId());
 
-        Topo topo1 = iTopoService.register(topoArea, topoTitle, topoDescription, topoOwner);
+        Topo topo1 = iTopoService.register(topoArea, topoTitle, topoDescription, topoReleaseDate, topoOwner);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -232,8 +242,7 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         }
 
         // displayAll topo
-        topoList = iTopoService.getAllTopos();
-
+//        topoList = iTopoService.getAllTopos();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         for (Iterator iterator = topoList.iterator(); iterator.hasNext();) {
@@ -250,12 +259,8 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         String spotAccessPath = "A1 puis direction Arras";
         String departement = "62";
         String country = "France";
-        String sectorCount = "4";
-        String sectorDescription= "La particularité du grès du coin, c’est qu’il ne présente que peu de prises : des trous, des plats, peu de réglettes... ";
-        String routeCount = "50";
-        String routeDescription = " avec environ 1.600 passages, et encore du potentiel, il y en a pour tous les goûts et tous les niveaux.";
 
-        Spot spot1 = iSpotService.register(spotName, spotRate, spotDescription, spotAccessPath, departement, country,sectorCount, sectorDescription, routeCount, routeDescription, uV2);
+        Spot spot1 = iSpotService.register(spotName, spotRate, spotDescription, spotAccessPath, departement, country, uV2.getUsername());
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -298,7 +303,6 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
 
         // displayAll spot
 //        spotList = iSpotService.getAllSpots();
-
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
         for (Iterator iterator = spotList.iterator(); iterator.hasNext();) {
@@ -313,8 +317,8 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
         User authorComment = iUserService.getUser(uV2.getUserId());
         Spot spotComment0 = iSpotService.getSpot(spot2.getSpotId());
 
-        Comment spotComment1 = iCommentService.register(commentBody, authorComment,
-                spotComment0);
+        Comment spotComment1 = iCommentService.register(commentBody, authorComment.getUsername(),
+                spotComment0.getSpotId());
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><");
 
@@ -363,6 +367,27 @@ public class ClimbingCommunitySiteApplication extends SpringBootServletInitializ
             }
 
         }
+
+        String componentCategoryLabel = "bloc";
+
+        ComponentCategory cc1;
+        cc1 = iComponentCategoryService.register(componentCategoryLabel);
+
+        componentCategoryLabel = "voie";
+
+        ComponentCategory cc2;
+        cc2 = iComponentCategoryService.register(componentCategoryLabel);
+
+        // register Admin
+        firstname = "Fred";
+        lastname = "desdevises";
+        username = "admin";
+        password = "123";
+        email = "laure@mail.com";
+
+        User uVB = new User();
+
+        uVB = iUserService.registerForAdmin(firstname, lastname, email, username, password);
 
     }
 }

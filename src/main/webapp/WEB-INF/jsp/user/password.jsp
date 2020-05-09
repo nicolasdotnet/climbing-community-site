@@ -5,36 +5,46 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/update">Modifier votre compte</a></li>
+    <li class="active">Modifier votre mot de passe</li>
+</ol>
+
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+
 <form:form method="POST"
            action="/user/passwordupdate" modelAttribute="userFind">
 
     <form:hidden path="userId"/>
 
     <form class="form-horizontal">
-        <h2> Informations obligatoires</h2>
-        
+        <div class="panel panel-default">
+            <div class="panel-body">
+
                 <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">Nouveau mot de passe</label>
-            <div class="col-sm-10">
-                <form:password path="password" class="form-control"/>
-                <form:errors path="password" class="error"/>
+                    <label for="password" class="col-sm-2 control-label">Nouveau mot de passe</label>
+                    <div class="col-sm-10">
+                        <form:password path="password" class="form-control"/>
+                        <form:errors path="password" class="error"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordMatch" class="col-sm-2 control-label">Confirmation du nouveau mot de passe</label>
+                    <div class="col-sm-10">
+                        <input name="passwordMatch" class="form-control" type="password"/>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="passwordMatch" class="col-sm-2 control-label">Confirmation du nouveau mot de passe</label>
-            <div class="col-sm-10">
-                <input name="passwordMatch" class="form-control" type="password"/>
-            </div>
-        </div>
-
         <div class="btn-group" role="group" aria-label="...">
             <a href="/user/update" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
             <button type="submit" class="btn btn-info active">Ajouter</button>
         </div>
     </form>
 </form:form> 
-
-<c:if test="${!empty error}"><span>${error}</span></c:if>
 
 <%@ include file="../common/footer.jsp" %>

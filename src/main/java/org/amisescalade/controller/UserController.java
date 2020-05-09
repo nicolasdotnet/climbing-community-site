@@ -3,11 +3,14 @@ package org.amisescalade.controller;
 import java.io.ByteArrayInputStream;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.amisescalade.entity.Role;
 
 import org.amisescalade.entity.User;
-import org.amisescalade.services.IUserService;
+import org.amisescalade.services.interfaces.IRoleService;
+import org.amisescalade.services.interfaces.IUserService;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,13 +29,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-//@Transactional
+@Transactional
 public class UserController {
 
     private static final Logger log = LogManager.getLogger(UserController.class);
 
     @Autowired
     private IUserService iUserService;
+
+    @Autowired
+    private IRoleService iRoleService;
 
     // show admination page
     @GetMapping("/admin")
@@ -56,11 +62,9 @@ public class UserController {
 
     // save user
     @PostMapping("signup")
-    public String saveUser(@ModelAttribute("userForm") User user, @RequestParam("passwordMatch") String passwordMatch, Model model) {
+    public String saveUser(@ModelAttribute("userForm") User user, @RequestParam("passwordMatch") String passwordMatch, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("saveUser()");
-
-        System.out.println("tests passwordMatch" + passwordMatch);
 
         User userSave = null;
 
@@ -82,8 +86,8 @@ public class UserController {
             return "user/addform";
         }
 
-        model.addAttribute("create", "Votre compte est créé ! ");
-        model.addAttribute("user", userSave);
+        redirectAttributes.addFlashAttribute("create", "Votre compte est créé ! ");
+        redirectAttributes.addFlashAttribute("user", userSave);
 
         return "redirect:/confirmation";
     }
@@ -139,11 +143,14 @@ public class UserController {
     @GetMapping("/user/account")
     public String userAccount(Model model, Principal principal) {
 
-        String userName = principal.getName();
+        Optional<User> loginedUser = null;
+        try {
+            loginedUser = iUserService.getUserByUsername(principal.getName());
+        } catch (Exception e) {
+            model.addAttribute("error", e);
+        }
 
-        User loginedUser = iUserService.getUserByUsername(userName);
-
-        model.addAttribute("userFind", loginedUser);
+        model.addAttribute("userFind", loginedUser.get());
         model.addAttribute("owner", true);
 
         return "user/show";
@@ -166,15 +173,12 @@ public class UserController {
     @GetMapping("/user/search")
     public String searchUser(Model model, @RequestParam("username") String username, final RedirectAttributes redirectAttributes) {
 
-        List<User> userList = null;
+        List<User> userList = iUserService.getAllUserByUsername(username);
 
-        try {
-            userList = iUserService.getAllUserByUsername(username);
-        } catch (Exception e) {
+        if (userList.isEmpty()) {
 
-           redirectAttributes.addFlashAttribute("error", e.getMessage());
+            model.addAttribute("msg", "Pas de réponse !");
 
-            return "redirect:/admin/users";
         }
 
         model.addAttribute("users", userList);
@@ -188,18 +192,19 @@ public class UserController {
 
         log.debug("showUploadForm() : {}");
 
-        User userFind = new User();
+        Optional<User> userFind;
 
         try {
             userFind = iUserService.getUserByUsername(principal.getName());
         } catch (Exception e) {
 
-           redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/user/account";
         }
 
-        model.addAttribute("userFind", userFind);
+
+        model.addAttribute("userFind", userFind.get());
 
         return "user/upload";
 
@@ -212,7 +217,7 @@ public class UserController {
         log.debug("uploadProfile() id: {}");
 
         try {
-           iUserService.uploadProfile(file, principal.getName());
+            iUserService.uploadProfile(file, principal.getName());
 
         } catch (Exception e) {
 
@@ -233,7 +238,7 @@ public class UserController {
 
         log.debug("showUpdateUserForm() : {id}");
 
-        User userFind = new User();
+        Optional<User> userFind;
 
         try {
             userFind = iUserService.getUserByUsername(principal.getName());
@@ -244,7 +249,8 @@ public class UserController {
             return "redirect:/users";
         }
 
-        model.addAttribute("userFind", userFind);
+        model.addAttribute("userFind", userFind.get());
+        model.addAttribute("roles", iRoleService.getAllUserCategory());
 
         return "user/updateform";
 
@@ -261,12 +267,15 @@ public class UserController {
             String link = validateAccountDetail(user, "updateform", model);
 
             if (link != null) {
+                
+                model.addAttribute("roles", iRoleService.getAllUserCategory());
+                
                 return link;
 
             }
 
-           iUserService.edit(user);
-           
+            iUserService.edit(user);
+
         } catch (Exception e) {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
@@ -286,7 +295,7 @@ public class UserController {
 
         log.debug("passform()");
 
-        User userFind = null;
+        Optional<User> userFind;
 
         try {
             userFind = iUserService.getUserByUsername(principal.getName());
@@ -297,7 +306,7 @@ public class UserController {
             return "redirect:/user/update";
         }
 
-        model.addAttribute("userFind", userFind);
+        model.addAttribute("userFind", userFind.get());
 
         return "/user/password";
     }
@@ -338,7 +347,7 @@ public class UserController {
         log.debug("deleteUser() id: {}");
 
         try {
-           iUserService.delete(principal.getName());
+            iUserService.delete(principal.getName());
         } catch (Exception e) {
 
             model.addAttribute("error", e.getMessage());
@@ -365,21 +374,14 @@ public class UserController {
         } catch (Exception e) {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            
+
             return "redirect:/admin/users";
-            
+
         }
 
         redirectAttributes.addFlashAttribute("desactivate", "Membre suspendu !");
 
         return "redirect:/confirmation";
-
-    }
-
-    // confirmation
-    @GetMapping("/confirmation")
-    public String confirmation() {
-        return "/common/confirmation";
 
     }
 

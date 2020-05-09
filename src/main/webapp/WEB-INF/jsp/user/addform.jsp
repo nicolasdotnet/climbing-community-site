@@ -5,6 +5,11 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li class="active">Créer un compte membre</li>
+</ol>
+
 <form:form method="POST"
            action="signup" modelAttribute="userForm">
     <form class="form-horizontal">

@@ -13,77 +13,59 @@ import javax.persistence.OneToMany;
 
 /**
  * @author nicolasdotnet
- * 
- * UserCategoryImpl a is the category entity to which users in the community can belong :
- * Author, Climber, Moderator ...
+ *
+ * Role a is the category entity to which users in the community can
+ * belong : Author, Climber, Moderator ...
  *
  */
-
 @Entity
+public class Role implements Serializable {
 
-public class Role implements Serializable{
-	
-	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	// Author, Climber, moderator,
-	
-	@Id @GeneratedValue
-	private Long roleId;
-	@Column(nullable=false)
-	private Date roleDate;
-	@Column(length = 100, nullable=false)
-	private String roleName;
-	
-	@OneToMany(mappedBy="role",fetch=FetchType.LAZY)
-	private Collection<User> users;
-	
-	public Role() {
-		super();
-	}
+    @Id
+    @GeneratedValue
+    private Long roleId;
+    @Column(nullable = false)
+    private Date roleDate;
+    @Column(length = 100, nullable = false)
+    private String roleName;
 
-	public Long getRoleId() {
-		return roleId;
-	}
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private Collection<User> users;
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
-	}
+    public Role() {
+    }
 
-	public Date getRoleDate() {
-		return roleDate;
-	}
+    public Long getRoleId() {
+        return roleId;
+    }
 
-	public void setRoleDate(Date roleDate) {
-		this.roleDate = roleDate;
-	}
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
 
-	public String getRoleName() {
-		return roleName;
-	}
+    public Date getRoleDate() {
+        return roleDate;
+    }
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public void setRoleDate(Date roleDate) {
+        this.roleDate = roleDate;
+    }
 
-	public Collection<User> getUsers() {
-		return users;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public void setUsers(Collection<User> users) {
-		this.users = users;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "UserCategory [userCategoryLabel=" + roleName + "]";
-	}
-	
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
+    }
+    
+    
 }

@@ -15,117 +15,111 @@ import javax.persistence.OneToMany;
 
 /**
  * @author nicolasdotnet
- * 
- * Spot is the registration entity of a Spot.
- * A spot is a place where you can climb.
+ *
+ * Spot is the registration entity of a Spot. A spot is a place where you can
+ * climb.
  *
  */
-
 @Entity
-public class Spot implements Serializable{
-	
-	// register a spot : manque Author et prévoir  table département & pays ?
-	
-	@Id @GeneratedValue
-	private Long spotId;
-	@Column(nullable=false)
-	private Date spotDate;
-	@Column(nullable=false)
-	private String spotName;
-	@Column(length = 20)
-	private String spotRate;
-	private String spotDescription;
-	private String spotAccessPath;
-	@Column(length = 100, nullable=false)
-	private String departement;
-	@Column(length = 100, nullable=false)
-	private String country;
-        private boolean official;
-	
-	@OneToMany(mappedBy = "spot",fetch = FetchType.LAZY)
-	private Collection<Comment> Comment;
-        
-        private String sectorCount;
-        private String sectorDescription;
-        
-        private String routeCount;
-        private String routeDescription;
-        
-        @ManyToOne
-	@JoinColumn(nullable=false)
-	private User spotAuthor;
-	
-	public Spot() {
-		super();
-	}
+public class Spot implements Serializable {
 
-	public Long getSpotId() {
-		return spotId;
-	}
+    @Id
+    @GeneratedValue
+    private Long spotId;
+    @Column(nullable = false)
+    private Date spotDate;
+    @Column(nullable = false)
+    private String spotName;
+    @Column(length = 20)
+    private String spotRate;
+    private String spotDescription;
+    private String spotAccessPath;
+    @Column(length = 100, nullable = false)
+    private String location;
+    @Column(length = 100, nullable = false)
+    private String country;
+    private boolean official;
 
-	public void setSpotId(Long spotId) {
-		this.spotId = spotId;
-	}
+    @OneToMany(mappedBy = "spot", fetch = FetchType.LAZY)
+    private Collection<Comment> Comment;
 
-	public Date getSpotDate() {
-		return spotDate;
-	}
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User spotAuthor;
 
-	public void setSpotDate(Date spotDate) {
-		this.spotDate = spotDate;
-	}
+    @OneToMany(mappedBy = "spot", fetch = FetchType.LAZY)
+    private Collection<Sector> sector;
 
-	public String getSpotName() {
-		return spotName;
-	}
+    private String sectorCount;
 
-	public void setSpotName(String spotName) {
-		this.spotName = spotName;
-	}
+    private String componentCount;
 
-	public String getSpotRate() {
-		return spotRate;
-	}
-	
-	public void setSpotRate(String spotRate) {
-		this.spotRate = spotRate;
-	}
+    public Spot() {
+    }
 
-	public void setSpotType(String spotType) {
-		this.spotRate = spotType;
-	}
+    public Long getSpotId() {
+        return spotId;
+    }
 
-	public String getSpotDescription() {
-		return spotDescription;
-	}
+    public void setSpotId(Long spotId) {
+        this.spotId = spotId;
+    }
 
-	public void setSpotDescription(String spotDescription) {
-		this.spotDescription = spotDescription;
-	}
+    public Date getSpotDate() {
+        return spotDate;
+    }
 
-	public String getSpotAccessPath() {
-		return spotAccessPath;
-	}
+    public void setSpotDate(Date spotDate) {
+        this.spotDate = spotDate;
+    }
 
-	public void setSpotAccessPath(String spotAccessPath) {
-		this.spotAccessPath = spotAccessPath;
-	}
+    public String getSpotName() {
+        return spotName;
+    }
 
-	public String getDepartement() {
-		return departement;
-	}
+    public void setSpotName(String spotName) {
+        this.spotName = spotName;
+    }
 
-	public void setDepartement(String departement) {
-		this.departement = departement;
-	}
+    public String getSpotRate() {
+        return spotRate;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setSpotRate(String spotRate) {
+        this.spotRate = spotRate;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getSpotDescription() {
+        return spotDescription;
+    }
+
+    public void setSpotDescription(String spotDescription) {
+        this.spotDescription = spotDescription;
+    }
+
+    public String getSpotAccessPath() {
+        return spotAccessPath;
+    }
+
+    public void setSpotAccessPath(String spotAccessPath) {
+        this.spotAccessPath = spotAccessPath;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public boolean isOfficial() {
         return official;
@@ -135,46 +129,12 @@ public class Spot implements Serializable{
         this.official = official;
     }
 
-	public Collection<Comment> getSpotComment() {
-		return Comment;
-	}
-
-	public void setSpotComment(Collection<Comment> spotComment) {
-		this.Comment = Comment;
-	}
-        
-    public String getSectorCount() {
-        return sectorCount;
+    public Collection<Comment> getComment() {
+        return Comment;
     }
 
-    public void setSectorCount(String sectorCount) {
-        this.sectorCount = sectorCount;
-    }
-
-        public String getSectorDescription() {
-        return sectorDescription;
-    }
-
-    public void setSectorDescription(String sectorDescription) {
-        this.sectorDescription = sectorDescription;
-    }
-    
-    
-
-    public String getRouteCount() {
-        return routeCount;
-    }
-
-    public void setRouteCount(String routeCount) {
-        this.routeCount = routeCount;
-    }
-
-    public String getRouteDescription() {
-        return routeDescription;
-    }
-
-    public void setRouteDescription(String routeDescription) {
-        this.routeDescription = routeDescription;
+    public void setComment(Collection<Comment> Comment) {
+        this.Comment = Comment;
     }
 
     public User getSpotAuthor() {
@@ -185,9 +145,29 @@ public class Spot implements Serializable{
         this.spotAuthor = spotAuthor;
     }
 
-	@Override
-	public String toString() {
-		return "Spot [spotname=" + spotName + "]";
-	}	
+    public Collection<Sector> getSector() {
+        return sector;
+    }
+
+    public void setSector(Collection<Sector> sector) {
+        this.sector = sector;
+    }
+
+    public String getSectorCount() {
+        return sectorCount;
+    }
+
+    public void setSectorCount(String sectorCount) {
+        this.sectorCount = sectorCount;
+    }
+
+    public String getComponentCount() {
+        return componentCount;
+    }
+
+    public void setComponentCount(String componentCount) {
+        this.componentCount = componentCount;
+    }
+    
+    
 }
-	

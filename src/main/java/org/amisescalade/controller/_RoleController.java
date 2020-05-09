@@ -2,22 +2,18 @@ package org.amisescalade.controller;
 
 import java.util.List;
 
-import org.amisescalade.entity.User;
 import org.amisescalade.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.amisescalade.services.IRoleService;
+import org.amisescalade.services.interfaces.IRoleService;
+import org.springframework.stereotype.Controller;
 
-@Component
+@Controller
 @Transactional
-public class RoleController {
+public class _RoleController {
 
 	@Autowired
 	private IRoleService iUserCategoryService;
-
-	@Autowired
-	private IInputValidator inputValidator;
 
 	private String errorMessage;
 

@@ -9,6 +9,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="secu" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- Le doctype permet de savoir quelle version de HTML est utilisée sur la page -->
 <!DOCTYPE html>
@@ -32,62 +33,55 @@
     <body>
         <header>
             <!-- menu de navigation -->
-            <nav class="nav fixed-top">
-                <!-- menu de navigation no js-->
-                <div class="container">
-                    <a class="navbar-brand"  href="/"><img src="img/logo.png" alt="Les Amis de l'escalade"/></a>
-                    <ul class="nav navbar-nav">
-                        <li><a href="/allspots">Spots</a></li>
-                        <secu:authorize access="isAuthenticated()">
-                            <li><a href="/user/alltopos">Topos</a></li>
-                        </secu:authorize>
-                        <secu:authorize access="hasAuthority('grimpeur')">
-                            <li><a href="/admin">Administration</a></li>
-                        </secu:authorize>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <secu:authorize access="isAuthenticated()">
-                            <li><a href="/logout">Logout</a></li>
-                            <li class="username"><a href="/user/account"><secu:authentication property="principal.username"/></a></li>
-                        </secu:authorize>
-                        <secu:authorize access="isAnonymous()">
-                            <li><a href="/login">Se connecter</a></li>
-                        </secu:authorize>
-                    </ul>
-                </div>
-            </nav>
-
-
-           <!-- <nav class="navbar navbar-inverse fixed-top">
+            
+            <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <a class="navbar-brand"  href="/"><img src="img/logo.png" alt="Les Amis de l'escalade"/></a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
                     </div>
-                    <div id="navbar" class="collapse navbar-collapse">
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a href="/spots">Spots</a></li>
+                            <li class="nav-item"><a href="/spots">Sites</a></li>
                             <secu:authorize access="isAuthenticated()">
-                                <li><a href="/user/bookings/topos">Demande de réservations</a></li>
-                                <li><a href="/user/bookings">Mes réservations</a></li>
-                                <li><a href="/user/topos">Mes topos</a></li>
-                                <li><a href="/user/spots">Mes sites</a></li>
+                                <li class="nav-item"><a href="/topos">Topos</a></li>
                             </secu:authorize>
-                            <secu:authorize access="hasAuthority('grimpeur')">
-                                <li><a href="/admin">Administration</a></li>
+                            <secu:authorize access="hasAuthority('admin')">
+                                <li class="nav-item"><a href="/admin">Administration</a></li>
                             </secu:authorize>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <secu:authorize access="isAuthenticated()">
-                                <li><a href="/logout">Logout</a></li>
-                                <li class="username"><a href="/user/account"><secu:authentication property="principal.username"/></a></li>
+                                <li class="nav-item"><a href="/logout">Logout</a></li>
+                                <li class="nav-item username"><a href="/user/account"><secu:authentication property="principal.username"/></a></li>
                             </secu:authorize>
                             <secu:authorize access="isAnonymous()">
-                                <li><a href="/login">Se connecter</a></li>
+                                <li class="nav-item"><a href="/login">Se connecter</a></li>
                             </secu:authorize>
                         </ul>
                     </div>
-                </div>
-            </nav>-->
+            </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </header>
         <main>
             <div class="container">

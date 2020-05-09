@@ -4,11 +4,48 @@
     Author     : nicolasdotnet
 --%>
 <%@ include file="../common/header.jsp" %>
-<spring:url value="/user/spot/${spot.spotId}/comments/add" var="url" htmlEscape="true"/>
 
-<h1 class="">Commentaires sur le spot <c:out value="${spot.spotName}">Valeur par défaut</c:out></h1>
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <c:choose>
+        <c:when test="${owner}">
+            <li><a href="/user/account">Mon compte</a></li>
+            <li><a href="/user/spots">Mes sites</a></li>
+            <li><a href="/spot/${spot.spotId}">${spotFind.spotName}</a></li>
+            <li class="active">Les commentaires</li>
+        </c:when>
+        <c:otherwise>
+            <li><a href="/spots">Les sites</a></li>
+            <li><a href="/spot/${spot.spotId}">${spot.spotName}</a></li>
+            <li class="active">Les commentaires</li>
+        </c:otherwise>  
+    </c:choose>
+</ol>
 
-<%@ include file="addform.jsp" %>
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+
+<div class="row container">
+    <div class="row vcenter">
+        <div  class="col-sm-8">
+            <h2>Commentaires sur <c:out value="${spot.spotName}">Valeur par défaut</c:out></h2>
+        </div>
+
+        <secu:authorize access="isAuthenticated()">
+            <div class="col-sm-4 hidden-xs">
+                <spring:url value="/user/spot/${spot.spotId}/comments/add" var="addUrl"/>
+
+                <form action="${addUrl}" class="x pull-right">
+                    <button class="btn btn-primary"
+                            >Ajouter un commentaire</button>
+                </form>
+            </div>
+        </secu:authorize>
+    </div>
+</div>
+
+
+<spring:url value="/user/spot/${spot.spotId}/comments/add" var="url"/>
 
 <table class="table table-striped">
     <tr>
@@ -16,29 +53,50 @@
         <th>Commentaire</th>
         <th>Statut</th>
         <th>Auteur</th>
-        <th>Actions</th>
+    <secu:authorize access="hasAuthority('admin')">
+        <th class="hidden-xs">Actions</th>
+    </secu:authorize>
+</tr>
+
+<c:forEach items="${comments}" var="c">
+
+    <spring:url value="/user/comment/${c.commentId}/delete" var="deleteUrl" /> 
+    <spring:url value="/user/comment/${c.commentId}/update" var="updateUrl" />
+    <spring:url value="/user/comment/${c.commentId}" var="url" />
+
+    <tr>
+        <td><c:out value="${c.commentDate}">Valeur par défaut</c:out> </td>
+    <td><a href="${url}"><c:out value="${c.commentBody}">Valeur par défaut</c:out></a></td>
+    <td><c:out value="${c.commentStatus}">Valeur par défaut</c:out> </td>
+    <td><c:out value="${c.commentAuthor.lastname}">Valeur par défaut</c:out> </td>
+
+    <secu:authorize access="hasAuthority('admin')">
+        <td class="hidden-xs">
+            <form action="${updateUrl}">
+                <button class="btn btn-primary x pull-right"
+                        onclick="return confirm('Are you sure?')">Modifier</button>
+            </form>
+            <form action="${deleteUrl}" method="POST">
+                <button class="btn btn-danger x pull-right"
+                        onclick="return confirm('Are you sure?')">Supprimer</button>
+            </form>
+        </td>
+    </secu:authorize>
     </tr>
 
-    <c:forEach items="${comments}" var="c">
-        <tr>
-            <td><c:out value="${c.commentDate}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${c.commentBody}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${c.commentStatus}">Valeur par défaut</c:out> </td>
-        <td><c:out value="${c.commentAuthor.lastname}">Valeur par défaut</c:out> </td>
-
-
-        <spring:url value="/user/comment/${c.commentId}" var="commentUrl" />
-        <spring:url value="/user/comment/${c.commentId}/delete" var="deleteUrl" /> 
-        <spring:url value="/user/comment/${c.commentId}/update" var="updateUrl" />
-
-        <td><a href="${updateUrl}" id="update" name="update" class="btn btn-primary">Modifier</a></td>
-
-        <td><form action="${deleteUrl}" method="POST">
-                <button class="btn btn-danger" 
-                        onclick="return confirm('Are you sure?')">Supprimer</button>
-            </form></td>
-        </tr>
-
-    </c:forEach>
+</c:forEach>
 </table>
+
+
+
+<div class="col-sm-3 hidden-sm hidden-lg">
+    <secu:authorize access="isAuthenticated()">
+        <spring:url value="/user/spot/${spot.spotId}/comments/add" var="addUrl"/>
+
+        <form action="${addUrl}">
+            <button class="btn btn-primary x pull-right"
+                    >Ajouter un commentaire</button>
+        </form>
+    </secu:authorize>
+</div>
 <%@ include file="../common/footer.jsp" %>

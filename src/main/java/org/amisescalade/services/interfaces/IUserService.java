@@ -1,7 +1,8 @@
-package org.amisescalade.services;
+package org.amisescalade.services.interfaces;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Optional;
 
 import org.amisescalade.entity.User;
 import org.amisescalade.entity.Role;
@@ -22,6 +23,20 @@ public interface IUserService {
      * @throws Exception
      */
     User registerByDefault(String firstname, String lastname, String email, String username, String password) throws Exception;
+
+    /**
+     * method to register a admin user by default
+     *
+     * @param firstname
+     * @param lastname
+     * @param email
+     * @param username
+     * @param password
+     *
+     * @return user object saved
+     * @throws Exception
+     */
+    User registerForAdmin(String firstname, String lastname, String email, String username, String password) throws Exception;
 
     /**
      * method to modify a user
@@ -72,23 +87,26 @@ public interface IUserService {
      *
      * @param UserCategory
      * @return the list users from Role label
+     * @throws Exception
      */
-    List<User> getUsersByRole(Role UserCategory);
+    List<User> getUsersByRole(Role UserCategory) throws Exception;
 
     /**
      * method to get a user by his username
      *
      * @param userName
      * @return the list users from Role label
+     * @throws Exception
      */
-    public User getUserByUsername(String userName);
+    public Optional<User> getUserByUsername(String userName) throws Exception;
 
     /**
      * method to remove a user
      *
      * @param username
+     * @throws Exception
      */
-    public void delete(String username)throws Exception;
+    public void delete(String username) throws Exception;
 
     /**
      * method to desactivate a user
@@ -103,9 +121,8 @@ public interface IUserService {
      *
      * @param userName
      * @return the list users with the username
-     * @throws java.lang.Exception
      */
-    public List<User> getAllUserByUsername(String userName) throws Exception;
+    public List<User> getAllUserByUsername(String userName);
 
     /**
      * method to update password
@@ -113,7 +130,7 @@ public interface IUserService {
      * @param passwordNew
      * @param username
      * @return user objet update
-     * @throws java.lang.Exception
+     * @throws Exception
      */
     public User updatePassword(String passwordNew, String username) throws Exception;
 

@@ -1,5 +1,7 @@
 package org.amisescalade.services;
 
+import org.amisescalade.services.interfaces.IRoleService;
+import org.amisescalade.services.interfaces.IUserService;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Date;
@@ -28,29 +30,59 @@ public class UserServiceImpl implements IUserService {
     private UserRepository userRepository;
 
     @Autowired
-    private IRoleService iUserCategoryService;
+    private IRoleService iRoleService;
 
     @Override
-    public User registerByDefault(String firstName, String lastName, String email, String userName, String password) throws Exception {
+    public User registerByDefault(String firstname, String lastname, String email, String username, String password) throws Exception {
 
-        User userFind = userRepository.findByUsername(userName);
+        Optional<User> userFind = userRepository.findByUsername(username);
 
-        if (userFind != null) {
+        if (userFind.isPresent()) {
 
-            log.error("Utilisateur existe déjà !");
+            log.error("Utilisateur " + username + " existe déjà !");
 
-            throw new Exception("Utilisateur existe déjà !");
+            throw new Exception("Utilisateur " + username + " existe déjà !");
 
         }
 
         User user = new User();
 
-        user.setFirstname(firstName);
-        user.setLastname(lastName);
-        user.setUsername(userName);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setUsername(username);
         user.setEmail(email);
         user.setPassword(encrytePassword(password));
-        user.setRole(iUserCategoryService.getDefaultUserCategory());
+        user.setRole(iRoleService.getDefaultUserCategory());
+        user.setEnabled(true);
+        user.setUserDate(new Date());
+
+        return userRepository.save(user);
+
+    }
+
+    @Override
+    public User registerForAdmin(String firstname, String lastname, String email, String username, String password) throws Exception {
+
+        Optional<User> userFind = userRepository.findByUsername(username);
+
+        if (userFind.isPresent()) {
+
+            log.error("Utilisateur " + username + " existe déjà !");
+
+            throw new Exception("Utilisateur " + username + " existe déjà !");
+
+        }
+        
+        Role admin = iRoleService.getUserCategory(4L);
+
+        User user = new User();
+
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(encrytePassword(password));
+        user.setRole(admin);
         user.setEnabled(true);
         user.setUserDate(new Date());
 
@@ -67,13 +99,13 @@ public class UserServiceImpl implements IUserService {
         try {
             // Check if the file's name contains invalid characters
 
-            Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
+            Optional<User> userFind = userRepository.findByUsername(username);
 
             if (!userFind.isPresent()) {
 
                 log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
 
-                throw new Exception("Utilisateur n'existe pas !");
+                throw new Exception("Utilisateur " + username + "n'existe pas !");
 
             }
 
@@ -98,9 +130,9 @@ public class UserServiceImpl implements IUserService {
 
         if (!userFind.isPresent()) {
 
-            log.error("Modification Impossible ! l'utilisateur " + id + " n'existe pas dans la base.");
+            log.error("L'utilisateur " + id + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur " + id + " n'existe pas !");
 
         }
 
@@ -125,7 +157,13 @@ public class UserServiceImpl implements IUserService {
 
             log.error("Modification Impossible ! l'utilisateur " + user.getUserId() + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur " + user.getUserId() + "n'existe pas !");
+
+        }
+
+        if (user.getRole() != null) {
+
+            userFind.get().setRole(user.getRole());
 
         }
 
@@ -135,6 +173,7 @@ public class UserServiceImpl implements IUserService {
         return userRepository.saveAndFlush(userFind.get());
     }
 
+    // TODO : login tjrs actif
     @Override
     public void desactivate(Long userId) throws Exception {
 
@@ -144,7 +183,7 @@ public class UserServiceImpl implements IUserService {
 
             log.error("Modification Impossible ! l'utilisateur " + Math.toIntExact(userId) + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur  " + Math.toIntExact(userId) + " n'existe pas !");
 
         }
 
@@ -159,9 +198,9 @@ public class UserServiceImpl implements IUserService {
 
         if (!userFind.isPresent()) {
 
-            log.error("Affichage Impossible ! l'utilisateur " + id + " n'existe pas dans la base.");
+            log.error("L'utilisateur " + id + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur " + id + " n'existe pas !");
 
         }
 
@@ -175,26 +214,39 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getUsersByRole(Role userCategory) {
+    public List<User> getUsersByRole(Role userCategory) throws Exception {
+
+        iRoleService.getUserCategory(userCategory.getRoleId());
 
         return userRepository.findByRole(userCategory);
     }
 
     @Override
-    public User getUserByUsername(String userName) {
-        return userRepository.findByUsername(userName);
+    public Optional<User> getUserByUsername(String username) throws Exception {
+
+        Optional<User> userFind = userRepository.findByUsername(username);
+
+        if (!userFind.isPresent()) {
+
+            log.error("L'utilisateur " + username + " n'existe pas dans la base.");
+
+            throw new Exception("Utilisateur " + username + " n'existe pas !");
+
+        }
+
+        return userFind;
     }
 
     @Override
     public void delete(String username) throws Exception {
 
-        Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
+        Optional<User> userFind = userRepository.findByUsername(username);
 
         if (!userFind.isPresent()) {
 
             log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur " + username + " n'existe pas !");
 
         }
 
@@ -202,20 +254,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<User> getAllUserByUsername(String userName) throws Exception {
+    public List<User> getAllUserByUsername(String userName) {
         return userRepository.findAllByUsernameContainingIgnoreCase(userName);
     }
 
     @Override
     public User updatePassword(String passwordNew, String username) throws Exception {
 
-        Optional<User> userFind = userRepository.findByUsernameContainingIgnoreCase(username);
+        Optional<User> userFind = userRepository.findByUsername(username);
 
         if (!userFind.isPresent()) {
 
             log.error("Modification Impossible ! l'utilisateur " + username + " n'existe pas dans la base.");
 
-            throw new Exception("Utilisateur n'existe pas !");
+            throw new Exception("Utilisateur  " + username + " n'existe pas !");
 
         }
 

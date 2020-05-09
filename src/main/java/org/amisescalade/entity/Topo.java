@@ -14,94 +14,80 @@ import javax.persistence.OneToOne;
 
 /**
  * @author nicolasdotnet
- * 
- * 
- * Topo (small manual recording the information of climbing sites for a region) 
- * is the entity that registers a manual that a user has. 
- * A topo can be lent to another user from community.
+ *
+ *
+ * Topo (small manual recording the information of climbing sites for a region)
+ * is the entity that registers a manual that a user has. A topo can be lent to
+ * another user from community.
  *
  */
 @Entity
-public class Topo implements Serializable{
-	
-	@Id @GeneratedValue
-	private Long topoId;
-	@Column(nullable=false)
-	private Date topoDate;
-	@Column(length = 200, nullable=false)
-	private String topoArea;
-	@Column(length = 200, nullable=false)
-	private String topoTitle;
-	private String topoDescription;
-	@Column(nullable=false)
-	private Boolean topoStatus;
-	
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private User topoOwner;
-	
-	@OneToOne(mappedBy = "bookingTopo", fetch = FetchType.LAZY)
-	private Booking booking;
-	
-	public Topo() {
-		super();
-	}
+public class Topo implements Serializable {
 
-	public Long getTopoId() {
-		return topoId;
-	}
+    @Id
+    @GeneratedValue
+    private Long topoId;
+    @Column(nullable = false)
+    private Date topoDate;
+    @Column(length = 200, nullable = false)
+    private String topoArea;
+    @Column(length = 200, nullable = false)
+    private String topoTitle;
+    private String topoDescription;
+    @Column(nullable = false)
+    private Boolean topoStatus;
+    @Column(nullable = false)
+    private Date releaseDate;
 
-	public void setTopoId(Long topoId) {
-		this.topoId = topoId;
-	}
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User topoOwner;
 
-	public Date getTopoDate() {
-		return topoDate;
-	}
+    @OneToOne(mappedBy = "bookingTopo", fetch = FetchType.LAZY)
+    private Booking booking;
 
-	public void setTopoDate(Date topoDate) {
-		this.topoDate = topoDate;
-	}
+    public Topo() {
+    }
 
-	public String getTopoArea() {
-		return topoArea;
-	}
+    public Long getTopoId() {
+        return topoId;
+    }
 
-	public void setTopoArea(String topoArea) {
-		this.topoArea = topoArea;
-	}
+    public void setTopoId(Long topoId) {
+        this.topoId = topoId;
+    }
 
-	public String getTopoTitle() {
-		return topoTitle;
-	}
+    public Date getTopoDate() {
+        return topoDate;
+    }
 
-	public void setTopoTitle(String topoTitle) {
-		this.topoTitle = topoTitle;
-	}
+    public void setTopoDate(Date topoDate) {
+        this.topoDate = topoDate;
+    }
 
-	public String getTopoDescription() {
-		return topoDescription;
-	}
+    public String getTopoArea() {
+        return topoArea;
+    }
 
-	public void setTopoDescription(String topoDescription) {
-		this.topoDescription = topoDescription;
-	}
+    public void setTopoArea(String topoArea) {
+        this.topoArea = topoArea;
+    }
 
-	public User getTopoOwner() {
-		return topoOwner;
-	}
+    public String getTopoTitle() {
+        return topoTitle;
+    }
 
-	public void setTopoOwner(User topoOwner) {
-		this.topoOwner = topoOwner;
-	}
+    public void setTopoTitle(String topoTitle) {
+        this.topoTitle = topoTitle;
+    }
 
-	public Booking getBooking() {
-		return booking;
-	}
+    public String getTopoDescription() {
+        return topoDescription;
+    }
 
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
+    public void setTopoDescription(String topoDescription) {
+        this.topoDescription = topoDescription;
+    }
 
     public Boolean getTopoStatus() {
         return topoStatus;
@@ -110,13 +96,30 @@ public class Topo implements Serializable{
     public void setTopoStatus(Boolean topoStatus) {
         this.topoStatus = topoStatus;
     }
-	@Override
-	public String toString() {
-		return "Topo [topoTitle=" + topoTitle + ", topoOwner=" + topoOwner + "]";
-	}
-	
-	
-	
-	
 
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public User getTopoOwner() {
+        return topoOwner;
+    }
+
+    public void setTopoOwner(User topoOwner) {
+        this.topoOwner = topoOwner;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+    
+    
 }

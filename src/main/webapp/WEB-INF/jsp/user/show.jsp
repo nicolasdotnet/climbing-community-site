@@ -6,8 +6,15 @@
 <%@ include file="../common/header.jsp" %>
 
 <ol class="breadcrumb">
-    <li><a href="/user/account">Mon compte</a></li>
-    <li class="active">Les topos de ${userFind.username}</li>
+    <li><a href="/">Acceuil</a></li>
+    <c:choose>
+        <c:when test="${owner}">
+            <li>Mon compte</li>
+        </c:when>
+        <c:otherwise>
+            <li>Compte de ${userFind.username}</li>
+        </c:otherwise>  
+    </c:choose>
 </ol>
 
 <div class="row container">
@@ -36,6 +43,19 @@
                             onclick="return confirm('Are you sure?')">Supprimer</button>
                 </form>
             </c:if>
+            <secu:authorize access="hasAuthority('admin')">
+                <c:if test="${!owner}">
+                    <spring:url value="/user/delete" var="deleteUrl"/> 
+                    <spring:url value="/user/update" var="updateUrl"/>
+
+                    <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
+
+                    <form action="${deleteUrl}" method="POST" class="x pull-right">
+                        <button class="btn btn-danger" 
+                                onclick="return confirm('Are you sure?')">Supprimer</button>
+                    </form>
+                </c:if>
+            </secu:authorize>
         </div>
     </div>
     <div class="panel panel-default">
@@ -84,6 +104,20 @@
                     onclick="return confirm('Are you sure?')">Supprimer</button>
         </form>
     </c:if>
+
+    <secu:authorize access="hasAuthority('admin')">
+        <c:if test="${!owner}">
+            <spring:url value="/user/delete" var="deleteUrl"/> 
+            <spring:url value="/user/update" var="updateUrl"/>
+
+            <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
+
+            <form action="${deleteUrl}" method="POST" class="x pull-right">
+                <button class="btn btn-danger" 
+                        onclick="return confirm('Are you sure?')">Supprimer</button>
+            </form>
+        </c:if>
+    </secu:authorize>
 </div>
 
 

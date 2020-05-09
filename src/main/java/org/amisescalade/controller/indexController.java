@@ -27,11 +27,25 @@ public class indexController {
         return "index";
     }
 
+    // confirmation
+    @GetMapping("/confirmation")
+    public String confirmation() {
+        return "/common/infos";
+
+    }
+
+    // information
+    @GetMapping("/infos")
+    public String information() {
+        return "/common/infos";
+
+    }
+
     @PostMapping("/rate")
     public String rateHandler(HttpServletRequest request) {
         //your controller code
         String referer = request.getHeader("Referer");
-        System.out.println("org.amisescalade.controller.indexController.rateHandler() : "+referer);
+        System.out.println("org.amisescalade.controller.indexController.rateHandler() : " + referer);
         return "redirect:" + referer;
     }
 }

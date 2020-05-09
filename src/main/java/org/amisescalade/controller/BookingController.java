@@ -8,11 +8,7 @@ package org.amisescalade.controller;
 import java.security.Principal;
 import java.util.List;
 import org.amisescalade.entity.Booking;
-import org.amisescalade.entity.Topo;
-import org.amisescalade.entity.User;
-import org.amisescalade.services.IBookingService;
-import org.amisescalade.services.ITopoService;
-import org.amisescalade.services.IUserService;
+import org.amisescalade.services.interfaces.IBookingService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,39 +33,19 @@ public class BookingController {
     @Autowired
     private IBookingService iBookingService;
 
-    @Autowired
-    private ITopoService iTopoService;
-
-    @Autowired
-    private IUserService iUserService;
-
     // save booking with topo
     @PostMapping("/user/topo/{id}/booking")
     public String saveBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes, Principal principal) {
 
         log.debug("saveBookingTopo() id: {}", id);
 
-        User user = null;
-        Topo topoFind = null;
         Booking bookingNew = null;
 
         try {
-
-            user = iUserService.getUserByUsername(principal.getName());
-
-            topoFind = iTopoService.getTopo(Long.valueOf(id));
-
-            if (!topoFind.getTopoStatus()) {
-
-                redirectAttributes.addFlashAttribute("error", "Topo déjà réservé");
-
-                return "redirect:/user/topo/" + id;
-            }
-
-            bookingNew = iBookingService.register(user, topoFind);
-
+            bookingNew = iBookingService.register(principal.getName(), Long.valueOf(id));
+            
         } catch (Exception e) {
-
+            
             redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/user/topo/" + id;
@@ -99,7 +75,7 @@ public class BookingController {
 
             return "/user/confirmation";
         }
-        
+
         boolean owner = isOwner(principal.getName(), bookingFind.getBookingUser().getUsername());
 
         model.addAttribute("bookingFind", bookingFind);
@@ -115,13 +91,11 @@ public class BookingController {
 
         log.debug("showAllBookingsbyUser()");
 
-        User userFind = null;
         List<Booking> bookingList = null;
 
         try {
-            userFind = iUserService.getUserByUsername(principal.getName());
 
-            bookingList = iBookingService.getAllBookingByUser(userFind);
+            bookingList = iBookingService.getAllBookingByUser(principal.getName());
 
         } catch (Exception e) {
 
@@ -129,7 +103,7 @@ public class BookingController {
         }
 
         model.addAttribute("bookings", bookingList);
-        model.addAttribute("user", userFind);
+        model.addAttribute("user", principal.getName());
 
         return "/booking/list";
 
@@ -140,14 +114,12 @@ public class BookingController {
     public String validateBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("validateBookingTopo id: {}", id);
-        
-        Booking bookingFind = null;
+
         Booking bookingNew = null;
 
         try {
-            bookingFind = iBookingService.getBooking(Long.valueOf(id));
 
-            bookingNew = iBookingService.validate(bookingFind);
+            bookingNew = iBookingService.validate(Long.valueOf(id));
 
         } catch (Exception e) {
 
@@ -167,14 +139,12 @@ public class BookingController {
     public String makeAvailableBookingTopo(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("makeAvailableBookingTopo id: {}", id);
-        
-        Booking bookingFind = null;
+
         Booking bookingNew = null;
-        
+
         try {
-            bookingFind = iBookingService.getBooking(Long.valueOf(id));
-            
-            bookingNew = iBookingService.makeAvailable(bookingFind);
+
+            bookingNew = iBookingService.makeAvailable(Long.valueOf(id));
 
         } catch (Exception e) {
 
@@ -194,9 +164,9 @@ public class BookingController {
     public String cancelBooking(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteBooking() id: {}", id);
-        
+
         try {
-            
+
             iBookingService.delete(Long.valueOf(id));
 
         } catch (Exception e) {
@@ -210,8 +180,8 @@ public class BookingController {
         return "redirect:/user/bookings";
 
     }
-    
-        public boolean isOwner(String username, String userFind) {
+
+    public boolean isOwner(String username, String userFind) {
 
         System.out.println(username);
 

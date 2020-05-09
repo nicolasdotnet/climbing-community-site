@@ -6,41 +6,54 @@
 
 <%@ include file="../common/header.jsp" %>
 
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/allspots">Sites</a></li>
+    <li><a href="/topo/+${topoFind.topoId}">${topoFind.topoTitle}</a></li>
+    <li class="active">modifié</li>
+</ol>
+
+<h1>${topoFind.topoTitle}</h1>
+
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+
 <form:form method="POST"
            action="/user/topoUpdate" modelAttribute="topoFind">
 
     <form:hidden path="topoId"/>
+    
     <form class="form-horizontal">
         <h2> Informations obligatoires</h2>
 
         <div class="form-group">
             <label for="official" class="col-sm-2 control-label">Titre</label>
             <div class="col-sm-10">
-            <form:input class="form-control" path="topoTitle" autofocus="true" value="${titleFind.topoTitle}" placeholder="Titre"/>
-            <form:errors path="topoTitle"/>
+                <form:input class="form-control" path="topoTitle" autofocus="true" value="${titleFind.topoTitle}" placeholder="Titre"/>
+                <form:errors path="topoTitle"/>
             </div>
         </div>
         <div class="form-group">
             <label for="official" class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-            <form:input class="form-control" path="topoDescription" value="${topoFind.topoDescription}" placeholder="Desciption"/>
-            <form:errors path="topoDescription"/>
+                <form:input class="form-control" path="topoDescription" value="${topoFind.topoDescription}" placeholder="Desciption"/>
+                <form:errors path="topoDescription"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="official" class="col-sm-2 control-label">Accès</label>
             <div class="col-sm-10">
-            <form:input class="form-control" path="topoArea" value="${topoFind.topoArea}" placeholder="Accès"/>
-            <form:errors path="topoArea"/>
+                <form:input class="form-control" path="topoArea" value="${topoFind.topoArea}" placeholder="Accès"/>
+                <form:errors path="topoArea"/>
             </div>
         </div>
 
         <div class="form-group">
             <label for="official" class="col-sm-2 control-label">Statut du topo</label>
             <div class="col-sm-10">
-            <form:checkbox class="form-control" path="topoStatus" value="${topoFind.topoStatus}"/>
-            <form:errors path="topoStatus"/>
+                <form:checkbox path="topoStatus" value="${topoFind.topoStatus}"/>
+                <form:errors path="topoStatus"/>
             </div>
         </div>
 
@@ -51,6 +64,5 @@
     </form>
 </form:form> 
 
-<c:if test="${!empty error}"><span>${error}</span></c:if> 
 
 <%@ include file="../common/footer.jsp" %>

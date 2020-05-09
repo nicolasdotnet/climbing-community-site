@@ -3,14 +3,20 @@
     Created on : 25 avr. 2020, 11:25:15
     Author     : nicolasdotnet
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@ include file="../common/header.jsp" %>
-<spring:url value="/user/topo/add" var="url" htmlEscape="true"/>
+
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li>Mes demandes de réservation</li>
+</ol>
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
+<c:if test="${!empty msg}"><span>${msg}</span></c:if>
 
 
-<h1>Demande de réservation pour ${user.username}</h1>
+<h1>Mes demandes de réservation</h1>
 
 <table class="table table-striped">
     <tr>
@@ -20,7 +26,7 @@
         <th>Demandeur</th>
         <th>Topo</th>
         <th>Statut du topo</th>
-        <th>Actions</th>
+        <th class="hidden-xs">Actions</th>
     </tr>
 
     <c:forEach items="${topos}" var="t">
@@ -36,7 +42,8 @@
             <c:otherwise>
                 <tr>
                     <td><c:out value="${t.booking.bookingDate}">Valeur par défaut</c:out></td>
-                <td><a href="${bookingUrl}"><c:out value="${t.booking.bookingId}">Valeur par défaut</c:out></a></td>
+                <td class="hidden-xs"><c:out value="${t.booking.bookingId}">Valeur par défaut</c:out></td>
+                <td class="hidden-sm hidden-lg"><a href="${bookingUrl}"><c:out value="${t.booking.bookingId}">Valeur par défaut</c:out></a></td>
                 <c:choose>                
                     <c:when test = "${t.booking.bookingStatus == true}">
                         <td>demande validée</td>
@@ -55,19 +62,30 @@
                         <td>réservation impossible</td>
                     </c:when>
                 </c:choose>
-                <td>    
-                    <form class="x" action="${validateUrl}" method="POST">
-                        <button class="btn btn-primary" 
-                                onclick="return confirm('Are you sure?')">Valider</button>
-                    </form>
-                    <form class="x" action="${availableUrl}" method="POST">
-                        <button class="btn btn-danger" 
-                                onclick="return confirm('Are you sure?')">Refuser</button>
-                    </form>
-                    <form class="x" action="${deleteUrl}" method="POST">
-                        <button class="btn btn-danger" 
-                                onclick="return confirm('Are you sure?')">Annuler</button>
-                    </form>
+                <td class="hidden-xs"> 
+
+                <spring:url value="/user/booking/${t.booking.bookingId}/available" var="availableUrl"/>
+                <spring:url value="/user/booking/${t.booking.bookingId}/validate" var="validateUrl"/> 
+
+                <c:choose> 
+                    <c:when test="${t.booking.bookingStatus}">
+                        <form action="${availableUrl}" method="POST" class="x">
+                            <button class="btn btn-primary" 
+                                    onclick="return confirm('Are you sure?')">Refuser</button>
+                        </form>
+                    </c:when>
+                    <c:when test="${!t.booking.bookingStatus}">
+                        <form action="${validateUrl}" method="POST" class="x">
+                            <button class="btn btn-primary" 
+                                    onclick="return confirm('Are you sure?')">Valider</button>
+                        </form>
+                    </c:when>
+                </c:choose> 
+
+                <form action="${deleteUrl}" method="POST" class="x" >
+                    <button class="btn btn-danger" 
+                            onclick="return confirm('Are you sure?')">Annuler</button>
+                </form>
                 </td>
                 </tr>
             </c:otherwise>

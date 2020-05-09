@@ -1,106 +1,106 @@
 package org.amisescalade.services;
 
+import org.amisescalade.services.interfaces.IRoleService;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.amisescalade.dao.UserCategoryRepository;
 import org.amisescalade.entity.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.amisescalade.dao.RoleRepository;
 
 @Service
 @Transactional
 public class RoleImpl implements IRoleService {
 
-	private static final Logger log = LogManager.getLogger(RoleImpl.class);
+    private static final Logger log = LogManager.getLogger(RoleImpl.class);
 
-	@Autowired
-	private UserCategoryRepository userCategoryRepository;
+    @Autowired
+    private RoleRepository userCategoryRepository;
 
-	@Override
-	public Role register(String category) throws Exception {
+    @Override
+    public Role register(String category) throws Exception {
 
-		if (userCategoryRepository.findByRoleNameIgnoreCase(category) != null) {
+        if (userCategoryRepository.findByRoleNameIgnoreCase(category) != null) {
 
-			log.error("La catégorie existe déjà !");
+            log.error("Le role existe déjà !");
 
-			throw new Exception("La catégorie existe déjà !");
+            throw new Exception("La catégorie "+ category+" existe déjà !");
 
-		}
-		
-		Role userCategory = new Role();
-		
-		userCategory.setRoleName(category);
-		userCategory.setRoleDate(new Date());
+        }
 
-		return userCategoryRepository.save(userCategory);
-	}
+        Role userCategory = new Role();
 
-	@Override
-	public Role edit(Role userCategory) throws Exception {
+        userCategory.setRoleName(category);
+        userCategory.setRoleDate(new Date());
 
-		Optional<Role> categoryFind = userCategoryRepository.findById(userCategory.getRoleId());
+        return userCategoryRepository.save(userCategory);
+    }
 
-		if (!categoryFind.isPresent()) {
+    @Override
+    public Role edit(Role userCategory) throws Exception {
 
-			log.error("Modification Impossible ! la categorie " + userCategory.getRoleId()
-					+ " n'existe pas dans la base.");
+        Optional<Role> categoryFind = userCategoryRepository.findById(userCategory.getRoleId());
 
-			throw new Exception("La catégorie n'existe pas !");
+        if (!categoryFind.isPresent()) {
 
-		}
+            log.error("Modification Impossible ! le role " + userCategory.getRoleId()
+                    + " n'existe pas dans la base.");
 
-		// vérification de la saisie avec Spring Validator ?
+            throw new Exception("La catégorie " + userCategory.getRoleId()
+                    + " n'existe pas !");
 
-		return userCategoryRepository.saveAndFlush(userCategory);
-	}
+        }
 
-	@Override
-	public List<Role> getAllUserCategory() {
+        return userCategoryRepository.saveAndFlush(userCategory);
+    }
 
-		return userCategoryRepository.findAll();
-	}
+    @Override
+    public List<Role> getAllUserCategory() {
 
-	@Override
-	public Role getUserCategory(Long id) throws Exception {
+        return userCategoryRepository.findAll();
+    }
 
-		Optional<Role> categoryFind = userCategoryRepository.findById(id);
+    @Override
+    public Role getUserCategory(Long id) throws Exception {
 
-		if (!categoryFind.isPresent()) {
+        Optional<Role> categoryFind = userCategoryRepository.findById(id);
 
-			log.error("Modification Impossible ! la categorie " + id
-					+ " n'existe pas dans la base.");
+        if (!categoryFind.isPresent()) {
 
-			throw new Exception("La catégorie n'existe pas !");
+            log.error("Le role " + id
+                    + " n'existe pas dans la base.");
 
-		}
-		return categoryFind.get();
-	}
+            throw new Exception("La catégorie "+ id+" n'existe pas !");
 
-	@Override
-	public Role getDefaultUserCategory() throws Exception {
+        }
+        return categoryFind.get();
+    }
 
-		Optional<Role> defaultCategory = userCategoryRepository.findById(1L);
+    @Override
+    public Role getDefaultUserCategory() throws Exception {
 
-		if (!defaultCategory.isPresent()) {
+        Optional<Role> defaultCategory = userCategoryRepository.findById(1L);
 
-			log.error("La categorie par défault n'existe pas dans la base.");
+        if (!defaultCategory.isPresent()) {
 
-			throw new Exception("La catégorie par défault n'existe pas !");
+            log.error("Le role par défault n'existe pas dans la base.");
 
-		}
+            throw new Exception("La catégorie par défault n'existe pas !");
 
-		return defaultCategory.get();
-	}
+        }
 
-	@Override
-	public List<Role> getUserCategoryByLabel(String label) {
-		
-		return userCategoryRepository.findByRoleNameContainingIgnoreCase(label);
-	}
+        return defaultCategory.get();
+    }
+
+    @Override
+    public List<Role> getUserCategoryByLabel(String label) {
+
+        return userCategoryRepository.findByRoleNameContainingIgnoreCase(label);
+    }
 
 }

@@ -3,9 +3,11 @@
     Created on : 14 avr. 2020, 10:06:25
     Author     : nicolasdotnet
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../common/header.jsp" %>
 
 <ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
     <li><a href="/user/account">Mon compte</a></li>
     <li class="active">Modifier votre compte</li>
 </ol>
@@ -18,9 +20,6 @@
         <button class="btn btn-info">Ajouter</button>
     </form>
 </div>
-
-<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
-<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <div class="row container">
     <div class="row vcenter">
@@ -36,9 +35,9 @@
         </div>
     </div>
 
-    <c:if test="${!empty error}"><span>${error}</span></c:if>
-    <c:if test="${!empty msg}"><span>${msg}</span></c:if>
-    
+    <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+    <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+
     <form:form method="POST"
                action="/user/userupdate" modelAttribute="userFind">
 
@@ -70,6 +69,20 @@
                             <form:errors path="email" class="error"/>
                         </div>
                     </div>
+                    <secu:authorize access="hasAuthority('admin')">
+                        <div class="form-group">
+                            <label for="role" class="col-sm-2 control-label">Groupe</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="role">
+                                    <c:forEach items="${roles}" var="r">
+
+                                        <option value="${r.roleId}">${r.roleName}</option>
+
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                    </secu:authorize>
                 </div>
             </div>
             <div class="btn-group " role="group" aria-label="...">

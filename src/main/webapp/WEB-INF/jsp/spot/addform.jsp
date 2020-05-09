@@ -6,7 +6,14 @@
 
 
 <%@ include file="../common/header.jsp" %>
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/spots">Sites</a></li>
+    <li class="active">Ajouter un site</li>
+</ol>
 
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <form:form method="POST"
            action="/user/spotSave" modelAttribute="spotForm">
@@ -31,20 +38,30 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="departement" class="col-sm-2 control-label">Département</label>
+                <label for="locations" class="col-sm-2 control-label">Lieu</label>
                 <div class="col-sm-10">
-                    <form:input path="departement" class="form-control" type="text" value="${spotForm.departement}"/>
-                </div>
-            </div> 
-            <div class="form-group">
-                <label for="country" class="col-sm-2 control-label">Pays</label>
-                <div class="col-sm-10">
-                    <form:input path="country" class="form-control" type="text" value="${spotForm.country}"/>
-                </div>
-                <div class="col-sm-10">
-                    <c:if test="${!empty error}"><span class="error">${error}</span></c:if> 
+                    <select class="form-control" name="location">
+                        <c:forEach items="${locations}" var="l">
+
+                            <option value="${l}">${l}</option>
+
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="countrys" class="col-sm-2 control-label">Pays</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="country">
+                        <c:forEach items="${countrys}" var="c">
+
+                            <option value="${c}">${c}</option>
+
+                        </c:forEach>
+                    </select>
+                </div>
+            </div> 
         </div>
 
         <div class="row">
@@ -61,39 +78,10 @@
                         <form:input path="spotAccessPath" class="form-control" type="text" value="${spotForm.spotAccessPath}"/>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="sectorCount" class="col-sm-2 control-label">Nombre de secteurs</label>
-                    <div class="col-sm-10">
-                        <form:input class="form-control" path="sectorCount" value="${spotForm.sectorCount}"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="sectorDescription" class="col-sm-2 control-label">Descriptions secteurs</label>
-                    <div class="col-sm-10">
-                        <form:input path="sectorDescription" class="form-control" type="text" value="${spotForm.sectorDescription}"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="routeCount" class="col-sm-2 control-label">Nombre de voies</label>
-                    <div class="col-sm-10">
-                        <form:input class="form-control" path="routeCount" value="${spotForm.routeCount}"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="routeDescription" class="col-sm-2 control-label">Description des voies</label>
-                    <div class="col-sm-10">
-                        <form:input path="routeDescription" class="form-control" type="text" value="${spotForm.routeDescription}"/>
-                    </div>
-                </div>
-
             </div>
 
             <div class="btn-group" role="group" aria-label="...">
-                <a href="/spots" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+                <a href="/user/spots" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
                 <button type="submit" class="btn btn-info">Ajouter</button>
             </div>
     </form>

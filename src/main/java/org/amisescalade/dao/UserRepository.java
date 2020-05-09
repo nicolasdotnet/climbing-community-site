@@ -7,14 +7,12 @@ import org.amisescalade.entity.User;
 import org.amisescalade.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long>{
-	
-	User findByUsername (String username);
-        
-        Optional<User> findByUsernameContainingIgnoreCase (String username);
-        
-        List<User> findAllByUsernameContainingIgnoreCase (String username);
+public interface UserRepository extends JpaRepository<User, Long> {
 
-	List<User> findByRole(Role userCategory);
+    Optional<User> findByUsername(String username);
+
+    List<User> findAllByUsernameContainingIgnoreCase(String username);
+
+    List<User> findByRole(Role userCategory);
 
 }

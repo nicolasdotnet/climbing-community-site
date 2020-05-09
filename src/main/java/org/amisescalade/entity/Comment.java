@@ -13,98 +13,97 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
 /**
  * @author nicolasdotnet
- * 
+ *
  * Comment is the registration entity of a user comment.
  *
  */
+
 @Entity
-
 public class Comment implements Serializable {
-	
-	@Id @GeneratedValue
-	private Long commentId;
-	@Column(nullable=false)
-	private Date commentDate;
-	@Column(nullable=false)
-	private String commentBody;
-	@Column(nullable=false)
-	private Boolean commentStatus;
-	
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private User commentAuthor;
-	
-	@ManyToOne
-	private Comment subComment;
-	@OneToMany(mappedBy = "subComment",fetch = FetchType.LAZY)
-	private Collection<Comment> comments;
-        
-        	@ManyToOne
-//	@JoinColumn(nullable=false)
-	private Spot spot;
-	
-	public Comment() {
-		super();
-	}
 
-	public Long getCommentId() {
-		return commentId;
-	}
+    @Id
+    @GeneratedValue
+    private Long commentId;
+    @Column(nullable = false)
+    private Date commentDate;
+    @Column(nullable = false)
+    private String commentBody;
+    @Column(nullable = false)
+    private Boolean commentStatus;
 
-	public void setCommentId(Long commentId) {
-		this.commentId = commentId;
-	}
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User commentAuthor;
 
-	public Date getCommentDate() {
-		return commentDate;
-	}
+    @ManyToOne
+    private Comment subComment;
+    
+    @OneToMany(mappedBy = "subComment", fetch = FetchType.LAZY)
+    private Collection<Comment> comments;
 
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
-	}
+    @ManyToOne
+    private Spot spot;
 
-	public String getCommentBody() {
-		return commentBody;
-	}
+    public Comment() {
+    }
 
-	public void setCommentBody(String commentBody) {
-		this.commentBody = commentBody;
-	}
+    public Long getCommentId() {
+        return commentId;
+    }
 
-	public Boolean getCommentStatus() {
-		return commentStatus;
-	}
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
 
-	public void setCommentStatus(Boolean commentStatus) {
-		this.commentStatus = commentStatus;
-	}
+    public Date getCommentDate() {
+        return commentDate;
+    }
 
-	public User getCommentAuthor() {
-		return commentAuthor;
-	}
+    public void setCommentDate(Date commentDate) {
+        this.commentDate = commentDate;
+    }
 
-	public void setCommentAuthor(User commentAuthor) {
-		this.commentAuthor = commentAuthor;
-	}
-	
-	public Comment getSubComment() {
-		return subComment;
-	}
+    public String getCommentBody() {
+        return commentBody;
+    }
 
-	public void setSubComment(Comment subComment) {
-		this.subComment = subComment;
-	}
+    public void setCommentBody(String commentBody) {
+        this.commentBody = commentBody;
+    }
 
-	public Collection<Comment> getComments() {
-		return comments;
-	}
+    public Boolean getCommentStatus() {
+        return commentStatus;
+    }
 
-	public void setComments(Collection<Comment> comments) {
-		this.comments = comments;
-	}
+    public void setCommentStatus(Boolean commentStatus) {
+        this.commentStatus = commentStatus;
+    }
+
+    public User getCommentAuthor() {
+        return commentAuthor;
+    }
+
+    public void setCommentAuthor(User commentAuthor) {
+        this.commentAuthor = commentAuthor;
+    }
+
+    public Comment getSubComment() {
+        return subComment;
+    }
+
+    public void setSubComment(Comment subComment) {
+        this.subComment = subComment;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Spot getSpot() {
         return spot;
@@ -113,16 +112,7 @@ public class Comment implements Serializable {
     public void setSpot(Spot spot) {
         this.spot = spot;
     }
-        
-        
+    
+    
 
-	@Override
-	public String toString() {
-		return "Comment [commentDate=" + commentDate + ", commentBody=" + commentBody + ", commentStatus="
-				+ commentStatus + ", commentAuthor=" + commentAuthor + "]";
-	}
-	
-	
-	
-	
 }

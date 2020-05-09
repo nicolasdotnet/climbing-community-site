@@ -39,7 +39,7 @@ public class User implements Serializable {
 
     @Column(length = 100, nullable = false)
     private String lastname;
-    
+
     @Column(nullable = false)
     private String email;
 
@@ -48,9 +48,9 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String password;
-    
+
     private boolean enabled;
-    
+
     private boolean tokenExpired;
 
     @ManyToOne
@@ -69,11 +69,19 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "spotAuthor", fetch = FetchType.LAZY)
     private Collection<Spot> spots;
 
+    @OneToMany(mappedBy = "sectorAuthor", fetch = FetchType.LAZY)
+    private Collection<Sector> sectors;
+
+    @OneToMany(mappedBy = "componentAuthor", fetch = FetchType.LAZY)
+    private Collection<Component> components;
+
+    @OneToMany(mappedBy = "pitchAuthor", fetch = FetchType.LAZY)
+    private Collection<Pitch> pitchs;
+
     @Lob
     private byte[] profile;
 
     public User() {
-        super();
     }
 
     public Long getUserId() {
@@ -108,6 +116,14 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -122,6 +138,22 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isTokenExpired() {
+        return tokenExpired;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
     }
 
     public Role getRole() {
@@ -148,18 +180,44 @@ public class User implements Serializable {
         this.booking = booking;
     }
 
-    public Collection<Comment> getComment() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
-    public void setComment(Collection<Comment> comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
-    @Override
-    public String toString() {
-        return "User [userDate=" + userDate + ", userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
-                + username + ", UserCategory=" + role + "]";
+    public Collection<Spot> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(Collection<Spot> spots) {
+        this.spots = spots;
+    }
+
+    public Collection<Sector> getSectors() {
+        return sectors;
+    }
+
+    public void setSectors(Collection<Sector> sectors) {
+        this.sectors = sectors;
+    }
+
+    public Collection<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(Collection<Component> components) {
+        this.components = components;
+    }
+
+    public Collection<Pitch> getPitchs() {
+        return pitchs;
+    }
+
+    public void setPitchs(Collection<Pitch> pitchs) {
+        this.pitchs = pitchs;
     }
 
     public byte[] getProfile() {
@@ -169,23 +227,6 @@ public class User implements Serializable {
     public void setProfile(byte[] profile) {
         this.profile = profile;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-
-
+    
+    
 }

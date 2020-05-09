@@ -5,7 +5,7 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
-<h1>Les réservations de ${user.username}</h1>
+<h1>Les réservations de ${user}</h1>
 
 <table class="table table-striped">
     <tr>

@@ -4,13 +4,7 @@
     Author     : nicolasdotnet
 --%>
 <%@ include file="../jsp/common/header.jsp" %>
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Library</a></li>
-  <li class="active">Data</li>
-</ol>
 <div class="row">
 <%@ include file="../jsp/spot/search.jsp" %>
-<p><a href="/spot/multisearch">Avancée</a></p>
 </div>
 <%@ include file="../jsp/common/footer.jsp" %>

@@ -1,12 +1,13 @@
 package org.amisescalade.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.amisescalade.entity.Spot;
 import org.amisescalade.entity.User;
-
-import org.amisescalade.services.ISpotService;
-import org.amisescalade.services.IUserService;
+import org.amisescalade.services.interfaces.ICountry;
+import org.amisescalade.services.interfaces.ILocation;
+import org.amisescalade.services.interfaces.ISpotService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,10 @@ public class SpotController {
     private ISpotService iSpotService;
 
     @Autowired
-    private IUserService iUserService;
+    private ILocation iLocation;
 
-    private String errorMessage;
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+    @Autowired
+    private ICountry iCountry;
 
     // show add spot form :
     @GetMapping("/user/spot/add")
@@ -45,6 +43,8 @@ public class SpotController {
 
         log.debug("showAddSpotForm()");
         model.addAttribute("spotForm", new Spot());
+        model.addAttribute("locations", iLocation.getAllLocation());
+        model.addAttribute("countrys", iCountry.getAllCountry());
 
         return "spot/addform";
 
@@ -52,25 +52,18 @@ public class SpotController {
 
     // save spot
     @PostMapping("/user/spotSave")
-    public String saveSpot(@ModelAttribute("spotForm") Spot spot, final RedirectAttributes redirectAttributes, Model model) {
+    public String saveSpot(@ModelAttribute("spotForm") Spot spot, Principal principal, final RedirectAttributes redirectAttributes, Model model) {
 
         log.debug("saveSpot()");
-
-        User authorFind = null;
-
-        try {
-            authorFind = iUserService.getUser(Long.valueOf(2L));
-
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
 
         String sublink = "addform";
 
         String link = validateIsEmpty(spot, sublink, model);
 
         if (link != null) {
+
+            model.addAttribute("locations", iLocation.getAllLocation());
+            model.addAttribute("countrys", iCountry.getAllCountry());
 
             return link;
 
@@ -79,27 +72,30 @@ public class SpotController {
         Spot spotSave = null;
 
         try {
-            spotSave = iSpotService.register(spot.getSpotName(), spot.getSpotRate(), spot.getSpotDescription(), spot.getSpotAccessPath(), spot.getDepartement(),
-                    spot.getCountry(), spot.getSectorCount(), spot.getSectorDescription(), spot.getRouteCount(), spot.getRouteDescription(), authorFind);
+            spotSave = iSpotService.register(spot.getSpotName(), spot.getSpotRate(), spot.getSpotDescription(), spot.getSpotAccessPath(), spot.getLocation(),
+                    spot.getCountry(), principal.getName());
         } catch (Exception e) {
 
             model.addAttribute("error", e.getMessage());
-
-            model.addAttribute("spotFind", spot);
+            model.addAttribute("spotForm", spot);
+            model.addAttribute("locations", iLocation.getAllLocation());
+            model.addAttribute("countrys", iCountry.getAllCountry());
 
             return "spot/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "enregisté !");
+        redirectAttributes.addFlashAttribute("msg", "site enregisté !");
 
         return "redirect:/spot/" + Math.toIntExact(spotSave.getSpotId());
     }
 
     // show update spot form :
     @GetMapping("/user/spot/{id}/update")
-    public String showUpdateSpotForm(@PathVariable("id") int id, Model model) {
+    public String showUpdateSpotForm(@PathVariable("id") int id, Principal principal, Model model) {
 
         log.debug("showUpdateSpotForm() : {}", id);
+
+        hasPermission(principal.getName(), id);
 
         Spot spotFind = new Spot();
 
@@ -109,7 +105,7 @@ public class SpotController {
 
             model.addAttribute("error", e.getMessage());
 
-            return "redirect:/spots";
+            return "redirect:/spot/" + id;
         }
 
         model.addAttribute("spotFind", spotFind);
@@ -142,18 +138,38 @@ public class SpotController {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-            return "redirect:/spots";
+            return "redirect:/spot/" + spot.getSpotId();
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Modifications enregistrées ! ");
 
         return "redirect:/spot/" + Math.toIntExact(spotUpdate.getSpotId());
 
     }
 
+    // modify spot status
+    @PostMapping("/user/spotstatus/{id}")
+    public String modifySpotStatus(@PathVariable("id") Long id, final RedirectAttributes redirectAttributes) {
+
+        log.debug("updateSpot() id: {}", id);
+
+        Spot spotUpdate = null;
+
+        try {
+            spotUpdate = iSpotService.modifyStatus(Long.valueOf(id));
+        } catch (Exception e) {
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/spot/" + id;
+        }
+
+        return "redirect:/spot/" + Math.toIntExact(spotUpdate.getSpotId());
+    }
+
     // show spot
     @GetMapping("/spot/{id}")
-    public String showSpot(@PathVariable("id") Long id, Model model) {
+    public String showSpot(@PathVariable("id") Long id, Principal principal, Model model) {
 
         log.debug("showSpot() id: {}", id);
 
@@ -168,10 +184,17 @@ public class SpotController {
             return "redirect:/spots";
         }
 
-        model.addAttribute("spotFind", spotFind);
-        model.addAttribute("spotId", id);
+        if (principal != null) {
 
-        System.out.println("showSpot() id: {}" + spotFind.getSpotName());
+            boolean owner = isOwner(principal.getName(), spotFind.getSpotAuthor().getUsername());
+            model.addAttribute("owner", owner);
+
+        } else {
+
+            model.addAttribute("owner", false);
+        }
+
+        model.addAttribute("spotFind", spotFind);
 
         return "spot/show";
 
@@ -180,6 +203,8 @@ public class SpotController {
     // spot list page by name
     @GetMapping("/spot/search")
     public String searchSpot(Model model, @RequestParam("spotName") String spotName) {
+
+        log.debug("searchSpot()");
 
         List<Spot> spotList = null;
 
@@ -192,8 +217,6 @@ public class SpotController {
             return "redirect:/spots";
         }
 
-        System.out.println("le post marche !! searchSpotByMc");
-
         model.addAttribute("spots", spotList);
 
         return "/spot/list";
@@ -201,37 +224,77 @@ public class SpotController {
 
     // spot list page
     @GetMapping("/spots")
-    public String showAllSpots(Model model,@RequestParam(name= "page", defaultValue="0")int p, @RequestParam(name= "size", defaultValue="5")int s) {
+    public String showAllSpots(Model model, @RequestParam(name = "page", defaultValue = "0") int p, @RequestParam(name = "size", defaultValue = "5") int s) {
 
         log.debug("showAllSpots()");
 
         Page<Spot> spotPage = iSpotService.getAllSpots(p, s);
-        
+
         int numberPage = spotPage.getTotalPages();
-        List<Spot> spots = spotPage.getContent(); 
-        int [] pages = new int[numberPage];
-        
-        model.addAttribute("pages",pages);
-        model.addAttribute("size",s);
-        model.addAttribute("pageCourante",p);
+        List<Spot> spots = spotPage.getContent();
+        int[] pages = new int[numberPage];
+
+        model.addAttribute("pages", pages);
+        model.addAttribute("size", s);
+        model.addAttribute("pageCourante", p);
         model.addAttribute("spots", spots);
-        
-                System.out.println("le post marche !! spots");
+
+        System.out.println("le post marche !! spots");
 
         return "/spot/list";
     }
 
-    //delette spot
+    // spot list page by login author spot
+    @GetMapping("/user/spots")
+    public String showAllByAuthorSpot(Model model, Principal principal) {
+
+        log.debug("showAllByAuthorSpot()");
+
+        User spotAuthor = null;
+        List<Spot> spotList = null;
+
+        try {
+
+            spotList = iSpotService.getAllSpotsByAuthor(principal.getName());
+
+        } catch (Exception e) {
+
+            model.addAttribute("error", e.getMessage());
+
+            return "/spot/list";
+
+        }
+
+        if (spotList == null) {
+
+            model.addAttribute("msg", "L'auteur" + principal.getName() + "n'a pas de spot.");
+            return "/spot/list";
+        }
+
+        model.addAttribute("spots", spotList);
+        model.addAttribute("user", spotAuthor);
+        model.addAttribute("owner", true);
+
+        return "/spot/list";
+
+    }
+
+    // delette spot
     @PostMapping("/user/spot/{id}/delete")
-    public String deleteSpot(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
+    public String deleteSpot(@PathVariable("id") int id, Principal principal, final RedirectAttributes redirectAttributes) {
 
         log.debug("deleteSpot() id: {}", id);
 
-        System.out.println("deleteSpot() id: {}" + id);
+        hasPermission(principal.getName(), id);
 
-        iSpotService.delete(Long.valueOf(id));
+        try {
+            iSpotService.delete(Long.valueOf(id));
+        } catch (Exception e) {
 
-        redirectAttributes.addFlashAttribute("msg", "delete");
+            redirectAttributes.addFlashAttribute("error", e);
+        }
+
+        redirectAttributes.addFlashAttribute("msg", "Site supprimé");
 
         return "redirect:/spots";
 
@@ -247,11 +310,18 @@ public class SpotController {
     }
 
     @GetMapping("/spot/findSpots")
-    public String findSpots(@RequestParam("spotRate") String spotRate, @RequestParam("departement") String departement, @RequestParam("sectorCount") String sectorCount, Model model) {
+    public String findSpots(
+            @RequestParam("spotName") String spotName,
+            @RequestParam("spotRate") String spotRate,
+            @RequestParam("location") String location,
+            @RequestParam("sectorCount") String sectorCount,
+            Model model) {
 
         log.debug("findSpots()");
 
-        List<Spot> spotsFind = iSpotService.getAllSpotsByNameRateDepartement(spotRate, departement, sectorCount);
+        List<Spot> spotsFind = iSpotService.getAllSpotsByMc(spotName, spotRate, location, sectorCount);
+
+        System.out.println("org.amisescalade.controller.SpotController.findSpots()" + spotsFind.isEmpty());
 
         model.addAttribute("spots", spotsFind);
 
@@ -277,7 +347,7 @@ public class SpotController {
 
         }
 
-        if (spot.getDepartement().isEmpty()) {
+        if (spot.getLocation().isEmpty()) {
 
             model.addAttribute("error", "dep  isEmpty");
 
@@ -293,6 +363,46 @@ public class SpotController {
 
         }
         return null;
+
+    }
+
+    public boolean isOwner(String username, String userFind) {
+
+        System.out.println(username);
+
+        System.out.println(userFind);
+
+        System.out.println(username.equals(userFind));
+
+        if (username.equals(userFind)) {
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    public String hasPermission(String username, int id) {
+
+        User userFind = null;
+
+        try {
+
+            userFind = iSpotService.getSpot(Long.valueOf(id)).getSpotAuthor();
+
+            if (username.equals(userFind)) {
+                return null;
+            }
+
+        } catch (Exception ex) {
+
+            return "redirect:/spot/" + id;
+
+        }
+
+        return "redirect:/spot/" + id;
 
     }
 }

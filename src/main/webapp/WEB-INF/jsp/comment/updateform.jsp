@@ -6,20 +6,27 @@
 
 <%@ include file="../common/header.jsp" %>
 
- <form:form method="POST"
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+
+<div class="row container">
+    <form:form method="POST"
                action="/user/commentUpdate" modelAttribute="spotCommentFind">
-        <table>
-        
-                <td hidden=""><form:input path="commentId" value="${spotCommentFind.commentId}"/></td>
-            <tr>
-                <td><form:label path="commentBody">Commentaire</form:label></td>
-                <td><form:input path="commentBody" value="${spotCommentFind.commentBody}"/></td>
-            </tr>
-                <td><input type="submit" value="Modifier"/></td>
-            </tr>
-        </table>
+        <form:hidden path="commentId"/>
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <form:textarea path="commentBody" rows="2" cols="50" placeholder="Entrer un message"/>
+            </div>
+        </div>
+
+
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="/spot/${spot.spotId}/comments" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+            <button type="submit" class="btn btn-info">Modifier</button>
+        </div>
     </form:form> 
-            
-            <c:if test="${!empty error}"><span>${error}</span></c:if>
+
+</div>
 
 <%@ include file="../common/footer.jsp" %>

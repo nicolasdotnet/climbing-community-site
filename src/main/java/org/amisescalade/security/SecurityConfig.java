@@ -57,14 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //pour REST
 
         // The pages does not require login
-        http.authorizeRequests().antMatchers("/","/signup","/login", "/style.css", "/bootstrap/**", "/webjars/**", "/spot/**", "/spots").permitAll();
+        http.authorizeRequests().antMatchers("/","/signup","/login", "/style.css", "/bootstrap/**", "/webjars/**", "/spot/**", "/spots", "/confirmation", "/infos").permitAll();
 
         // /userinfo page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
 // http.authorizeRequests().antMatchers("/userinfo").hasRole("grimpeur");
         
-        http.authorizeRequests().antMatchers("/user/**").hasAuthority("grimpeur");
-        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("grimpeur");
+//        http.authorizeRequests().antMatchers("/user/**").hasAuthority("grimpeur");
+        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
+        http.authorizeRequests().antMatchers("/user/**").hasAnyAuthority("admin", "grimpeur");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,

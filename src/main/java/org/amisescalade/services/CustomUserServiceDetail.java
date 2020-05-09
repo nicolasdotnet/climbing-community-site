@@ -8,6 +8,7 @@ package org.amisescalade.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 import org.amisescalade.dao.UserRepository;
 import org.amisescalade.entity.User;
 import org.apache.logging.log4j.LogManager;
@@ -37,20 +38,20 @@ public class CustomUserServiceDetail implements UserDetailsService {
 
         Objects.requireNonNull(username);
 
-        User userFind = userRepository.findByUsername(username);
+        Optional<User> userFind = userRepository.findByUsername(username);
 
-        if (userFind == null) {
+        if (!userFind.isPresent()) {
 
             log.error("L'identifiant n'existe pas !");
             throw new UsernameNotFoundException("L'identifiant n'existe pas !");
         }
 
         Collection<GrantedAuthority> role = new ArrayList<>();
-        role.add(new SimpleGrantedAuthority(userFind.getRole().getRoleName()));
+        role.add(new SimpleGrantedAuthority(userFind.get().getRole().getRoleName()));
 
-        System.out.println("role : " + userFind.getRole().getRoleName());
+        System.out.println("role : " + userFind.get().getRole().getRoleName());
 
-        return new org.springframework.security.core.userdetails.User(username, userFind.getPassword(), role);
+        return new org.springframework.security.core.userdetails.User(username, userFind.get().getPassword(), role);
     }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Transactional
-public class InputValidatorImpl implements IInputValidator {
+public class InputValidatorImpl{
 
     private static final Logger log = LogManager.getLogger(InputValidatorImpl.class);
 

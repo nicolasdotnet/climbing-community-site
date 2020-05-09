@@ -6,6 +6,15 @@
 
 <%@ include file="../common/header.jsp" %>
 
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/spots">Sites</a></li>
+    <li class="active">Ajouter un site</li>
+</ol>
+
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
+
 <form:form method="POST"
            action="/user/topoSave" modelAttribute="topoForm">
     <form class="form-horizontal">
@@ -22,6 +31,11 @@
         </div>
 
         <div class="form-group">
+            <form:input type ="date" class="form-control" path="releaseDate"/>
+            <form:errors path="releaseDate" class="error"/>
+        </div>
+
+        <div class="form-group">
             <form:input class="form-control" path="topoDescription" value="${topoForm.topoDescription}" placeholder="Description"/>
             <form:errors path="topoDescription" class="error"/>
         </div>
@@ -31,8 +45,6 @@
             <button type="submit" class="btn btn-info">Ajouter</button>
         </div>
     </form>
-</form:form> 
-
-<c:if test="${!empty error}"><span>${error}</span></c:if> 
+</form:form>
 
 <%@ include file="../common/footer.jsp" %>
