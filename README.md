@@ -22,7 +22,9 @@ git clone https://github.com/nicolasdotnet/climbing-community-site.git
 - Créer une base de donnée dans MySql avec les paramétres suivants : 
 
 Nom de la base  : db_community_escalade
+
 Identifiant : root
+
 Mot de passe : mysql
 
 Pour une installation personnalisée, vous pouvez modifier les valeurs des clès du fichier ressources/application.properties du projet :  
@@ -45,5 +47,7 @@ Spring Boot va charger les scripts SQL de création de la base de données (sche
 - Aller sur un navigateur à l'adresse http://localhost:9090
 
 Il existe un compte Membre dans la base démo :
+
 Identifiant : membre
+
 Mot de passe : 123
