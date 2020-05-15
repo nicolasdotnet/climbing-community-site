@@ -73,7 +73,7 @@ public class BookingController {
 
             model.addAttribute("error", e.getMessage());
 
-            return "/user/confirmation";
+            return "common/infos";
         }
 
         boolean owner = isOwner(principal.getName(), bookingFind.getBookingUser().getUsername());
@@ -99,7 +99,6 @@ public class BookingController {
 
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
         }
 
         model.addAttribute("bookings", bookingList);
@@ -175,19 +174,13 @@ public class BookingController {
             return "redirect:/user/bookings/topos";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "delete");
+        redirectAttributes.addFlashAttribute("msg", "Réservation annulée");
 
-        return "redirect:/user/bookings";
+        return "redirect:/user/bookings/topos";
 
     }
 
     public boolean isOwner(String username, String userFind) {
-
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
 
         if (username.equals(userFind)) {
 

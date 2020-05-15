@@ -18,13 +18,11 @@
         <p>Vous ne pouvez plus vous connecter à votre compte.</p>
         <p>Pour créer un nouveau compte, cliquez <a href="/signup">ici</a></p>
     </c:when>
-    <c:when test="${!empty desactivate}">
-        <spring:url value="/user/${user.userId}" var="userUrl" />
-        <p>${desactivate}</p>
-        <p>Compte desactivé</p>
-    </c:when>
     <c:when test="${!empty error}">
         <p>${error}</p>
+    </c:when>
+        <c:when test="${!empty msg}">
+        <p>${msg}</p>
     </c:when>
 </c:choose>
 

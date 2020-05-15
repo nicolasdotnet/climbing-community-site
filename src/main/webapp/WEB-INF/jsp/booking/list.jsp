@@ -5,7 +5,14 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
-<h1>Les réservations de ${user}</h1>
+<ol class="breadcrumb b">
+    <li><a href="/">Acceuil</a></li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li>Mes réservations</li>
+</ol>
+
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <table class="table table-striped">
     <tr>
@@ -36,7 +43,14 @@
             </c:when>
         </c:choose>
         <td><c:out value="${b.bookingTopo.topoTitle}">Valeur par défaut</c:out> </td>
-<td><a href="${userUrl}"><c:out value="${b.bookingTopo.topoOwner.username}">Valeur par défaut</c:out></a></td>
+        <c:choose>
+            <c:when test="${b.bookingStatus}">
+                <td><a href="mailto:${b.bookingTopo.topoOwner.email}"><c:out value="${b.bookingTopo.topoOwner.email}">Valeur par défaut</c:out></a></td>
+            </c:when>
+            <c:otherwise>
+                <td><c:out value="${b.bookingTopo.topoOwner.username}">Valeur par défaut</c:out></td>
+            </c:otherwise>
+        </c:choose>
         </tr>
     </c:forEach>
 </table>

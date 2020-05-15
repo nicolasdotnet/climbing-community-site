@@ -9,8 +9,8 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <li><a href="/admin">Administrations</a></li>
-    <li class="active">Membres</li>
+    <li><a href="/membre">Membre</a></li>
+    <li class="active">Inscripts</li>
 </ol>
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
@@ -22,7 +22,7 @@
             <%@ include file="search.jsp" %> 
         </div>
 
-        <secu:authorize access="hasAuthority('admin')">
+        <secu:authorize access="hasAuthority('membre')">
             <div class="col-sm-2 hidden-xs">
                 <spring:url value="/signup" var="addUrl" />
 
@@ -46,7 +46,6 @@
     <c:forEach items="${users}" var="u">
 
         <spring:url value="/user/${u.userId}" var="userUrl"/>
-        <spring:url value="/admin/user/desactivate" var="desactivateUrl" />
 
         <tr>
             <td><a href="${userUrl}"><c:out value="${u.username}">Valeur par défaut</c:out></a> </td>
@@ -59,7 +58,7 @@
 </table>
 
 <div class="col-sm-3 hidden-sm hidden-lg">
-    <secu:authorize access="hasAuthority('admin')">
+    <secu:authorize access="hasAuthority('membre')">
         <spring:url value="/signup" var="addUrl" />
 
         <form action="${addUrl}">

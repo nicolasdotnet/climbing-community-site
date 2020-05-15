@@ -14,6 +14,8 @@ public interface IComponentService {
      * @param componentCode
      * @param componentName
      * @param componentRate
+     * @param componentHeight
+     * @param spits
      * @param componentDescription
      * @param componentCategoryId
      * @param sectorId
@@ -21,7 +23,7 @@ public interface IComponentService {
      * @return sectorComponent object saved
      * @throws Exception
      */
-    Component register(String componentCode, String componentName, String componentRate, String componentDescription, Long componentCategoryId, Long sectorId, String username) throws Exception;
+    Component register(String componentCode, String componentName, String componentRate, String componentHeight, Boolean spits,String componentDescription, Long componentCategoryId, Long sectorId, String username) throws Exception;
 
     /**
      * method to modify a component

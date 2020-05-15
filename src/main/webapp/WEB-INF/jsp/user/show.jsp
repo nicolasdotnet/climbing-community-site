@@ -5,7 +5,7 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
-<ol class="breadcrumb">
+<ol class="breadcrumb b">
     <li><a href="/">Acceuil</a></li>
     <c:choose>
         <c:when test="${owner}">
@@ -29,48 +29,40 @@
 <div class="row container">
     <div class="row vcenter">
         <div class="col-sm-8">
-            <h2>Vos informations :</h2> 
+            <h3>Vos informations</h3> 
         </div>
         <div class="col-sm-4 hidden-xs">
-            <c:if test="${owner}">
-                <spring:url value="/user/delete" var="deleteUrl"/> 
+            <c:if test="${owner}"> 
                 <spring:url value="/user/update" var="updateUrl"/>
-
                 <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
-
-                <form action="${deleteUrl}" method="POST" class="x pull-right">
-                    <button class="btn btn-danger" 
-                            onclick="return confirm('Are you sure?')">Supprimer</button>
-                </form>
             </c:if>
-            <secu:authorize access="hasAuthority('admin')">
-                <c:if test="${!owner}">
-                    <spring:url value="/user/delete" var="deleteUrl"/> 
-                    <spring:url value="/user/update" var="updateUrl"/>
-
-                    <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
-
-                    <form action="${deleteUrl}" method="POST" class="x pull-right">
-                        <button class="btn btn-danger" 
-                                onclick="return confirm('Are you sure?')">Supprimer</button>
-                    </form>
-                </c:if>
-            </secu:authorize>
         </div>
     </div>
     <div class="panel panel-default">
         <div class="panel-body">
             <div>
-                <label>Date d'enregistrement</label>
-                <span><c:out value="${userFind.userDate}">Valeur par défaut</c:out></span>
+                <label>Prénom :</label>
+                <span><c:out value="${userFind.firstname}">Valeur par défaut</c:out></span>
             </div>
             <div>
-                <label>Membre</label>
+                <label>Nom :</label>
+                <span><c:out value="${userFind.lastname}">Valeur par défaut</c:out></span>
+            </div>
+            <div>
+                <label>Identifiant :</label>
+                <span><c:out value="${userFind.username}">Valeur par défaut</c:out></span>
+            </div>
+            <div>
+                <label>Email :</label>
+                <a href="mailto:${userFind.email}"><c:out value="${userFind.email}">Valeur par défaut</c:out></a>
+            </div>
+            <div>
+                <label>Groupe :</label>
                 <span><c:out value="${userFind.role.roleName}">Valeur par défaut</c:out></span>
             </div>
             <div>
-                <label>Email</label>
-                <a href="mailto:${userFind.email}"><c:out value="${userFind.email}">Valeur par défaut</c:out></a>
+                <label>Date d'enregistrement :</label>
+                <span><fmt:formatDate pattern="dd/MM/yyyy" value="${userFind.userDate}" /></span>
             </div>
         </div>
     </div>
@@ -85,39 +77,18 @@
 
 <c:if test="${owner}">
     <ul class="nav navbar-nav">
-        <li><a href="/user/bookings/topos">Demande de réservations <span class="badge">14</span></a></li>
+        <li><a href="/user/bookings/topos">Demande de réservations</a></li>
         <li><a href="/user/bookings">Mes réservations</a></li>
         <li><a href="/user/topos">Mes topos</a></li>
         <li><a href="/user/spots">Mes sites</a></li>
     </ul>
 </c:if>
 
-<div class="col-sm-3 hidden-sm hidden-lg">
+<div class="col-sm-3 visible-xs">
     <c:if test="${owner}">
-        <spring:url value="/user/delete" var="deleteUrl"/> 
         <spring:url value="/user/update" var="updateUrl"/>
-
         <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
-
-        <form action="${deleteUrl}" method="POST" class="x pull-right">
-            <button class="btn btn-danger" 
-                    onclick="return confirm('Are you sure?')">Supprimer</button>
-        </form>
     </c:if>
-
-    <secu:authorize access="hasAuthority('admin')">
-        <c:if test="${!owner}">
-            <spring:url value="/user/delete" var="deleteUrl"/> 
-            <spring:url value="/user/update" var="updateUrl"/>
-
-            <a href="${updateUrl}" class="btn btn-primary x pull-right" role="button">Modifier</a>
-
-            <form action="${deleteUrl}" method="POST" class="x pull-right">
-                <button class="btn btn-danger" 
-                        onclick="return confirm('Are you sure?')">Supprimer</button>
-            </form>
-        </c:if>
-    </secu:authorize>
 </div>
 
 

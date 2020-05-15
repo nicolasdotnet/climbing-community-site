@@ -3,28 +3,30 @@
     Created on : 14 avr. 2020, 10:06:25
     Author     : nicolasdotnet
 --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../common/header.jsp" %>
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
     <li><a href="/user/account">Mon compte</a></li>
-    <li class="active">Modifier votre compte</li>
+    <li class="active">Modifier mon compte</li>
 </ol>
 
 
 <div class="row container">
     <img width="150" height="150" src="/getPhoto/<c:out value='${userFind.userId}'/>" alt="Ajouter votre profil" class="img-thumbnail img-responsive">
     <spring:url value="/user/upload" var="uploadUrl" />
+
     <form action="${uploadUrl}">
-        <button class="btn btn-info">Ajouter</button>
+        
+        <button class="btn btn-info">Modifier</button>   
+
     </form>
 </div>
 
 <div class="row container">
     <div class="row vcenter">
         <div class="col-sm-9">
-            <h2>Vos informations :</h2> 
+            <h3>Vos informations</h3> 
         </div>
         <div class="col-sm-4 hidden-xs">
             <spring:url value="/user/passform" var="passwordUrl" />
@@ -45,7 +47,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <div class="form-group">
+                    <div class="form-group p">
                         <form:hidden path="userId"/>
                         <label for="firstname" class="col-sm-2 control-label">Prénom</label>
                         <div class="col-sm-10">
@@ -54,7 +56,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group p">
                         <label for="lastname" class="col-sm-2 control-label">Nom</label>
                         <div class="col-sm-10">
                             <form:input path="lastname" class="form-control" type="text" placeholder="Nom"/>
@@ -62,27 +64,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group p">
                         <label for="email" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-10">
                             <form:input path="email" class="form-control" type="text" placeholder="Email"/>
                             <form:errors path="email" class="error"/>
                         </div>
                     </div>
-                    <secu:authorize access="hasAuthority('admin')">
-                        <div class="form-group">
-                            <label for="role" class="col-sm-2 control-label">Groupe</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="role">
-                                    <c:forEach items="${roles}" var="r">
-
-                                        <option value="${r.roleId}">${r.roleName}</option>
-
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                    </secu:authorize>
                 </div>
             </div>
             <div class="btn-group " role="group" aria-label="...">

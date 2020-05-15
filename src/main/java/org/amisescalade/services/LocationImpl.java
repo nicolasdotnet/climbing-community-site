@@ -24,12 +24,7 @@ public class LocationImpl implements ILocation{
     @Override
     public List<Location> getAllLocation() {
         
-        
         List<Location> l = Arrays.asList(Location.values());
-        
-        for (Location location : l) {
-            System.out.println( l.iterator());
-        }
         
         return  Arrays.asList(Location.values());
         

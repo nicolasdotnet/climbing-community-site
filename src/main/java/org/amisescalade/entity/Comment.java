@@ -28,7 +28,7 @@ public class Comment implements Serializable {
     private Long commentId;
     @Column(nullable = false)
     private Date commentDate;
-    @Column(nullable = false)
+    @Column(length = 150, nullable = false)
     private String commentBody;
     @Column(nullable = false)
     private Boolean commentStatus;
@@ -44,6 +44,7 @@ public class Comment implements Serializable {
     private Collection<Comment> comments;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Spot spot;
 
     public Comment() {

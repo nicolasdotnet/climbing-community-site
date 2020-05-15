@@ -14,9 +14,7 @@ package org.amisescalade.entity;
  */
 public enum Country {
     
-    France, Afrique, du, sud, Australie,
-    Autriche, Chine, Colombie, Espagne,
-    Gréce, Inde, Italie, Madagascar, Maroc,
-    Mexique, Turquie
+    France, Australie,Autriche, Chine, Colombie, Espagne,
+    Gréce, Inde, Italie, Madagascar, Maroc,Mexique, Turquie
     
 }

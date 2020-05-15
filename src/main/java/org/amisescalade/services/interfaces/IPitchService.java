@@ -9,10 +9,6 @@ import java.util.List;
 import org.amisescalade.entity.Pitch;
 import org.amisescalade.entity.Component;
 
-/**
- *
- * @author nicolasdotnet
- */
 public interface IPitchService {
 
     /**
@@ -60,7 +56,7 @@ public interface IPitchService {
      * @return the Pitch list with his component
      * @throws Exception
      */
-    List<Pitch> getAllPitchByComponent(Component component) throws Exception;
+    List<Pitch> getAllPitchsByComponent(Component component) throws Exception;
 
     /**
      * method to remove a pitch

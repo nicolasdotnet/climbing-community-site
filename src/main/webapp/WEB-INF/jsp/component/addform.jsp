@@ -8,23 +8,11 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <c:choose>
-        <c:when test="${owner}">
-            <li><a href="/user/account">Mon compte</a></li>
-            <li><a href="/user/spots">Mes sites</a></li>
-            <li><a href="/spot/${spot.spotId}">${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sectors">Les secteurs de ${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sector/${sector.sectorId}">${sector.sectorName}"</a></li>
-            <li class="active">Ajouter une voie</li>
-        </c:when>
-        <c:otherwise>
-            <li><a href="/spots/">Les sites</a></li>
-            <li><a href="/spot/${spot.spotId}">${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sectors">Les secteurs de ${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sector/${sector.sectorId}">${sector.sectorName}"</a></li>
-            <li class="active">Ajouter une voie</li>
-        </c:otherwise>  
-    </c:choose>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/spots">Mes sites</a></li>
+    <li><a href="/spot/${sector.spot.spotId}">${sector.spot.spotName}</a></li>
+    <li><a href="/spot/${sector.spot.spotId}/sectors">Secteurs de ${sector.spot.spotName}</a></li>
+    <li><a href="/sector/${sector.sectorId}">${sector.sectorName}</a></li>
 </ol>
 
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
@@ -34,49 +22,70 @@
            action="/user/componentSave/${sector.sectorId}" modelAttribute="componentForm">
 
     <div class="row">
-        <h2>Informations obligatoires</h2>
+        <h3>Ajouter une voie</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-        <div class="form-group">
-            <label for="componentName" class="col-sm-2 control-label">Nom</label>
-            <div class="col-sm-10">
-                <form:input path="componentName" class="form-control" type="text"/>
-            </div>   
-            <div class="form-group">
-                <label for="componentRate" class="col-sm-2 control-label">Difficulté</label>
-                <div class="col-sm-10">
-                    <form:input path="componentRate" class="form-control" type="text"/>
+                <div class="form-group p">
+                    <label for="componentName" class="col-sm-4 control-label">Nom</label>
+                    <div class="col-sm-8">
+                        <form:input path="componentName" class="form-control" type="text"/>
+                    </div> 
+                </div>
+                    <div class="form-group p">
+                        <label for="componentRate" class="col-sm-4 control-label">Cotation</label>
+                        <div class="col-sm-8">
+                            <form:input path="componentRate" class="form-control" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group p">
+                        <label for="componentHeight" class="col-sm-4 control-label">Hauteur</label>
+                        <div class="col-sm-8">
+                            <form:input path="componentHeight" class="form-control" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group p">
+                        <label for="componentCode" class="col-sm-4 control-label">Code du bloc</label>
+                        <div class="col-sm-8">
+                            <form:input path="componentCode" class="form-control" type="text"/>
+                        </div>
+                    </div>
+                    <div class="form-group p">
+                        <label for="spits" class="col-sm-4 control-label">Voie équipée</label>
+                        <div class="col-sm-8">
+                            <form:checkbox path="spits"/>
+                            <form:errors path="spits"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group p">
+                        <label for="componentCategory" class="col-sm-4 control-label">Catégorie</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="componentCategory">
+                                <c:forEach items="${componentCategorys}" var="c">
+
+                                    <option value="${c.componentCategoryId}">${c.componentCategoryLabel}</option>
+
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group p">
+                        <label for="componentDescription" class="col-sm-4 control-label">Description</label>
+                        <div class="col-sm-8">
+                            <form:textarea rows="5" path="componentDescription" class="form-control" type="text"/>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="form-group">
-                <label for="componentCode" class="col-sm-2 control-label">Code</label>
-                <div class="col-sm-10">
-                    <form:input path="componentCode" class="form-control" type="text"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="componentDescription" class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-10">
-                    <form:input path="componentDescription" class="form-control" type="text"/>
-                </div>
-            </div>
+        </div>
 
-            <div class="form-group">
-                <label for="componentCategory" class="col-sm-2 control-label">Catégorie</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="componentCategory">
-                        <c:forEach items="${componentCategorys}" var="c">
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="/sector/${sector.sectorId}/components" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+            <button type="submit" class="btn btn-info">Ajouter</button>
+        </div>
+</form:form>  
 
-                            <option value="${c.componentCategoryId}">${c.componentCategoryLabel}</option>
-
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <div class="btn-group" role="group" aria-label="...">
-                    <a href="/spot/${spot.spotId}/sectors" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
-                    <button type="submit" class="btn btn-info">Ajouter</button>
-                </div>
-            </div>
-            </form:form>  
-
-            <%@ include file="../common/footer.jsp" %>
+<%@ include file="../common/footer.jsp" %>

@@ -21,20 +21,21 @@ public class indexController {
 
     private final Logger log = LogManager.getLogger(indexController.class);
 
+    // get default page
     @GetMapping("/")
     public String index() {
         log.debug("index()");
         return "index";
     }
 
-    // confirmation
+    // get confirmation page
     @GetMapping("/confirmation")
     public String confirmation() {
         return "/common/infos";
 
     }
 
-    // information
+    // get information page
     @GetMapping("/infos")
     public String information() {
         return "/common/infos";

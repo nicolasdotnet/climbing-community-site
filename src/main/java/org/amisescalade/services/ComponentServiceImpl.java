@@ -38,17 +38,8 @@ public class ComponentServiceImpl implements IComponentService {
     private IUserService iUserService;
 
     @Override
-    public Component register(String componentCode, String componentName, String componentRate, String componentDescription, Long componentCategoryId, Long sectorId, String username) throws Exception {
-
-        Component componentFind = componentRepository.findByComponentCode(componentCode);
-
-        if (componentFind != null) {
-
-            log.error("Le component " + componentName + " existe déjà !");
-
-            throw new Exception("La voie/bloc " + componentName + " existe déjà !");
-
-        }
+    public Component register(String componentCode, String componentName, String componentRate, String componentHeight, Boolean spits,
+            String componentDescription, Long componentCategoryId, Long sectorId, String username) throws Exception {
 
         Sector sectorFind = iSectorService.getSector(sectorId);
 
@@ -80,41 +71,146 @@ public class ComponentServiceImpl implements IComponentService {
 
         }
 
-        Component sectorComponent = new Component();
+        if (componentCode.length() > 5) {
 
-        sectorComponent.setComponentCode(componentCode);
-        sectorComponent.setComponentName(componentName);
-        sectorComponent.setComponentRate(componentRate);
-        sectorComponent.setComponentDescription(componentDescription);
-        sectorComponent.setComponentCategory(componentCategoryFind);
-        sectorComponent.setSector(sectorFind);
-        sectorComponent.setComponentAuthor(componentAuthor.get());
-        sectorComponent.setComponentDate(new Date());
+            log.error("Enregistrement du component impossible ! componentCode est trop long.");
 
-        int i = Integer.parseInt(componentFind.getSector().getSpot().getComponentCount());
-        --i;
-        componentFind.getSector().getSpot().setComponentCount(String.valueOf(i));
-
-        return componentRepository.save(sectorComponent);
-    }
-
-    @Override
-    public Component edit(Component sectorComponent) throws Exception {
-
-        Optional<Component> componentFind = componentRepository.findById(sectorComponent.getComponentId());
-
-        if (!componentFind.isPresent()) {
-
-            log.error("Modification Impossible ! le component " + sectorComponent.getComponentId() + " n'existe pas dans la base.");
-
-            throw new Exception("La voie/bloc" + sectorComponent.getComponentId() + " n'existe pas !");
+            throw new Exception("Enregistrement de la voie impossible ! le numéro du bloc est trop long.");
 
         }
 
-        componentFind.get().setComponentName(sectorComponent.getComponentName());
-        componentFind.get().setComponentDescription(sectorComponent.getComponentDescription());
-        componentFind.get().setComponentRate(sectorComponent.getComponentRate());
-        componentFind.get().setComponentCode(sectorComponent.getComponentCode());
+        if (componentRate.length() > 3) {
+
+            log.error("Enregistrement du component impossible ! componentRate est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la cotation est trop long.");
+
+        }
+
+        if (componentName.length() > 150) {
+
+            log.error("Enregistrement du component impossible ! componentName est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! le nom est trop long.");
+
+        }
+
+        if (componentHeight.length() > 3) {
+
+            log.error("Enregistrement du component impossible ! componentHeight est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la hauteur est trop longue.");
+
+        }
+
+        String number = "[0-9]+";
+
+        if (!componentHeight.matches(number)) {
+
+            log.error("Que des chiffres 0-9 pour la hauteur !");
+
+            throw new Exception("Que des chiffres 0-9 pour la hauteur !");
+
+        }
+
+        if (componentDescription.length() > 380) {
+
+            log.error("Enregistrement du component impossible ! la description est trop longue.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la description est trop longue.");
+
+        }
+
+        Component component = new Component();
+
+        component.setComponentCode(componentCode);
+        component.setComponentName(componentName);
+        component.setComponentRate(componentRate);
+        component.setComponentHeight(componentHeight);
+        component.setSpits(spits);
+        component.setComponentDescription(componentDescription);
+        component.setComponentCategory(componentCategoryFind);
+        component.setSector(sectorFind);
+        component.setComponentAuthor(componentAuthor.get());
+        component.setComponentDate(new Date());
+
+        int i = Integer.parseInt(sectorFind.getSpot().getComponentCount());
+        ++i;
+        sectorFind.getSpot().setComponentCount(String.valueOf(i));
+
+        return componentRepository.save(component);
+    }
+
+    @Override
+    public Component edit(Component component) throws Exception {
+
+        Optional<Component> componentFind = componentRepository.findById(component.getComponentId());
+
+        if (!componentFind.isPresent()) {
+
+            log.error("Modification Impossible ! le component " + component.getComponentId() + " n'existe pas dans la base.");
+
+            throw new Exception("La voie/bloc" + component.getComponentId() + " n'existe pas !");
+
+        }
+
+        if (component.getComponentCode().length() > 5) {
+
+            log.error("Enregistrement du component impossible ! componentCode est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! le numéro du bloc est trop long.");
+
+        }
+
+        if (component.getComponentRate().length() > 3) {
+
+            log.error("Enregistrement du component impossible ! componentRate est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la cotation est trop long.");
+
+        }
+
+        if (component.getComponentName().length() > 150) {
+
+            log.error("Enregistrement du component impossible ! componentName est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! le nom est trop long.");
+
+        }
+
+        if (component.getComponentHeight().length() > 3) {
+
+            log.error("Enregistrement du component impossible ! componentHeight est trop long.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la hauteur est trop longue.");
+
+        }
+
+        String number = "[0-9]+";
+
+        if (!component.getComponentHeight().matches(number)) {
+
+            log.error("Que des chiffres 0-9 pour la hauteur !");
+
+            throw new Exception("Que des chiffres 0-9 pour la hauteur !");
+
+        }
+
+        if (component.getComponentDescription().length() > 380) {
+
+            log.error("Enregistrement du component impossible ! la description est trop longue.");
+
+            throw new Exception("Enregistrement de la voie impossible ! la description est trop longue.");
+
+        }
+
+        componentFind.get().setComponentName(component.getComponentName());
+        componentFind.get().setComponentDescription(component.getComponentDescription());
+        componentFind.get().setComponentRate(component.getComponentRate());
+        componentFind.get().setComponentCode(component.getComponentCode());
+        componentFind.get().setComponentHeight(component.getComponentHeight());
+        componentFind.get().setSpits(component.getSpits());
+        componentFind.get().setComponentCategory(component.getComponentCategory());
 
         return componentRepository.saveAndFlush(componentFind.get());
     }

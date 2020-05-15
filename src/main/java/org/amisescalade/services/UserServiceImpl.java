@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User registerForAdmin(String firstname, String lastname, String email, String username, String password) throws Exception {
+    public User registerForMembre(String firstname, String lastname, String email, String username, String password) throws Exception {
 
         Optional<User> userFind = userRepository.findByUsername(username);
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService {
 
         }
         
-        Role admin = iRoleService.getUserCategory(4L);
+        Role membre = iRoleService.getUserCategory(4L);
 
         User user = new User();
 
@@ -82,7 +82,7 @@ public class UserServiceImpl implements IUserService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPassword(encrytePassword(password));
-        user.setRole(admin);
+        user.setRole(membre);
         user.setEnabled(true);
         user.setUserDate(new Date());
 
@@ -158,12 +158,6 @@ public class UserServiceImpl implements IUserService {
             log.error("Modification Impossible ! l'utilisateur " + user.getUserId() + " n'existe pas dans la base.");
 
             throw new Exception("Utilisateur " + user.getUserId() + "n'existe pas !");
-
-        }
-
-        if (user.getRole() != null) {
-
-            userFind.get().setRole(user.getRole());
 
         }
 

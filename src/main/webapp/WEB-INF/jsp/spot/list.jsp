@@ -4,10 +4,9 @@
     Author     : nicolasdotnet
 --%>
 
-
 <%@ include file="../common/header.jsp" %>
 
-<ol class="breadcrumb">
+<ol class="breadcrumb b">
     <li><a href="/">Acceuil</a></li>
     <c:choose>
         <c:when test="${owner}">
@@ -24,31 +23,54 @@
 <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <div class="row container">
+    <div class="row vcenter">
+
         <c:if test="${!owner}">
-            <div  class="col-sm-10">
+            <div  class="col-sm-11">
                 <%@ include file="multisearch.jsp" %> 
-            </div>
+            </div>  
         </c:if>
-        <c:if test="${owner}">
-            <div class="col-sm-14 hidden-xs">
-                <spring:url value="/user/spot/add" var="addUrl" />
 
-                <form action="${addUrl}">
-                    <button class="btn btn-primary x pull-right"
-                            >ajouter un site</button>
-                </form>
-            </div>
-        </c:if>
+        <secu:authorize access="isAuthenticated()">
+            <c:if test="${!owner}"> 
+                <div class="col-sm-1 hidden-xs">
+                    <spring:url value="/user/spot/add" var="addUrl" />
+
+                    <form action="${addUrl}">
+                        <button class="btn btn-primary x pull-right"
+                                >ajouter un site</button>
+                    </form>
+                </div>
+            </c:if>
+            <c:if test="${owner}">
+                <div class="col-sm-12 hidden-xs">
+                    <spring:url value="/user/spot/add" var="addUrl" />
+
+                    <form action="${addUrl}" class=" x pull-right">
+                        <button class="btn btn-primary"
+                                >ajouter un site</button>
+                    </form>
+                </div>
+            </c:if>
+        </secu:authorize>
     </div>
+</div>
 
-<table class="table table-striped">
+
+
+
+
+
+
+
+
+<table class="table table-striped" style="margin-top: 10px">
     <tr>
-        <th>Name</th>
-        <th>Rate</th>
-        <th>Secteurs</th>
-        <th>Officiel</th>
-        <th>Lieu</th>
-        <th>Pays</th>
+        <th>Nom du site</th>
+        <th>Cotation</th>
+        <th>Lieu du site</th>
+        <th>N° secteurs enregistré</th>
+        <th class="hidden-xs">Officiel</th>
     <c:if test="${owner}">
         <th class="hidden-xs">Actions</th>
     </c:if>
@@ -66,25 +88,32 @@
     <tr>
         <td><a href="${spotUrl}"><c:out value="${s.spotName}">Valeur par défaut</c:out></a> </td>
         <td><c:out value="${s.spotRate}">Valeur par défaut</c:out> </td>
-    <td><c:out value="${s.country}">Valeur par défaut</c:out> </td>
-    <td><c:out value="${s.official}">Valeur par défaut</c:out> </td>
     <td><c:out value="${s.location}">Valeur par défaut</c:out> </td>
-    <td><c:out value="${s.country}">Valeur par défaut</c:out> </td>
+    <td><c:out value="${s.sectorCount}">Valeur par défaut</c:out> </td>
+    <td class="hidden-xs"><c:choose>                
+        <c:when test = "${s.official == true}">
+            <span>Oui</span>
+        </c:when>
+        <c:when test = "${s.official == false}">
+            <span>Non</span>
+        </c:when>
+    </c:choose></td>
     <c:if test="${owner}">
         <td class="hidden-xs">
             <form action="${updateUrl}">
                 <button class="btn btn-primary x pull-right"
-                        onclick="return confirm('Are you sure?')">Modifier</button>
+                        onclick="return confirm('Êtes-vous sûr ?')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
             </form>
             <form action="${deleteUrl}" method="POST">
                 <button class="btn btn-danger x pull-right"
-                        onclick="return confirm('Are you sure?')">Supprimer</button>
+                        onclick="return confirm('Êtes-vous sûr ?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
             </form>
         </td>
     </c:if>
     </tr>
 </c:forEach>
 </table>
+
 <div>
 
     <ul class="nav nav-pills">
@@ -101,18 +130,16 @@
         </c:forEach>
 
     </ul>
-
-    <div class="col-sm-3 hidden-sm hidden-lg">
-        <c:if test="${owner}">
+    <secu:authorize access="isAuthenticated()">
+        <div class="col-sm-3 visible-xs">
             <spring:url value="/user/spot/add" var="addUrl" />
 
             <form action="${addUrl}">
                 <button class="btn btn-primary x pull-right"
-                        onclick="return confirm('Are you sure?')">ajouter un site</button>
+                        >ajouter un site</button>
             </form>
-        </c:if>
-    </div>
-
+        </div>
+    </secu:authorize>
 
 </div>
 

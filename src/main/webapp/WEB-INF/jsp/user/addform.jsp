@@ -7,13 +7,15 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <li class="active">Créer un compte membre</li>
 </ol>
+
+<c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
+<c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <form:form method="POST"
            action="signup" modelAttribute="userForm">
     <form class="form-horizontal">
-        <h2> Informations obligatoires</h2>
+        <h3> Informations obligatoires</h3>
 
         <div class="form-group">
             <form:input class="form-control" path="firstname"  autofocus="true" placeholder="Prénom"/>
@@ -45,7 +47,5 @@
         </div>
     </form>
 </form:form> 
-
-<c:if test="${!empty error}"><span class="error">${error}</span></c:if> 
 
 <%@ include file="../common/footer.jsp" %>

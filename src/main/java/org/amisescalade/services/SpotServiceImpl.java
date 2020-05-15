@@ -33,16 +33,6 @@ public class SpotServiceImpl implements ISpotService {
     @Override
     public Spot register(String spotName, String spotRate, String spotDescription, String spotAccessPath, String location, String country, String username) throws Exception {
 
-        Spot spotFind = spotRepository.findBySpotName(spotName);
-
-        if (spotFind != null) {
-
-            log.error("Le site existe déjà !");
-
-            throw new Exception("Le site existe déjà !");
-
-        }
-
         Optional<User> spotAuthor = iUserService.getUserByUsername(username);
 
         if (!spotAuthor.isPresent()) {
@@ -50,6 +40,38 @@ public class SpotServiceImpl implements ISpotService {
             log.error("Utilisateur " + username + " n'existe pas dans la base !");
 
             throw new Exception("Utilisateur " + username + " n'existe pas dans la base !");
+
+        }
+
+        if (spotName.length() > 150) {
+
+            log.error("Enregistrement du spot impossible ! spotName est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! le nom est trop longue.");
+
+        }
+
+        if (spotRate.length() > 3) {
+
+            log.error("Enregistrement du spot impossible ! spotRate est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! la cotation est trop longue.");
+
+        }
+
+        if (spotDescription.length() > 380) {
+
+            log.error("Enregistrement du spot impossible ! spotDescription est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! la description est trop longue.");
+
+        }
+
+        if (spotAccessPath.length() > 170) {
+
+            log.error("Enregistrement du spot impossible ! spotAccessPath est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! le chemin d'accès est trop long.");
 
         }
 
@@ -83,8 +105,39 @@ public class SpotServiceImpl implements ISpotService {
 
         }
 
+        if (spot.getSpotName().length() > 150) {
+
+            log.error("Enregistrement du spot impossible ! spotName est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! le nom est trop longue.");
+
+        }
+
+        if (spot.getSpotRate().length() > 3) {
+
+            log.error("Enregistrement du spot impossible ! spotRate est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! la cotation est trop longue.");
+
+        }
+
+        if (spot.getSpotDescription().length() > 380) {
+
+            log.error("Enregistrement du spot impossible ! spotDescription est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! la description est trop longue.");
+
+        }
+
+        if (spot.getSpotAccessPath().length() > 170) {
+
+            log.error("Enregistrement du spot impossible ! spotAccessPath est trop long.");
+
+            throw new Exception("Enregistrement du site impossible ! le chemin d'accès est trop long.");
+
+        }
+
         spotFind.get().setSpotName(spot.getSpotName());
-//        spotFind.get().setOfficial(spot.isOfficial());
         spotFind.get().setSpotRate(spot.getSpotRate());
         spotFind.get().setSpotDescription(spot.getSpotDescription());
         spotFind.get().setSpotAccessPath(spot.getSpotAccessPath());

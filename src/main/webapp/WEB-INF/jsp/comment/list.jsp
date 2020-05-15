@@ -5,7 +5,7 @@
 --%>
 <%@ include file="../common/header.jsp" %>
 
-<ol class="breadcrumb">
+<ol class="breadcrumb b">
     <li><a href="/">Acceuil</a></li>
     <c:choose>
         <c:when test="${owner}">
@@ -27,12 +27,8 @@
 
 <div class="row container">
     <div class="row vcenter">
-        <div  class="col-sm-8">
-            <h2>Commentaires sur <c:out value="${spot.spotName}">Valeur par défaut</c:out></h2>
-        </div>
-
         <secu:authorize access="isAuthenticated()">
-            <div class="col-sm-4 hidden-xs">
+            <div class="col-sm-12 hidden-xs">
                 <spring:url value="/user/spot/${spot.spotId}/comments/add" var="addUrl"/>
 
                 <form action="${addUrl}" class="x pull-right">
@@ -51,9 +47,8 @@
     <tr>
         <th>Date</th>
         <th>Commentaire</th>
-        <th>Statut</th>
         <th>Auteur</th>
-    <secu:authorize access="hasAuthority('admin')">
+    <secu:authorize access="hasAuthority('membre')">
         <th class="hidden-xs">Actions</th>
     </secu:authorize>
 </tr>
@@ -66,19 +61,18 @@
 
     <tr>
         <td><c:out value="${c.commentDate}">Valeur par défaut</c:out> </td>
-    <td><a href="${url}"><c:out value="${c.commentBody}">Valeur par défaut</c:out></a></td>
-    <td><c:out value="${c.commentStatus}">Valeur par défaut</c:out> </td>
-    <td><c:out value="${c.commentAuthor.lastname}">Valeur par défaut</c:out> </td>
+    <td><c:out value="${c.commentBody}">Valeur par défaut</c:out></td>
+    <td><c:out value="${c.commentAuthor.username}">Valeur par défaut</c:out> </td>
 
-    <secu:authorize access="hasAuthority('admin')">
+    <secu:authorize access="hasAuthority('membre')">
         <td class="hidden-xs">
             <form action="${updateUrl}">
                 <button class="btn btn-primary x pull-right"
-                        onclick="return confirm('Are you sure?')">Modifier</button>
+                        onclick="return confirm('Êtes-vous sûr ?')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
             </form>
             <form action="${deleteUrl}" method="POST">
                 <button class="btn btn-danger x pull-right"
-                        onclick="return confirm('Are you sure?')">Supprimer</button>
+                        onclick="return confirm('Êtes-vous sûr ?')"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
             </form>
         </td>
     </secu:authorize>
@@ -89,7 +83,7 @@
 
 
 
-<div class="col-sm-3 hidden-sm hidden-lg">
+<div class="col-sm-3 visible-xs">
     <secu:authorize access="isAuthenticated()">
         <spring:url value="/user/spot/${spot.spotId}/comments/add" var="addUrl"/>
 

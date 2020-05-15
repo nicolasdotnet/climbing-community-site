@@ -3,7 +3,6 @@ package org.amisescalade.controller;
 import java.security.Principal;
 import java.util.List;
 
-import org.amisescalade.entity.ComponentCategory;
 import org.amisescalade.entity.Sector;
 import org.amisescalade.entity.Component;
 import org.amisescalade.entity.User;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@Transactional
+//@Transactional
 public class ComponentController {
 
     private final Logger log = LogManager.getLogger(ComponentController.class);
@@ -37,55 +36,9 @@ public class ComponentController {
     @Autowired
     private ISectorService iSectorService;
 
-    private String errorMessage;
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public Component editComponent(Component sectorComponent) {
-
-        Component sectorComponentEdit = new Component();
-
-        try {
-            sectorComponentEdit = iComponentService.edit(sectorComponent);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        return sectorComponentEdit;
-    }
-
-    public Component displayComponent(Long id) {
-
-        Component sectorComponentFind = new Component();
-
-        try {
-            sectorComponentFind = iComponentService.getComponent(id);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorComponentFind;
-    }
-
-    public List<Component> displayComponentByName(String sectorComponentName) {
-
-        List<Component> sectorComponentList = null;
-
-        try {
-            sectorComponentList = iComponentService.getAllComponentByName(sectorComponentName);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorComponentList;
-    }
-
     // show add component form with sector
     @GetMapping("/user/sector/{id}/component/add")
-    public String showAddComponentForm(@PathVariable("id") int id, Model model) {
+    public String showAddComponentForm(@PathVariable("id") int id, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAddComponentForm()");
 
@@ -95,14 +48,14 @@ public class ComponentController {
             sectorFind = iSectorService.getSector(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
-        }
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-        List<ComponentCategory> categoryFind = iComponentCategoryService.getAllComponentCategory();
+            return "redirect:/sector/" + id;
+        }
 
         model.addAttribute("componentForm", new Component());
         model.addAttribute("sector", sectorFind);
-        model.addAttribute("componentCategorys", categoryFind);
+        model.addAttribute("componentCategorys", iComponentCategoryService.getAllComponentCategory());
 
         return "/component/addform";
 
@@ -117,17 +70,23 @@ public class ComponentController {
         String sublink = "addform";
 
         String link = validateIsEmpty(component, sublink, model);
-
-        if (link != null) {
-
-            Sector sectorFind = null;
+        
+        Sector sectorFind = null;
 
             try {
                 sectorFind = iSectorService.getSector(Long.valueOf(id));
-            } catch (Exception ex) {
+
+            } catch (Exception e) {
+
+                redirectAttributes.addFlashAttribute("error", e.getMessage());
+                return "redirect:/user/sector/" + id + "/component/add";
 
             }
+
+        if (link != null) {
+
             model.addAttribute("sector", sectorFind);
+            model.addAttribute("componentCategorys", iComponentCategoryService.getAllComponentCategory());
 
             return link;
 
@@ -136,14 +95,20 @@ public class ComponentController {
         Component componentNew = null;
         try {
             componentNew = iComponentService.register(component.getComponentCode(), component.getComponentName(), component.getComponentRate(),
-                    component.getComponentDescription(), component.getComponentCategory().getComponentCategoryId(), Long.valueOf(id), principal.getName());
+                    component.getComponentHeight(), component.getSpits(), component.getComponentDescription(), component.getComponentCategory().getComponentCategoryId(),
+                    Long.valueOf(id), principal.getName());
+
         } catch (Exception e) {
 
-            redirectAttributes.addFlashAttribute("error", e);
-            return "redirect:/user/sector/" + id + "/component/add";
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("sector", sectorFind);
+            model.addAttribute("componentForm", component);
+            model.addAttribute("componentCategorys", iComponentCategoryService.getAllComponentCategory());
+            
+            return "/component/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Voie enregistrée ! ");
 
         return "redirect:/component/" + Math.toIntExact(componentNew.getComponentId());
 
@@ -164,7 +129,7 @@ public class ComponentController {
 
             model.addAttribute("error", e.getMessage());
 
-            return "redirect:/components";
+            return "common/infos";
         }
 
         if (principal != null) {
@@ -196,7 +161,9 @@ public class ComponentController {
             sectorFind = iSectorService.getSector(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/sector/" + id;
         }
 
         try {
@@ -204,9 +171,11 @@ public class ComponentController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/sector/" + id;
         }
-        
+
         if (principal != null) {
 
             boolean owner = isOwner(principal.getName(), sectorFind.getSectorAuthor().getUsername());
@@ -217,15 +186,13 @@ public class ComponentController {
             model.addAttribute("owner", false);
         }
 
-        System.out.println("le post marche !! sector");
-
         model.addAttribute("components", componentList);
         model.addAttribute("sector", sectorFind);
 
         return "/component/list";
 
     }
-    
+
     //delette component
     @PostMapping("/user/component/{id}/delete")
     public String deleteComponent(@PathVariable("id") int id, Principal principal, final RedirectAttributes redirectAttributes) {
@@ -241,7 +208,9 @@ public class ComponentController {
             componentFind = iComponentService.getComponent(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/component/" + id;
         }
 
         Long sectorId = componentFind.getSector().getSectorId();
@@ -249,19 +218,21 @@ public class ComponentController {
         try {
             iComponentService.delete(Long.valueOf(id));
         } catch (Exception e) {
-            this.errorMessage = e.getMessage();
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/component/" + id;
         }
 
-        redirectAttributes.addFlashAttribute("msg", "secteur supprimé");
+        redirectAttributes.addFlashAttribute("msg", "Voie supprimée !");
 
-//        return "redirect:/sectors/"+ Math.toIntExact(spotId);
         return "redirect:/sector/" + Math.toIntExact(sectorId) + "/components";
 
     }
-    
+
     // show update component form :
     @GetMapping("/user/component/{id}/update")
-    public String showUpdateComponentForm(@PathVariable("id") int id, Principal principal, Model model) {
+    public String showUpdateComponentForm(@PathVariable("id") int id, Principal principal, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showUpdateComponentForm() : {}", id);
 
@@ -274,11 +245,14 @@ public class ComponentController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/component/" + id;
         }
 
         model.addAttribute("componentFind", componentFind);
         model.addAttribute("sector", componentFind.getSector());
+        model.addAttribute("componentCategorys", iComponentCategoryService.getAllComponentCategory());
 
         return "/component/updateform";
 
@@ -294,6 +268,8 @@ public class ComponentController {
 
         if (link != null) {
 
+            model.addAttribute("componentCategorys", iComponentCategoryService.getAllComponentCategory());
+
             return link;
 
         }
@@ -305,10 +281,13 @@ public class ComponentController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/user/component/" + Math.toIntExact(component.getComponentId())+"/update";
+
         }
 
-        redirectAttributes.addFlashAttribute("msg", "voie modifiée ! ");
+        redirectAttributes.addFlashAttribute("msg", "Voie modifiée ! ");
 
         return "redirect:/component/" + Math.toIntExact(componentUpdate.getComponentId());
     }
@@ -317,30 +296,42 @@ public class ComponentController {
 
         if (component.getComponentName().isEmpty()) {
 
-            model.addAttribute("error", "name  isEmpty");
+            model.addAttribute("error", "Le nom du site n'est pas renseigné");
 
-            return "sector/" + link;
+            return "component/" + link;
 
         }
 
         if (component.getComponentRate().isEmpty()) {
 
-            model.addAttribute("error", "rate  isEmpty");
+            model.addAttribute("error", "La cotation n'est pas renseignée");
 
-            return "sector/" + link;
+            return "component/" + link;
 
         }
+
+        if (component.getComponentHeight().isEmpty()) {
+
+            model.addAttribute("error", "La hauteur n'est pas renseignée");
+
+            return "component/" + link;
+
+        } else {
+
+            if (!isNumber(component.getComponentHeight())) {
+
+                model.addAttribute("error", "Que des chiffres 0-9 pour la hauteur !");
+
+                return "component/" + link;
+            }
+
+        }
+
         return null;
 
     }
-    
+
     public boolean isOwner(String username, String userFind) {
-
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
 
         if (username.equals(userFind)) {
 
@@ -351,14 +342,14 @@ public class ComponentController {
         return false;
 
     }
-    
-     public String hasPermission(String username, int id) {
+
+    public String hasPermission(String username, int id) {
 
         User userFind = null;
 
         try {
 
-            userFind = iSectorService.getSector(Long.valueOf(id)).getSectorAuthor();
+            userFind = iComponentService.getComponent(Long.valueOf(id)).getComponentAuthor();
 
             if (username.equals(userFind)) {
                 return null;
@@ -366,11 +357,24 @@ public class ComponentController {
 
         } catch (Exception ex) {
 
-            return "redirect:/sector/" + id;
+            return "redirect:/component/" + id;
 
         }
 
-        return "redirect:/sector/" + id;
+        return "redirect:/component/" + id;
+
+    }
+
+    public boolean isNumber(String height) {
+
+        String number = "[0-9]+";
+
+        if (height.matches(number)) {
+            
+            return true;
+
+        }
+        return false;
 
     }
 

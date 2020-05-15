@@ -28,11 +28,13 @@ public class Spot implements Serializable {
     private Long spotId;
     @Column(nullable = false)
     private Date spotDate;
-    @Column(nullable = false)
+    @Column(length = 150, nullable = false)
     private String spotName;
-    @Column(length = 20)
+    @Column(length = 3)
     private String spotRate;
+    @Column (length = 380)
     private String spotDescription;
+    @Column (length = 170)
     private String spotAccessPath;
     @Column(length = 100, nullable = false)
     private String location;

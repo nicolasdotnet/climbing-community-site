@@ -5,18 +5,18 @@
 --%>
 
 
-    <form class="form-horizontal" action="/spot/findSpots">
+    <form action="/spot/findSpots">
 
 
         <input type="text" name="spotName" placeholder="Nom du site"/>
 
-        <input type="text" name="spotRate" placeholder="Difficulté"/>
+        <input type="text" name="spotRate" placeholder="Cotation"/>
 
         <input type="text" name="location" placeholder="Lieu du site"/>
 
-        <input type="text" name="sectorCount" placeholder="Nombre de secteur"/>
+        <input type="text" name="sectorCount" placeholder="N° secteurs enregistré"/>
 
-        <button type="submit" name="submit">Rechercher</button>
+        <button type="submit" name="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 
     </form>
 

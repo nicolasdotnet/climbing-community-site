@@ -13,14 +13,14 @@
         <c:when test="${owner}">
             <li><a href="/user/account">Mon compte</a></li>
             <li><a href="/user/spots">Mes sites</a></li>
-            <li><a href="/spot/${spotFind.spotId}">${spotFind.spotName}</a></li>
-            <li><a href="/spot/${spotFind.spotId}/comments">Les commentaires</a></li>
+            <li><a href="/spot/${commentFind.spot.spotId}">${commentFind.spot.spotName}</a></li>
+            <li><a href="/spot/${commentFind.spot.spotId}/comments">Les commentaires</a></li>
             <li class="active">Un commentaire</li>
         </c:when>
         <c:otherwise>
             <li><a href="/spots">Les sites</a></li>
-            <li><a href="/spot/${spotFind.spotId}">${spotFind.spotName}</a></li>
-            <li><a href="/spot/${spotFind.spotId}/comments">Les commentaires</a></li>
+            <li><a href="/spot/${commentFind.spot.spotId}">${commentFind.spot.spotName}</a></li>
+            <li><a href="/spot/${commentFind.spot.spotId}/comments">Les commentaires</a></li>
             <li class="active">Un commentaire</li>
         </c:otherwise>  
     </c:choose>
@@ -35,17 +35,17 @@
         <div  class="col-sm-8"><h3></h3></div>
 
         <div class="col-sm-4 hidden-xs">
-            <secu:authorize access="hasAuthority('grimpeur')">
+            <secu:authorize access="hasAuthority('membre')">
                 <spring:url value="/user/comment/${commentFind.commentId}/delete" var="deleteUrl"/>
                 <spring:url value="/user/comment/${commentFind.commentId}/update" var="updateUrl"/>
 
                 <form action="${updateUrl}">
                     <button class="btn btn-primary x pull-right"
-                            onclick="return confirm('Are you sure?')">Modifier</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Modifier</button>
                 </form>
                 <form action="${deleteUrl}" method="POST">
                     <button class="btn btn-danger x pull-right"
-                            onclick="return confirm('Are you sure?')">Supprimer</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
                 </form>
             </secu:authorize>
         </div>
@@ -69,16 +69,16 @@
 </table>
 
 <div class="col-sm-3 hidden-sm hidden-lg">
-    <secu:authorize access="hasAuthority('grimpeur')">
+    <secu:authorize access="hasAuthority('membre')">
         <spring:url value="/user/comment/${commentFind.commentId}/delete" var="deleteUrl"/>
         <spring:url value="/user/comment/${commentFind.commentId}/update" var="updateUrl"/>
         <form action="${updateUrl}">
             <button class="btn btn-primary x pull-right"
-                    onclick="return confirm('Are you sure?')">Modifier</button>
+                    onclick="return confirm('Êtes-vous sûr ?')">Modifier</button>
         </form>
         <form action="${deleteUrl}" method="POST">
             <button class="btn btn-danger x pull-right"
-                    onclick="return confirm('Are you sure?')">Supprimer</button>
+                    onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
         </form>
     </secu:authorize>
 </div>

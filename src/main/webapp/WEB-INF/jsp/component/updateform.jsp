@@ -8,26 +8,17 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <c:choose>
-        <c:when test="${owner}">
-            <li><a href="/user/account">Mon compte</a></li>
-            <li><a href="/user/spots">Mes sites</a></li>
-            <li><a href="/spot/${spot.spotId}">${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sectors">Les secteurs de ${spot.spotName}</a></li>
-            <li><a href="/sector/${sector.sectorId}">${componentFind.componentName}</a></li>
-            <li class="active">Modifier un secteur</li>
-        </c:when>
-        <c:otherwise>
-            <li><a href="/spots/">Les sites</a></li>
-            <li><a href="/spot/${spot.spotId}">${spot.spotName}</a></li>
-            <li><a href="/spot/${spot.spotId}/sectors">Les secteurs de ${spot.spotName}</a></li>
-            <li><a href="/sector/${sector.sectorId}">${componentFind.componentName}</a></li>
-            <li class="active">Modifier un secteur</li>
-        </c:otherwise>  
-    </c:choose>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/spots">Mes sites</a></li>
+    <li><a href="/spot/${componentFind.sector.spot.spotId}">${componentFind.sector.spot.spotName}</a></li>
+    <li><a href="/spot/${componentFind.sector.spot.spotId}/sectors">Secteurs de ${componentFind.sector.spot.spotName}</a></li>
+    <li><a href="/sector/${componentFind.sector.sectorId}">${componentFind.sector.sectorName}</a></li>
+    <li><a href="/sector/${componentFind.sector.sectorId}/components">Voie de ${componentFind.sector.sectorName}</a></li>
+    <li><a href="/component/${componentFind.componentId}">${componentFind.componentName}</a></li>
+    <li class="active">Modifier</li>
 </ol>
 
-<h1>${componentFind.componentName}</h1>
+<h2>${componentFind.componentName}</h2>
 
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
 <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
@@ -38,36 +29,68 @@
     <form:hidden path="componentId"/>
 
     <form class="form-horizontal">
-        <div class="panel panel-default">
+        <div class="panel panel-default t">
             <div class="panel-body">
 
-                <div class="form-group">
-                    <label for="componentName" class="col-sm-2 control-label">Nom de la voie</label>
-                    <div class="col-sm-10">
+                <div class="form-group p">
+                    <label for="componentName" class="col-sm-4 control-label">Nom de la voie</label>
+                    <div class="col-sm-8">
                         <form:input path="componentName" class="form-control" type="text"/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="componentRate" class="col-sm-2 control-label">Difficulté</label>
-                    <div class="col-sm-10">
+                <div class="form-group p">
+                    <label for="componentCategory" class="col-sm-4 control-label">Catégorie</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="componentCategory">
+                            <c:forEach items="${componentCategorys}" var="c">
+                                <c:choose>
+                                    <c:when test="${c == componentFind.componentCategory}">
+                                        <option value="${c.componentCategoryId}" selected>${c.componentCategoryLabel}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${c.componentCategoryId}">${c.componentCategoryLabel}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group p">
+                    <label for="componentHeight" class="col-sm-4 control-label">Hauteur</label>
+                    <div class="col-sm-8">
+                        <form:input path="componentHeight" class="form-control" type="text"/>
+                    </div>
+                </div>
+
+                <div class="form-group p">
+                    <label for="componentRate" class="col-sm-4 control-label">Cotation</label>
+                    <div class="col-sm-8">
                         <form:input path="componentRate" class="form-control" type="text"/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="componentDescription" class="col-sm-2 control-label">Description</label>
-                    <div class="col-sm-10">
-                        <form:input path="componentDescription" class="form-control" type="text"/>
+                <div class="form-group p">
+                    <label for="spits" class="col-sm-4 control-label">Voie équipée</label>
+                    <div class="col-sm-8">
+                        <form:checkbox path="spits"/>
+                        <form:errors path="spits"/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="componentCode" class="col-sm-2 control-label">Code</label>
-                    <div class="col-sm-10">
+                <div class="form-group p">
+                    <label for="componentCode" class="col-sm-4 control-label">Code du bloc</label>
+                    <div class="col-sm-8">
                         <form:input path="componentCode" class="form-control" type="text"/>
                     </div>
-                </div>       
+                </div>  
+                <div class="form-group p">
+                    <label for="componentDescription" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <form:textarea rows="5" path="componentDescription" class="form-control" type="text"/>
+                    </div>
+                </div>     
 
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+<Configuration>
     
     <Properties>
         <Property name="basePath">logs</Property>
@@ -17,13 +17,13 @@
             </Policies> 
         </RollingFile> 
         
-            <Console name="STDOUT" target="SYSTEM_OUT">
-      <PatternLayout pattern="%m%n"/>
-    </Console>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
     </Appenders>
     
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="ROLLINGFILE" />
         </Root>
     </Loggers>

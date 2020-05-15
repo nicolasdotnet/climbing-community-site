@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -33,15 +32,9 @@ public class SectorController {
     @Autowired
     private ISpotService iSpotService;
 
-    private String errorMessage;
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
     // show add sector form with spot
     @GetMapping("/user/spot/{id}/sector/add")
-    public String showAddSectorForm(@PathVariable("id") int id, Model model) {
+    public String showAddSectorForm(@PathVariable("id") int id, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAddSectorForm()");
 
@@ -51,7 +44,9 @@ public class SectorController {
             spotFind = iSpotService.getSpot(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/spot/" + id;
         }
 
         model.addAttribute("sectorForm", new Sector());
@@ -69,19 +64,23 @@ public class SectorController {
 
         String sublink = "addform";
 
+        Spot spotFind = null;
+
+        try {
+            spotFind = iSpotService.getSpot(Long.valueOf(id));
+        } catch (Exception e) {
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/user/spot/" + id + "/sector/add";
+
+        }
+
         String link = validateIsEmpty(sector, sublink, model);
 
         if (link != null) {
-            
-            Spot spotFind = null;
-            
-            try {
-                spotFind = iSpotService.getSpot(Long.valueOf(id));
-            } catch (Exception ex) {
-                
-            }
+
             model.addAttribute("spot", spotFind);
-            
+
             return link;
 
         }
@@ -91,54 +90,22 @@ public class SectorController {
             sectorNew = iSectorService.registerBySpot(sector.getSectorName(), sector.getSectorRate(), sector.getSectorDescription(), sector.getSectorAccessPath(), Long.valueOf(id), principal.getName());
         } catch (Exception e) {
 
-            redirectAttributes.addFlashAttribute("error", e);
-            return "redirect:/user/spot/" + id + "/sector/add";
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("spot", spotFind);
+            model.addAttribute("sectorForm", sector);
+            
+            return "/sector/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
+        redirectAttributes.addFlashAttribute("msg", "Secteur enregistré !");
 
         return "redirect:/sector/" + Math.toIntExact(sectorNew.getSectorId());
 
-    }
-
-    // save sector without spot
-    @PostMapping("/user/sectorSave/")
-    public String saveSector(@ModelAttribute("sectorForm") Sector sector, @PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
-
-        System.out.println("le post marche !! spotForm : " + sector.getSectorName());
-
-        Sector sectorNew = null;
-        try {
-            sectorNew = iSectorService.registerByDefault(sector.getSectorName(), sector.getSectorRate(), sector.getSectorDescription(), sector.getSectorAccessPath());
-
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        redirectAttributes.addFlashAttribute("msg", "Full succès ! ");
-
-        return "redirect:/sector/" + Math.toIntExact(sectorNew.getSectorId());
-
-    }
-
-    public Sector addSectorByDefault(String sectorName, String sectorRate, String sectorDescription,
-            String sectorAccessPath) {
-
-        Sector sectorSave = new Sector();
-
-        try {
-            sectorSave = iSectorService.registerByDefault(sectorName, sectorRate, sectorDescription, sectorAccessPath);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorSave;
     }
 
     // show update sector form :
     @GetMapping("/user/sector/{id}/update")
-    public String showUpdateSectorForm(@PathVariable("id") int id, Principal principal, Model model) {
+    public String showUpdateSectorForm(@PathVariable("id") int id, Principal principal, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showUpdateSectorForm() : {}", id);
 
@@ -151,7 +118,8 @@ public class SectorController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/sector/" + id;
         }
 
         model.addAttribute("sectorFind", sectorFind);
@@ -182,26 +150,14 @@ public class SectorController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/user/sector/" + Math.toIntExact(sector.getSectorId()) + "/update";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Secteur enregistré ! ");
+        redirectAttributes.addFlashAttribute("msg", "Secteur modifié !");
 
         return "redirect:/sector/" + Math.toIntExact(sectorUpdate.getSectorId());
-    }
-
-    public Sector editSector(Sector sector) {
-
-        Sector sectorEdit = new Sector();
-
-        try {
-            sectorEdit = iSectorService.edit(sector);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        return sectorEdit;
     }
 
     // show sector
@@ -209,8 +165,6 @@ public class SectorController {
     public String showSector(@PathVariable("id") Long id, Principal principal, Model model) {
 
         log.debug("showSector() id: {}", id);
-
-        System.out.println("showSector() id: {}" + id);
 
         Sector sectorFind = null;
 
@@ -221,7 +175,7 @@ public class SectorController {
 
             model.addAttribute("error", e.getMessage());
 
-            return "redirect:/sectors";
+            return "common/infos";
         }
 
         if (principal != null) {
@@ -240,53 +194,6 @@ public class SectorController {
 
     }
 
-    public Sector displaySector(Long id) {
-
-        Sector sectorFind = new Sector();
-
-        try {
-            sectorFind = iSectorService.getSector(id);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorFind;
-    }
-
-    // sector list page by name
-    @GetMapping("/user/sector/search")
-    public String searchSector(Model model, @RequestParam("sectorName") String sectorName) {
-
-        List<Sector> sectorList = null;
-
-        try {
-            sectorList = iSectorService.getAllSectorsByName(sectorName);
-
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-
-        System.out.println("le post marche !! searchSectorByMc");
-
-        model.addAttribute("sectors", sectorList);
-
-        return "/sector/list";
-    }
-
-    public List<Sector> displayAllSectorsByName(String sectorName) {
-
-        List<Sector> sectorList = null;
-
-        try {
-            sectorList = iSectorService.getAllSectorsByName(sectorName);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorList;
-    }
-
     // sector list page by spot
     @GetMapping("/spot/{id}/sectors")
     public String showAllsectors(@PathVariable("id") int id, Model model, Principal principal, final RedirectAttributes redirectAttributes) {
@@ -300,7 +207,9 @@ public class SectorController {
             spotFind = iSpotService.getSpot(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/spot/" + id;
         }
 
         try {
@@ -308,7 +217,9 @@ public class SectorController {
 
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/spot/" + id;
         }
 
         if (principal != null) {
@@ -321,31 +232,11 @@ public class SectorController {
             model.addAttribute("owner", false);
         }
 
-        System.out.println("le post marche !! sector");
-
         model.addAttribute("sectors", sectorList);
         model.addAttribute("spot", spotFind);
 
         return "/sector/list";
 
-    }
-
-    public List<Sector> displayAllSectorsBySpot(Spot spot) {
-
-        List<Sector> sectorList = null;
-
-        try {
-            sectorList = iSectorService.getAllSectorsBySpot(spot);
-        } catch (Exception e) {
-
-            this.errorMessage = e.getMessage();
-        }
-        return sectorList;
-    }
-
-    public List<Sector> displayAllSectors() {
-
-        return iSectorService.getAllSectors();
     }
 
     //delette sector
@@ -363,7 +254,9 @@ public class SectorController {
             sectorFind = iSectorService.getSector(Long.valueOf(id));
         } catch (Exception e) {
 
-            this.errorMessage = e.getMessage();
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/sector/" + id;
         }
 
         Long spotId = sectorFind.getSpot().getSpotId();
@@ -371,12 +264,14 @@ public class SectorController {
         try {
             iSectorService.delete(Long.valueOf(id));
         } catch (Exception e) {
-            this.errorMessage = e.getMessage();
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/sector/" + id;
         }
 
-        redirectAttributes.addFlashAttribute("msg", "secteur supprimé");
+        redirectAttributes.addFlashAttribute("msg", "Secteur supprimé !");
 
-//        return "redirect:/sectors/"+ Math.toIntExact(spotId);
         return "redirect:/spot/" + Math.toIntExact(spotId) + "/sectors";
 
     }
@@ -385,7 +280,7 @@ public class SectorController {
 
         if (sector.getSectorName().isEmpty()) {
 
-            model.addAttribute("error", "name  isEmpty");
+            model.addAttribute("error", "Le nom du secteur n'est pas renseigné");
 
             return "sector/" + link;
 
@@ -393,7 +288,7 @@ public class SectorController {
 
         if (sector.getSectorRate().isEmpty()) {
 
-            model.addAttribute("error", "rate  isEmpty");
+            model.addAttribute("error", "La cotation n'est pas renseignée");
 
             return "sector/" + link;
 
@@ -403,12 +298,6 @@ public class SectorController {
     }
 
     public boolean isOwner(String username, String userFind) {
-
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
 
         if (username.equals(userFind)) {
 

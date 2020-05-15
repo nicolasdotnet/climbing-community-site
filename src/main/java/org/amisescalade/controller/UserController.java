@@ -4,9 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.amisescalade.entity.Role;
 
 import org.amisescalade.entity.User;
 import org.amisescalade.services.interfaces.IRoleService;
@@ -16,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -41,12 +38,12 @@ public class UserController {
     private IRoleService iRoleService;
 
     // show admination page
-    @GetMapping("/admin")
-    public String showAdminPage() {
+    @GetMapping("/membre")
+    public String showMembrePage() {
 
-        log.debug("showAdminPage()");
+        log.debug("showMembrePage()");
 
-        return "user/adminpage";
+        return "user/membrepage";
     }
 
     // show add user form
@@ -120,7 +117,7 @@ public class UserController {
 
     // show user photo
     @GetMapping("/getPhoto/{id}")
-    public void getPhoto(HttpServletResponse response, @PathVariable("id") int id) {
+    public void getPhoto(HttpServletResponse response, @PathVariable("id") int id, Model model) {
 
         log.debug("getPhoto() id: {}", id);
 
@@ -143,11 +140,17 @@ public class UserController {
     @GetMapping("/user/account")
     public String userAccount(Model model, Principal principal) {
 
+        log.debug("userAccount()");
+
         Optional<User> loginedUser = null;
+
         try {
             loginedUser = iUserService.getUserByUsername(principal.getName());
         } catch (Exception e) {
-            model.addAttribute("error", e);
+
+            model.addAttribute("error", e.getMessage());
+
+            return "common/infos";
         }
 
         model.addAttribute("userFind", loginedUser.get());
@@ -169,28 +172,11 @@ public class UserController {
         return "/user/list";
     }
 
-    // user list page by username
-    @GetMapping("/user/search")
-    public String searchUser(Model model, @RequestParam("username") String username, final RedirectAttributes redirectAttributes) {
-
-        List<User> userList = iUserService.getAllUserByUsername(username);
-
-        if (userList.isEmpty()) {
-
-            model.addAttribute("msg", "Pas de réponse !");
-
-        }
-
-        model.addAttribute("users", userList);
-
-        return "/user/list";
-    }
-
     // show uploadform :
     @GetMapping("/user/upload")
     public String showUploadForm(Principal principal, final RedirectAttributes redirectAttributes, Model model) {
 
-        log.debug("showUploadForm() : {}");
+        log.debug("showUploadForm()");
 
         Optional<User> userFind;
 
@@ -202,7 +188,6 @@ public class UserController {
 
             return "redirect:/user/account";
         }
-
 
         model.addAttribute("userFind", userFind.get());
 
@@ -226,7 +211,7 @@ public class UserController {
             return "redirect:/user/update";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "photo enregistrée ! ");
+        redirectAttributes.addFlashAttribute("msg", "Photo enregistrée !");
 
         return "redirect:/user/update";
 
@@ -234,9 +219,9 @@ public class UserController {
 
     // show update user form :
     @GetMapping("/user/update")
-    public String showUpdateUserForm(Model model, Principal principal) {
+    public String showUpdateUserForm(Model model, Principal principal, final RedirectAttributes redirectAttributes) {
 
-        log.debug("showUpdateUserForm() : {id}");
+        log.debug("showUpdateUserForm()");
 
         Optional<User> userFind;
 
@@ -244,9 +229,9 @@ public class UserController {
             userFind = iUserService.getUserByUsername(principal.getName());
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-            return "redirect:/users";
+            return "redirect:/user/account";
         }
 
         model.addAttribute("userFind", userFind.get());
@@ -260,16 +245,16 @@ public class UserController {
     @PostMapping("/user/userupdate")
     public String updateUser(@ModelAttribute("userFind") User user, final RedirectAttributes redirectAttributes, Model model) {
 
-        log.debug("updateUser() id: {}");
+        log.debug("updateUser()");
 
         try {
 
             String link = validateAccountDetail(user, "updateform", model);
 
             if (link != null) {
-                
+
                 model.addAttribute("roles", iRoleService.getAllUserCategory());
-                
+
                 return link;
 
             }
@@ -283,7 +268,7 @@ public class UserController {
             return "redirect:/user/account";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Modifications enregistrées ! ");
+        redirectAttributes.addFlashAttribute("msg", "Modifications enregistrées !");
 
         return "redirect:/user/account";
 
@@ -301,12 +286,13 @@ public class UserController {
             userFind = iUserService.getUserByUsername(principal.getName());
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/user/update";
         }
 
         model.addAttribute("userFind", userFind.get());
+        model.addAttribute("owner", true);
 
         return "/user/password";
     }
@@ -314,7 +300,7 @@ public class UserController {
     @PostMapping("/user/passwordupdate")
     public String passwordUpdate(@ModelAttribute("userFind") User user, @RequestParam("passwordMatch") String passwordMatch, Principal principal, final RedirectAttributes redirectAttributes, Model model) {
 
-        log.debug("passform()");
+        log.debug("passwordUpdate()");
 
         try {
 
@@ -340,71 +326,69 @@ public class UserController {
 
     }
 
-    // delette user
-    @PostMapping("/user/delete")
-    public String deleteUser(Principal principal, final RedirectAttributes redirectAttributes, Model model, HttpServletRequest request) {
+//    // delette user
+//    @PostMapping("/user/delete")
+//    public String deleteUser(Principal principal, final RedirectAttributes redirectAttributes, Model model, HttpServletRequest request) {
+//
+//        log.debug("deleteUser()");
+//
+//        try {
+//            iUserService.delete(principal.getName());
+//        } catch (Exception e) {
+//
+//            redirectAttributes.addFlashAttribute("error", e.getMessage());
+//
+//            return "redirect:/user/account";
+//        }
+//
+//        redirectAttributes.addFlashAttribute("delete", "Membre supprimé !");
+//
+//        new SecurityContextLogoutHandler().logout(request, null, null);
+//
+//        return "redirect:/confirmation";
+//
+//    }
 
-        log.debug("deleteUser() id: {}");
+//    // desactivate user
+//    @PostMapping("/admin/user/desactivate")
+//    public String desactivateUser(@RequestParam("id") Long id, final RedirectAttributes redirectAttributes) {
+//
+//        log.debug("desactivateUser()");
+//
+//        try {
+//            iUserService.desactivate(id);
+//        } catch (Exception e) {
+//
+//            redirectAttributes.addFlashAttribute("error", e.getMessage());
+//
+//            return "redirect:/admin/users";
+//
+//        }
+//
+//        redirectAttributes.addFlashAttribute("desactivate", "Membre suspendu !");
+//
+//        return "redirect:/confirmation";
+//
+//    }
 
-        try {
-            iUserService.delete(principal.getName());
-        } catch (Exception e) {
-
-            model.addAttribute("error", e.getMessage());
-
-            return "redirect:/user/account";
-        }
-
-        redirectAttributes.addFlashAttribute("delete", "Membre supprimé !");
-
-        new SecurityContextLogoutHandler().logout(request, null, null);
-
-        return "redirect:/confirmation";
-
-    }
-
-    // desactivate user
-    @PostMapping("/admin/user/desactivate")
-    public String desactivateUser(@RequestParam("id") Long id, final RedirectAttributes redirectAttributes) {
-
-        log.debug("desactivateUser()");
-
-        try {
-            iUserService.desactivate(id);
-        } catch (Exception e) {
-
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-
-            return "redirect:/admin/users";
-
-        }
-
-        redirectAttributes.addFlashAttribute("desactivate", "Membre suspendu !");
-
-        return "redirect:/confirmation";
-
-    }
-
-    // login
-    @GetMapping("/login")
-    public String login() {
-        return "user/login";
-
-    }
-
-    // 403
+    // show 403 page
     @GetMapping("/403")
     public String accessDenied() {
+
+        log.debug("accessDenied()");
+
         return "user/403";
 
     }
 
-    // controle methode 
+    // control methods
     public String validateAccount(User user, String passwordMatch, String link, Model model) {
+
+        log.debug("validateAccount()");
 
         if (user.getFirstname().isEmpty()) {
 
-            model.addAttribute("error", "le prénom  isEmpty");
+            model.addAttribute("error", "Votre prénom n'est pas renseigné");
 
             return "user/" + link;
 
@@ -412,7 +396,7 @@ public class UserController {
 
         if (user.getLastname().isEmpty()) {
 
-            model.addAttribute("error", "le nom  isEmpty");
+            model.addAttribute("error", "Votre nom n'est pas renseigné");
 
             return "user/" + link;
 
@@ -420,7 +404,7 @@ public class UserController {
 
         if (user.getUsername().isEmpty()) {
 
-            model.addAttribute("error", "Votre identifiant  isEmpty");
+            model.addAttribute("error", "Votre identifiant n'est pas renseigné");
 
             return "user/" + link;
 
@@ -428,7 +412,7 @@ public class UserController {
 
         if (user.getPassword().isEmpty()) {
 
-            model.addAttribute("error", "votre mot de passe isEmpty");
+            model.addAttribute("error", "Votre mot de passe n'est pas renseigné");
 
             return "user/" + link;
 
@@ -436,7 +420,7 @@ public class UserController {
 
         if (!user.getPassword().equals(passwordMatch)) {
 
-            model.addAttribute("error", "vos mots de pase ne correspond pas");
+            model.addAttribute("error", "Vos mots de pase ne correspond pas");
 
             return "user/" + link;
 
@@ -444,7 +428,7 @@ public class UserController {
 
         if (user.getEmail().isEmpty()) {
 
-            model.addAttribute("error", "votre email isEmpty");
+            model.addAttribute("error", "Votre email n'est pas renseigné");
 
             return "user/" + link;
 
@@ -452,7 +436,7 @@ public class UserController {
 
         if (!isValidEmail(user.getEmail())) {
 
-            model.addAttribute("error", "email invalide");
+            model.addAttribute("error", "Votre email est invalide");
 
             return "user/" + link;
 
@@ -464,9 +448,11 @@ public class UserController {
 
     public String validateAccountDetail(User user, String link, Model model) {
 
+        log.debug("validateAccountDetail()");
+
         if (user.getFirstname().isEmpty()) {
 
-            model.addAttribute("error", "le prénom  isEmpty");
+            model.addAttribute("error", "Votre prénom n'est pas renseigné");
 
             return "user/" + link;
 
@@ -474,7 +460,7 @@ public class UserController {
 
         if (user.getLastname().isEmpty()) {
 
-            model.addAttribute("error", "le nom  isEmpty");
+            model.addAttribute("error", "Votre nom n'est pas renseigné");
 
             return "user/" + link;
 
@@ -482,7 +468,7 @@ public class UserController {
 
         if (user.getEmail().isEmpty()) {
 
-            model.addAttribute("error", "votre email isEmpty");
+            model.addAttribute("error", "Votre email n'est pas renseigné");
 
             return "user/" + link;
 
@@ -490,7 +476,7 @@ public class UserController {
 
         if (!isValidEmail(user.getEmail())) {
 
-            model.addAttribute("error", "email invalide");
+            model.addAttribute("error", "Votre email est invalide");
 
             return "user/" + link;
 
@@ -502,11 +488,11 @@ public class UserController {
 
     public String validatePassword(User user, String passwordMatch, String link, Model model) {
 
-        System.out.println("org.amisescalade.controller.UserController.validatePassword()");
+        log.debug("validatePassword()");
 
         if (user.getPassword().isEmpty()) {
 
-            model.addAttribute("error", "votre mot de passe isEmpty");
+            model.addAttribute("error", "Votre mot de passe n'est pas renseigné");
 
             return "user/" + link;
 
@@ -514,7 +500,7 @@ public class UserController {
 
         if (!user.getPassword().equals(passwordMatch)) {
 
-            model.addAttribute("error", "vos mots de pase ne correspond pas");
+            model.addAttribute("error", "Vos mots de pase ne correspond pas");
 
             return "user/" + link;
 
@@ -524,7 +510,10 @@ public class UserController {
     }
 
     public boolean isValidEmail(String email) {
-        // create the EmailValidator instance
+
+        log.debug("isValidEmail()");
+
+// create the EmailValidator instance
         EmailValidator validator = EmailValidator.getInstance();
 
         // check for valid email addresses using isValid method
@@ -534,11 +523,7 @@ public class UserController {
 
     public boolean isOwner(String username, String userFind) {
 
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
+        log.debug("isOwner()");
 
         if (username.equals(userFind)) {
 

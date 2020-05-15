@@ -26,8 +26,11 @@ public class Pitch {
     private Long pitchId;
     @Column(nullable = false)
     private Date pitchDate;
+    @Column (length = 3)
     private String pitchCode;
+    @Column (length = 3)
     private String pitchRate;
+    @Column (length = 3)
     private String pitchHeight;
 
     @ManyToOne
@@ -35,6 +38,7 @@ public class Pitch {
     private User pitchAuthor;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Component component;
 
     public Pitch() {

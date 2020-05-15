@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
         <!-- chargement d'une GoogleFont -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- chargement de bootstrap css -->
         <link rel='stylesheet' type='text/css' href='/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css' />
         <!-- chargement de la feuille de style personnalisée-->
@@ -33,11 +34,11 @@
     <body>
         <header>
             <!-- menu de navigation -->
-            
-            <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+
+            <nav class="navbar navbar-default" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand"  href="/"><img src="img/logo.png" alt="Les Amis de l'escalade"/></a>
+                        <a class="navbar-brand" style="font-family: Montserrat" href="/">Les Amis </br>de l'escalade</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
@@ -52,9 +53,11 @@
                             <li class="nav-item"><a href="/spots">Sites</a></li>
                             <secu:authorize access="isAuthenticated()">
                                 <li class="nav-item"><a href="/topos">Topos</a></li>
+                                <li class="nav-item"><a href="/user/bookings/topos">Mes demandes</a></li>
+                                <li class="nav-item"><a href="/user/bookings">Mes réservations</a></li>                             
                             </secu:authorize>
-                            <secu:authorize access="hasAuthority('admin')">
-                                <li class="nav-item"><a href="/admin">Administration</a></li>
+                            <secu:authorize access="hasAuthority('membre')">
+                                <li class="nav-item"><a href="/membre">Membre</a></li>
                             </secu:authorize>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -64,25 +67,12 @@
                             </secu:authorize>
                             <secu:authorize access="isAnonymous()">
                                 <li class="nav-item"><a href="/login">Se connecter</a></li>
+                                <li class="nav-item"><a href="/signup">Créer un compte</a></li>
                             </secu:authorize>
                         </ul>
                     </div>
             </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </header>
         <main>
             <div class="container">
-
+                

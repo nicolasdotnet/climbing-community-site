@@ -25,7 +25,7 @@ public interface IUserService {
     User registerByDefault(String firstname, String lastname, String email, String username, String password) throws Exception;
 
     /**
-     * method to register a admin user by default
+     * method to register a membre user by default
      *
      * @param firstname
      * @param lastname
@@ -36,7 +36,7 @@ public interface IUserService {
      * @return user object saved
      * @throws Exception
      */
-    User registerForAdmin(String firstname, String lastname, String email, String username, String password) throws Exception;
+    User registerForMembre(String firstname, String lastname, String email, String username, String password) throws Exception;
 
     /**
      * method to modify a user

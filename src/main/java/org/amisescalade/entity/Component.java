@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
  *
  */
 @Entity
-
 public class Component implements Serializable {
 
     @Id
@@ -29,13 +28,16 @@ public class Component implements Serializable {
     private Long componentId;
     @Column(nullable = false)
     private Date componentDate;
-    @Column(nullable = false)
+    @Column (length = 5)
     private String componentCode;
-    @Column(length = 40, nullable = false)
+    @Column(length = 150, nullable = false)
     private String componentName;
-    @Column(nullable = false)
+    @Column(length = 3,nullable = false)
     private String componentRate;
+    @Column (length = 3)
     private String componentHeight;
+    private Boolean spits;
+    @Column (length = 380)
     private String componentDescription;
 
     @ManyToOne
@@ -47,6 +49,7 @@ public class Component implements Serializable {
     private ComponentCategory componentCategory;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Sector sector;
 
     @OneToMany(mappedBy = "component", fetch = FetchType.LAZY)
@@ -101,6 +104,14 @@ public class Component implements Serializable {
 
     public void setComponentHeight(String componentHeight) {
         this.componentHeight = componentHeight;
+    }
+
+    public Boolean getSpits() {
+        return spits;
+    }
+
+    public void setSpits(Boolean spits) {
+        this.spits = spits;
     }
 
     public String getComponentDescription() {

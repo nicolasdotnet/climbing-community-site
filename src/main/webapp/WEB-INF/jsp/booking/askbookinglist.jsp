@@ -6,7 +6,7 @@
 
 <%@ include file="../common/header.jsp" %>
 
-<ol class="breadcrumb">
+<ol class="breadcrumb b">
     <li><a href="/">Acceuil</a></li>
     <li><a href="/user/account">Mon compte</a></li>
     <li>Mes demandes de réservation</li>
@@ -14,9 +14,6 @@
 
 <c:if test="${!empty error}"><span>${error}</span></c:if>
 <c:if test="${!empty msg}"><span>${msg}</span></c:if>
-
-
-<h1>Mes demandes de réservation</h1>
 
 <table class="table table-striped">
     <tr>
@@ -52,7 +49,7 @@
                         <td>demande en attente</td>
                     </c:when>
                 </c:choose>
-                <td><a href="${userUrl}"><c:out value="${t.booking.bookingUser.username}">Valeur par défaut</c:out></a></td>
+                <td><c:out value="${t.booking.bookingUser.username}">Valeur par défaut</c:out></td>
                 <td><c:out value="${t.topoTitle}">Valeur par défaut</c:out></td>
                 <c:choose>                
                     <c:when test = "${t.topoStatus == true}">
@@ -71,20 +68,20 @@
                     <c:when test="${t.booking.bookingStatus}">
                         <form action="${availableUrl}" method="POST" class="x">
                             <button class="btn btn-primary" 
-                                    onclick="return confirm('Are you sure?')">Refuser</button>
+                                    onclick="return confirm('Êtes-vous sûr ?')">Refuser</button>
                         </form>
                     </c:when>
                     <c:when test="${!t.booking.bookingStatus}">
                         <form action="${validateUrl}" method="POST" class="x">
                             <button class="btn btn-primary" 
-                                    onclick="return confirm('Are you sure?')">Valider</button>
+                                    onclick="return confirm('Êtes-vous sûr ?')">Valider</button>
                         </form>
                     </c:when>
                 </c:choose> 
 
                 <form action="${deleteUrl}" method="POST" class="x" >
                     <button class="btn btn-danger" 
-                            onclick="return confirm('Are you sure?')">Annuler</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
                 </form>
                 </td>
                 </tr>
@@ -92,7 +89,5 @@
         </c:choose>
     </c:forEach>
 </table>
-
-<a href="#" class="edit" title="edit"><span class="glyphicon glyphicon-search" aria-hidden="false" ></span></a>
 
 <%@ include file="../common/footer.jsp" %> 

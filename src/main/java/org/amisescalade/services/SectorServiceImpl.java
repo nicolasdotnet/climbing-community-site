@@ -36,16 +36,6 @@ public class SectorServiceImpl implements ISectorService {
     public Sector registerBySpot(String sectorName, String sectorRate, String sectorDescription,
             String sectorAccessPath, Long spotId, String username) throws Exception {
 
-        Sector sectorFind = sectorRepository.findBySectorName(sectorName);
-
-        if (sectorFind != null) {
-
-            log.error("Le sector " + sectorName + " existe déjà !");
-
-            throw new Exception("Le secteur " + sectorName + " existe déjà !");
-
-        }
-
         Spot spotFind = iSpotService.getSpot(spotId);
 
         if (spotFind == null) {
@@ -63,6 +53,38 @@ public class SectorServiceImpl implements ISectorService {
             log.error("Utilisateur " + username + " n'existe pas dans la base !");
 
             throw new Exception("Utilisateur " + username + " n'existe pas dans la base !");
+
+        }
+
+        if (sectorName.length() > 150) {
+
+            log.error("Enregistrement du sector impossible ! sectorName est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! le nom est trop long.");
+
+        }
+
+        if (sectorRate.length() > 3) {
+
+            log.error("Enregistrement du sector impossible ! sectorRate est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! la cotation est trop longue.");
+
+        }
+
+        if (sectorDescription.length() > 380) {
+
+            log.error("Enregistrement du sector impossible ! sectorDescription est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! la description est trop longue.");
+
+        }
+
+        if (sectorAccessPath.length() > 170) {
+
+            log.error("Enregistrement du sector impossible ! le chemin d'accès est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! le chemin d'accès est trop long.");
 
         }
 
@@ -84,22 +106,6 @@ public class SectorServiceImpl implements ISectorService {
     }
 
     @Override
-    public Sector registerByDefault(String sectorName, String sectorRate, String sectorDescription,
-            String sectorAccessPath) throws Exception {
-        // TODO check by title for no register double ?
-
-        Sector sector = new Sector();
-
-        sector.setSectorName(sectorName);
-        sector.setSectorRate(sectorRate);
-        sector.setSectorDescription(sectorDescription);
-        sector.setSectorAccessPath(sectorAccessPath);
-
-        sector.setSectorDate(new Date());
-        return sectorRepository.save(sector);
-    }
-
-    @Override
     public Sector edit(Sector sector) throws Exception {
 
         Optional<Sector> sectorFind = sectorRepository.findById(sector.getSectorId());
@@ -109,6 +115,38 @@ public class SectorServiceImpl implements ISectorService {
             log.error("Modification Impossible ! le sector " + sector.getSectorId() + " n'existe pas dans la base.");
 
             throw new Exception("Le secteur " + sector.getSectorId() + " n'existe pas !");
+
+        }
+
+        if (sector.getSectorName().length() > 150) {
+
+            log.error("Enregistrement du sector impossible ! sectorName est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! le nom est trop long.");
+
+        }
+
+        if (sector.getSectorRate().length() > 3) {
+
+            log.error("Enregistrement du sector impossible ! sectorRate est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! la cotation est trop longue.");
+
+        }
+
+        if (sector.getSectorDescription().length() > 380) {
+
+            log.error("Enregistrement du sector impossible ! sectorDescription est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! la description est trop longue.");
+
+        }
+
+        if (sector.getSectorAccessPath().length() > 170) {
+
+            log.error("Enregistrement du sector impossible ! le chemin d'accès est trop long.");
+
+            throw new Exception("Enregistrement du secteur impossible ! le chemin d'accès est trop long.");
 
         }
 

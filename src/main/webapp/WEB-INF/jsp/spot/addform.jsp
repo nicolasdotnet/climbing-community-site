@@ -8,8 +8,8 @@
 <%@ include file="../common/header.jsp" %>
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <li><a href="/spots">Sites</a></li>
-    <li class="active">Ajouter un site</li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/spots">Mes sites</a></li>
 </ol>
 
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
@@ -18,74 +18,86 @@
 <form:form method="POST"
            action="/user/spotSave" modelAttribute="spotForm">
     <form class="form-horizontal">
+        <h3>Ajouter un site</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="container">
 
+                        <div class="form-group p">
+                            <label for="spotName" class="col-sm-3 control-label">Nom du site</label>
+                            <div class="col-sm-8">
+                                <form:input class="form-control" path="spotName" value="${spotForm.spotName}"/>
+                            </div>
+                        </div>
 
-        <div class="row">
+                        <div class="form-group p">
+                            <label for="spotRate" class="col-sm-3 control-label">Sa cotation</label>
+                            <div class="col-sm-8">
+                                <form:input path="spotRate" class="form-control" type="text" value="${spotForm.spotRate}"/>
+                            </div>
+                        </div>
 
-            <h2> Informations obligatoires</h2>
+                        <div class="form-group p">
+                            <label for="locations" class="col-sm-3 control-label">Lieu</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="location">
+                                    <option value="default"></option>
+                                    <c:forEach items="${locations}" var="l">
 
-            <div class="form-group">
-                <label for="spotName" class="col-sm-2 control-label">Nom</label>
-                <div class="col-sm-10">
-                    <form:input class="form-control" path="spotName" value="${spotForm.spotName}"/>
-                </div>
-            </div>
+                                        <option value="${l}">${l}</option>
 
-            <div class="form-group">
-                <label for="spotRate" class="col-sm-2 control-label">Difficulté</label>
-                <div class="col-sm-10">
-                    <form:input path="spotRate" class="form-control" type="text" value="${spotForm.spotRate}"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="locations" class="col-sm-2 control-label">Lieu</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="location">
-                        <c:forEach items="${locations}" var="l">
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
 
-                            <option value="${l}">${l}</option>
+                        <div class="form-group p">
+                            <label for="countrys" class="col-sm-3 control-label">Pays</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" name="country">
+                                    <option value="default"></option>
+                                    <c:forEach items="${countrys}" var="c">
 
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
+                                        <option value="${c}">${c}</option>
 
-            <div class="form-group">
-                <label for="countrys" class="col-sm-2 control-label">Pays</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="country">
-                        <c:forEach items="${countrys}" var="c">
-
-                            <option value="${c}">${c}</option>
-
-                        </c:forEach>
-                    </select>
-                </div>
-            </div> 
-        </div>
-
-        <div class="row">
-            <h2>Informations complémentaires</h2>
-
-            <div class="form-group">
-                <label for="spotDescription" class="col-sm-2 control-label">Description</label>
-                <div class="col-sm-10">
-                    <form:input path="spotDescription" class="form-control" type="text" value="${spotForm.spotDescription}"/>
-                </div>   
-                <div class="form-group">
-                    <label for="spotAccessPath" class="col-sm-2 control-label">Accès</label>
-                    <div class="col-sm-10">
-                        <form:input path="spotAccessPath" class="form-control" type="text" value="${spotForm.spotAccessPath}"/>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div> 
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="btn-group" role="group" aria-label="...">
-                <a href="/user/spots" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
-                <button type="submit" class="btn btn-info">Ajouter</button>
+        <h4>Informations complémentaires</h4>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="container">
+                        
+                        <div class="form-group p">
+                            <label for="spotDescription" class="col-sm-3 control-label">Description</label>
+                            <div class="col-sm-8">
+                                <form:textarea rows="5" path="spotDescription" class="form-control" type="text" value="${spotForm.spotDescription}"/>
+                            </div> 
+                        </div>
+                        <div class="form-group p">
+                            <label for="spotAccessPath" class="col-sm-3 control-label">Chemin d'accès</label>
+                            <div class="col-sm-8">
+                                <form:textarea rows="2" path="spotAccessPath" class="form-control" type="text" value="${spotForm.spotAccessPath}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="/user/spots" id="cancel" name="cancel" class="btn btn-default">Annuler</a>
+            <button type="submit" class="btn btn-info">Ajouter</button>
+        </div>
     </form>
-</form:form>             
-
-
+</form:form>    
 <%@ include file="../common/footer.jsp" %>

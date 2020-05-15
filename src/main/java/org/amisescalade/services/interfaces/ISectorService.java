@@ -22,18 +22,6 @@ public interface ISectorService {
     Sector registerBySpot(String sectorName, String sectorRate, String sectorDescription, String sectorAccessPath, Long spotId, String username) throws Exception;
 
     /**
-     * method to register a sector by default
-     *
-     * @param sectorName
-     * @param sectorRate
-     * @param sectorDescription
-     * @param sectorAccessPath
-     * @return sector object saved
-     * @throws Exception
-     */
-    Sector registerByDefault(String sectorName, String sectorRate, String sectorDescription, String sectorAccessPath) throws Exception;
-
-    /**
      * method to modify a sector
      *
      * @param sector

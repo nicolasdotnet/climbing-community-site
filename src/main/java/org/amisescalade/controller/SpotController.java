@@ -84,14 +84,14 @@ public class SpotController {
             return "spot/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "site enregisté !");
+        redirectAttributes.addFlashAttribute("msg", "Site enregisté !");
 
         return "redirect:/spot/" + Math.toIntExact(spotSave.getSpotId());
     }
 
     // show update spot form :
     @GetMapping("/user/spot/{id}/update")
-    public String showUpdateSpotForm(@PathVariable("id") int id, Principal principal, Model model) {
+    public String showUpdateSpotForm(@PathVariable("id") int id, Principal principal, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showUpdateSpotForm() : {}", id);
 
@@ -103,12 +103,14 @@ public class SpotController {
             spotFind = iSpotService.getSpot(Long.valueOf(id));
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/spot/" + id;
         }
 
         model.addAttribute("spotFind", spotFind);
+        model.addAttribute("locations", iLocation.getAllLocation());
+        model.addAttribute("countrys", iCountry.getAllCountry());
 
         return "spot/updateform";
 
@@ -126,6 +128,9 @@ public class SpotController {
 
         if (link != null) {
 
+            model.addAttribute("locations", iLocation.getAllLocation());
+            model.addAttribute("countrys", iCountry.getAllCountry());
+            
             return link;
 
         }
@@ -138,10 +143,10 @@ public class SpotController {
 
             redirectAttributes.addFlashAttribute("error", e.getMessage());
 
-            return "redirect:/spot/" + spot.getSpotId();
+            return "redirect:/user/spot/" + Math.toIntExact(spot.getSpotId()) + "/update";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Modifications enregistrées ! ");
+        redirectAttributes.addFlashAttribute("msg", "Site modifié !");
 
         return "redirect:/spot/" + Math.toIntExact(spotUpdate.getSpotId());
 
@@ -200,28 +205,6 @@ public class SpotController {
 
     }
 
-    // spot list page by name
-    @GetMapping("/spot/search")
-    public String searchSpot(Model model, @RequestParam("spotName") String spotName) {
-
-        log.debug("searchSpot()");
-
-        List<Spot> spotList = null;
-
-        try {
-            spotList = iSpotService.getAllSpotsByName(spotName);
-        } catch (Exception e) {
-
-            model.addAttribute("error", e.getMessage());
-
-            return "redirect:/spots";
-        }
-
-        model.addAttribute("spots", spotList);
-
-        return "/spot/list";
-    }
-
     // spot list page
     @GetMapping("/spots")
     public String showAllSpots(Model model, @RequestParam(name = "page", defaultValue = "0") int p, @RequestParam(name = "size", defaultValue = "5") int s) {
@@ -238,8 +221,6 @@ public class SpotController {
         model.addAttribute("size", s);
         model.addAttribute("pageCourante", p);
         model.addAttribute("spots", spots);
-
-        System.out.println("le post marche !! spots");
 
         return "/spot/list";
     }
@@ -291,10 +272,10 @@ public class SpotController {
             iSpotService.delete(Long.valueOf(id));
         } catch (Exception e) {
 
-            redirectAttributes.addFlashAttribute("error", e);
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Site supprimé");
+        redirectAttributes.addFlashAttribute("msg", "Site supprimé !");
 
         return "redirect:/spots";
 
@@ -321,8 +302,6 @@ public class SpotController {
 
         List<Spot> spotsFind = iSpotService.getAllSpotsByMc(spotName, spotRate, location, sectorCount);
 
-        System.out.println("org.amisescalade.controller.SpotController.findSpots()" + spotsFind.isEmpty());
-
         model.addAttribute("spots", spotsFind);
 
         return "spot/list";
@@ -333,7 +312,7 @@ public class SpotController {
 
         if (spot.getSpotName().isEmpty()) {
 
-            model.addAttribute("error", "name  isEmpty");
+            model.addAttribute("error", "Le nom du site n'est pas renseigné");
 
             return "spot/" + link;
 
@@ -341,23 +320,23 @@ public class SpotController {
 
         if (spot.getSpotRate().isEmpty()) {
 
-            model.addAttribute("error", "rate  isEmpty");
+            model.addAttribute("error", "La cotation n'est pas renseignée");
 
             return "spot/" + link;
 
         }
 
-        if (spot.getLocation().isEmpty()) {
+        if (spot.getLocation().equalsIgnoreCase("default")) {
 
-            model.addAttribute("error", "dep  isEmpty");
+            model.addAttribute("error", "Le lieu n'est pas renseigné");
 
             return "spot/" + link;
 
         }
 
-        if (spot.getCountry().isEmpty()) {
+        if (spot.getCountry().equalsIgnoreCase("default")) {
 
-            model.addAttribute("error", "country isEmpty");
+            model.addAttribute("error", "Le pays n'est pas renseigné");
 
             return "spot/" + link;
 
@@ -367,12 +346,6 @@ public class SpotController {
     }
 
     public boolean isOwner(String username, String userFind) {
-
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
 
         if (username.equals(userFind)) {
 

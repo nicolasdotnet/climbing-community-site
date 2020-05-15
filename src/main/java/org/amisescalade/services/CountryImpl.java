@@ -22,12 +22,9 @@ public class CountryImpl implements ICountry {
 
     @Override
     public List<Country> getAllCountry() {
+        
         List<Country> c = Arrays.asList(Country.values());
-
-        for (Country country : c) {
-            System.out.println(c.iterator());
-        }
-
+        
         return Arrays.asList(Country.values());
     }
 

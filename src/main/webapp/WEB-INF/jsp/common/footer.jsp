@@ -6,49 +6,35 @@
 </main>
 <footer class="footer">
     <div class="container">
-    <div class="footer-crags col-sm-3 hidden-xs">
-        <h3>Parcourir les sites d'escalade</h3>
-        <ul>
-            <li>
-                <a href="#">Haut de France</a>
-            </li>
-            <li>
-                <a href="#">Outre-mer</a>
-            </li>
-            <li>
-                <a href="#">Auvergne-Rhône-Alpes</a>
-            </li>
-            <li>
-                <a href="#">Corse</a>
-            </li>
-        </ul>
-    </div>
+        <div class="row">
 
-    <div class="footer-links col-sm-3 col-xs-12">
-        <h3>AdE</h3>
-        <ul>
-            <li>
-                <a href="#">Aide</a>
-            </li>
-            <li>
-                <a href="#">Nous contacter</a>
-            </li>
-            <li>
-                <a href="#">Conditions d'utilisation</a>
-            </li>
-            <li>
-                <a href="#">Politique de confidentialité</a>
-            </li>
-            <li>
-                <a href="#">Notre mission</a>
-            </li>
-        </ul>
-    </div>
-    <h3 class="hidden-xs">L'apllication AdE est un site communautaire</h3>
-    <div>
-        <div class="clearfix"></div>
-        <div class="copyright">Les Amis de l'escalade &copy; 2020</div>
-    </div>
+            <div class="col-sm-8 footer-links">
+                <h3 style="font-family: Montserrat">AdE</h3>
+                <h5>L'app communautaire pour l'escalade</h5>
+                <ul>
+                    <li>
+                        <a href="#">Aide</a>
+                    </li>
+                    <li>
+                        <a href="#">Nous contacter</a>
+                    </li>
+                    <li>
+                        <a href="#">Conditions d'utilisation</a>
+                    </li>
+                    <li>
+                        <a href="#">Politique de confidentialité</a>
+                    </li>
+                    <li>
+                        <a href="#">Notre mission</a>
+                    </li>
+                </ul>
+            </div>  
+            <div class="col-sm-4 logo-footer">
+                <img src="/img/logo.png" height="100" width="200" title="Les Amis de l'escalade" alt="Les Amis de l'escalade"/>
+                <div class="copyright">Les Amis de l'escalade &copy; 2020</div>
+            </div>
+
+        </div>
     </div>
 </footer>
 </div>

@@ -31,24 +31,39 @@ public class TopoServiceImpl implements ITopoService {
     private IUserService iUserService;
 
     @Override
-    public Topo register(String topoArea, String topoTitle, String topoDescription,Date releaseDate, User topoOwner) throws Exception {
-        
+    public Topo register(String topoArea, String topoTitle, String topoDescription, Date releaseDate, User topoOwner) throws Exception {
+
         if (releaseDate.after(new Date())) {
-            
+
             log.error("Enregistrement du topo Impossible ! la date de parution " + releaseDate + " est supérieur à la date du jour.");
 
             throw new Exception("Enregistrement du topo Impossible ! la date de parution " + releaseDate + " est supérieur à la date du jour.");
-            
+
+        }
+
+        if (topoTitle.length() > 200) {
+
+            log.error("Enregistrement du topo impossible ! topoTitle est trop long.");
+
+            throw new Exception("Enregistrement du topo impossible ! le titre est trop long.");
+
+        }
+
+        if (topoDescription.length() > 380) {
+
+            log.error("Enregistrement du topo impossible ! topoDescription est trop long.");
+
+            throw new Exception("Enregistrement du topo impossible ! la description est trop longue.");
+
         }
 
         Topo topo = new Topo();
-        topo.setTopoArea(topoArea);
+        topo.setLocation(topoArea);
         topo.setTopoTitle(topoTitle);
         topo.setTopoDescription(topoDescription);
         topo.setReleaseDate(releaseDate);
         topo.setTopoOwner(topoOwner);
 
-        
         topo.setTopoDate(new Date());
         topo.setTopoStatus(true);
 
@@ -67,10 +82,27 @@ public class TopoServiceImpl implements ITopoService {
             throw new Exception("Le topo " + topo.getTopoId() + " n'existe pas !");
         }
 
-        topoFind.get().setTopoArea(topo.getTopoArea());
+        if (topoFind.get().getTopoTitle().length() > 200) {
+
+            log.error("Enregistrement du topo impossible ! topoTitle est trop long.");
+
+            throw new Exception("Enregistrement du topo impossible ! le titre est trop long.");
+
+        }
+
+        if (topo.getTopoDescription().length() > 380) {
+
+            log.error("Enregistrement du topo impossible ! topoDescription est trop long.");
+
+            throw new Exception("Enregistrement du topo impossible ! la description est trop longue.");
+
+        }
+
+        topoFind.get().setLocation(topo.getLocation());
         topoFind.get().setTopoDescription(topo.getTopoDescription());
         topoFind.get().setTopoTitle(topo.getTopoTitle());
         topoFind.get().setTopoStatus(topo.getTopoStatus());
+        topoFind.get().setReleaseDate(topo.getReleaseDate());
 
         return topoRepository.saveAndFlush(topoFind.get());
     }
@@ -105,9 +137,9 @@ public class TopoServiceImpl implements ITopoService {
 
     @Override
     public void delete(Long topoId) throws Exception {
-        
+
         Optional<Topo> topoFind = topoRepository.findById(topoId);
-        
+
         if (!topoFind.isPresent()) {
 
             log.error("Modification Impossible ! le topo " + topoId + " n'existe pas dans la base.");

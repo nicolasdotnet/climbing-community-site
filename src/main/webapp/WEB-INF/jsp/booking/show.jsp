@@ -4,8 +4,6 @@
     Author     : nicolasdotnet
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../common/header.jsp" %>
 
 <ol class="breadcrumb">
@@ -13,12 +11,11 @@
     <c:choose>
         <c:when test="${owner}">
             <li><a href="/user/account">Mon compte</a></li>
-            <li><a href="/user/spots">Mes sites</a></li>
-            <li class="active">${spotFind.spotName}</li>
+            <li><a href="/user/bookings">Mes réservations</a></li>
         </c:when>
         <c:otherwise>
-            <li><a href="/spots">Les sites</a></li>
-            <li class="active">${spotFind.spotName}</li>
+            <li><a href="/user/account">Mon compte</a></li>
+            <li><a href="/user/bookings/topos">Mes demandes de réservations</a></li>
         </c:otherwise>  
     </c:choose>
 </ol>
@@ -39,28 +36,28 @@
             <c:if test="${owner}">
                 <form action="${deleteUrl}" method="POST">
                     <button class="btn btn-danger x pull-right" 
-                            onclick="return confirm('Are you sure?')">Annuler</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
                 </form>
             </c:if>
             <c:choose> 
                 <c:when test="${bookingFind.bookingStatus && !owner}">
                     <form action="${availableUrl}" method="POST">
                         <button class="btn btn-danger x pull-right" 
-                                onclick="return confirm('Are you sure?')">Refuser</button>
+                                onclick="return confirm('Êtes-vous sûr ?')">Refuser</button>
                     </form>
                     <form action="${deleteUrl}" method="POST">
                         <button class="btn btn-danger x pull-right" 
-                                onclick="return confirm('Are you sure?')">Annuler</button>
+                                onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
                     </form>
                 </c:when>
                 <c:when test="${!bookingFind.bookingStatus && !owner}">
                     <form action="${validateUrl}" method="POST">
                         <button class="btn btn-danger x pull-right" 
-                                onclick="return confirm('Are you sure?')">Valider</button>
+                                onclick="return confirm('Êtes-vous sûr ?')">Valider</button>
                     </form>
                     <form action="${deleteUrl}" method="POST">
                         <button class="btn btn-danger x pull-right" 
-                                onclick="return confirm('Are you sure?')">Annuler</button>
+                                onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
                     </form>
                 </c:when>
             </c:choose> 
@@ -101,28 +98,28 @@
     <c:if test="${owner}">
         <form action="${deleteUrl}" method="POST">
             <button class="btn btn-danger x pull-right" 
-                    onclick="return confirm('Are you sure?')">Annuler</button>
+                    onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
         </form>
     </c:if>
     <c:choose> 
         <c:when test="${bookingFind.bookingStatus && !owner}">
             <form action="${availableUrl}" method="POST">
                 <button class="btn btn-danger x pull-right" 
-                        onclick="return confirm('Are you sure?')">Refuser</button>
+                        onclick="return confirm('Êtes-vous sûr ?')">Refuser</button>
             </form>
             <form action="${deleteUrl}" method="POST">
                 <button class="btn btn-danger x pull-right" 
-                        onclick="return confirm('Are you sure?')">Annuler</button>
+                        onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
             </form>
         </c:when>
         <c:when test="${!bookingFind.bookingStatus && !owner}">
             <form action="${validateUrl}" method="POST">
                 <button class="btn btn-danger x pull-right" 
-                        onclick="return confirm('Are you sure?')">Valider</button>
+                        onclick="return confirm('Êtes-vous sûr ?')">Valider</button>
             </form>
             <form action="${deleteUrl}" method="POST">
                 <button class="btn btn-danger x pull-right" 
-                        onclick="return confirm('Are you sure?')">Annuler</button>
+                        onclick="return confirm('Êtes-vous sûr ?')">Annuler</button>
             </form>
         </c:when>
     </c:choose> 

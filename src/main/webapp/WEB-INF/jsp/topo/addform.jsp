@@ -8,8 +8,8 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <li><a href="/spots">Sites</a></li>
-    <li class="active">Ajouter un site</li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/topos">Mes topos</a></li>
 </ol>
 
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
@@ -18,26 +18,52 @@
 <form:form method="POST"
            action="/user/topoSave" modelAttribute="topoForm">
     <form class="form-horizontal">
-        <h2> Informations obligatoires</h2>
+        <h3>Ajouter un topo</h3>
 
-        <div class="form-group">
-            <form:input class="form-control" path="topoTitle" autofocus="true" value="${topoForm.topoTitle}" placeholder="Titre du topo"/>
-            <form:errors path="topoTitle" class="error"/>
-        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-        <div class="form-group">
-            <form:input class="form-control" path="topoArea" value="${topoForm.topoArea}" placeholder="Lieu"/>
-            <form:errors path="topoArea" class="error"/>
-        </div>
+                <div class="form-group p">
+                    <label for="topoTitle" class="col-sm-4 control-label">Titre du topo</label>
+                    <div class="col-sm-8">
+                        <form:input class="form-control" path="topoTitle" autofocus="true" value="${topoForm.topoTitle}"/>
+                        <form:errors path="topoTitle" class="error"/>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <form:input type ="date" class="form-control" path="releaseDate"/>
-            <form:errors path="releaseDate" class="error"/>
-        </div>
 
-        <div class="form-group">
-            <form:input class="form-control" path="topoDescription" value="${topoForm.topoDescription}" placeholder="Description"/>
-            <form:errors path="topoDescription" class="error"/>
+                <div class="form-group p">
+                    <label for="location" class="col-sm-4 control-label">Lieu</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="location">
+                            <option value="default"></option>
+                            <c:forEach items="${locations}" var="l">
+
+                                <option value="${l}">${l}</option>
+
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group p">
+                    <label for="releaseDate" class="col-sm-4 control-label">Date de parution</label>
+                    <div class="col-sm-8">
+                        <form:input type ="date" class="form-control" path="releaseDate"/>
+                        <form:errors path="releaseDate" class="error"/>
+                    </div>
+                </div>
+
+                <div class="form-group p">
+                    <label for="topoDescription" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <form:textarea rows="5" class="form-control" path="topoDescription" value="${topoForm.topoDescription}"/>
+                        <form:errors path="topoDescription" class="error"/>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="btn-group" role="group" aria-label="...">

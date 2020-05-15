@@ -57,23 +57,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //pour REST
 
         // The pages does not require login
-        http.authorizeRequests().antMatchers("/","/signup","/login", "/style.css", "/bootstrap/**", "/webjars/**", "/spot/**", "/spots", "/confirmation", "/infos").permitAll();
+        http.authorizeRequests().antMatchers("/","/signup","/login", "/img/**", "/styles.css", "/bootstrap/**", "/webjars/**", "/spot/**", "/sector/**",
+                "/component/**","/pitch/**","/spots", "/confirmation", "/infos").permitAll();
 
         // /userinfo page requires login as ROLE_USER or ROLE_ADMIN.
         // If no login, it will redirect to /login page.
 // http.authorizeRequests().antMatchers("/userinfo").hasRole("grimpeur");
         
 //        http.authorizeRequests().antMatchers("/user/**").hasAuthority("grimpeur");
-        http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
-        http.authorizeRequests().antMatchers("/user/**").hasAnyAuthority("admin", "grimpeur");
+        http.authorizeRequests().antMatchers("/membre/**").hasAuthority("membre");
+        http.authorizeRequests().antMatchers("/user/**").hasAnyAuthority("membre", "grimpeur");
 
         // When the user has logged in as XX.
         // But access a page that requires role YY,
         // AccessDeniedException will be thrown.
         http.exceptionHandling().accessDeniedPage("/403");
 
-//        http.formLogin();
-        http.formLogin().loginPage("/login").defaultSuccessUrl("/", true);
+        http.formLogin().defaultSuccessUrl("/user/account", true);
+//        http.formLogin().loginPage("/login").defaultSuccessUrl("/", true);
         
         http.authorizeRequests().anyRequest().authenticated();
 

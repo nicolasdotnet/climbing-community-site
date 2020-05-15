@@ -44,17 +44,23 @@ public class CommentServiceImpl implements ICommentService {
             throw new Exception("Utilisateur " + username + " n'existe pas dans la base !");
 
         }
-        
+
         Spot spotFind = iSpotService.getSpot(spotId);
-        if (spotFind==null) {
-            
-            
+        if (spotFind == null) {
+
             log.error("Le spot " + spotId + " n'existe pas dans la base !");
 
-            throw new Exception("Le site " + spotId +  " n'existe pas dans la base !");
-            
+            throw new Exception("Le site " + spotId + " n'existe pas dans la base !");
+
         }
 
+        if (body.length() > 150) {
+
+            log.error("Enregistrement du comment impossible ! le body est trop longue.");
+
+            throw new Exception("Enregistrement du message impossible ! le message est trop long.");
+
+        }
 
         Comment comment = new Comment();
 
@@ -80,6 +86,15 @@ public class CommentServiceImpl implements ICommentService {
             throw new Exception("Le commentaire " + comment.getCommentId() + " n'existe pas !");
 
         }
+
+        if (comment.getCommentBody().length() > 150) {
+
+            log.error("Enregistrement du comment impossible ! le body est trop longue.");
+
+            throw new Exception("Enregistrement du message impossible ! le message est trop long.");
+
+        }
+
         commentFind.get().setCommentDate(new Date());
         commentFind.get().setCommentBody(comment.getCommentBody());
         return commentRepository.saveAndFlush(commentFind.get());

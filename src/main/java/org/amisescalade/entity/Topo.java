@@ -30,9 +30,10 @@ public class Topo implements Serializable {
     @Column(nullable = false)
     private Date topoDate;
     @Column(length = 200, nullable = false)
-    private String topoArea;
+    private String location;
     @Column(length = 200, nullable = false)
     private String topoTitle;
+    @Column (length = 380)
     private String topoDescription;
     @Column(nullable = false)
     private Boolean topoStatus;
@@ -65,12 +66,12 @@ public class Topo implements Serializable {
         this.topoDate = topoDate;
     }
 
-    public String getTopoArea() {
-        return topoArea;
+    public String getLocation() {
+        return location;
     }
 
-    public void setTopoArea(String topoArea) {
-        this.topoArea = topoArea;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getTopoTitle() {

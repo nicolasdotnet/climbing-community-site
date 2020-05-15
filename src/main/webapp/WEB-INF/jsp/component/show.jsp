@@ -12,25 +12,29 @@
         <c:when test="${owner}">
             <li><a href="/user/account">Mon compte</a></li>
             <li><a href="/user/spots">Mes sites</a></li>
+            <li><a href="/spot/${componentFind.sector.spot.spotId}">${componentFind.sector.spot.spotName}</a></li>
+            <li><a href="/spot/${componentFind.sector.spot.spotId}/sectors">Secteurs de ${componentFind.sector.spot.spotName}</a></li>
             <li><a href="/sector/${componentFind.sector.sectorId}">${componentFind.sector.sectorName}</a></li>
-            <li class="active">${componentFind.componentName}</li>
+            <li><a href="/sector/${componentFind.sector.sectorId}/components">Voie de ${componentFind.sector.sectorName}</a></li>
         </c:when>
         <c:otherwise>
             <li><a href="/spots">Les sites</a></li>
+            <li><a href="/spot/${componentFind.sector.spot.spotId}">${componentFind.sector.spot.spotName}</a></li>
+            <li><a href="/spot/${componentFind.sector.spot.spotId}/sectors">Secteurs de ${componentFind.sector.spot.spotName}</a></li>
             <li><a href="/sector/${componentFind.sector.sectorId}">${componentFind.sector.sectorName}</a></li>
-            <li class="active">${componentFind.componentName}</li>
+            <li><a href="/sector/${componentFind.sector.sectorId}/components">Voie de ${componentFind.sector.sectorName}</a></li>
         </c:otherwise>  
     </c:choose>
 </ol>
 
 
-<h1>${componentFind.componentName}</h1>
+<h2>${componentFind.componentName}</h2>
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
 <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 
 <div class="row container">
     <div class="row vcenter">
-        <div  class="col-sm-8"><h3>Descriptions : </h3></div>
+        <div  class="col-sm-8"><h3>Description</h3></div>
 
         <div class="col-sm-4 hidden-xs">
             <c:if test="${owner}">
@@ -39,11 +43,11 @@
 
                 <form action="${updateUrl}">
                     <button class="btn btn-primary x pull-right"
-                            onclick="return confirm('Are you sure?')">Modifier</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Modifier</button>
                 </form>
                 <form action="${deleteUrl}" method="POST">
                     <button class="btn btn-danger x pull-right"
-                            onclick="return confirm('Are you sure?')">Supprimer</button>
+                            onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
                 </form>
             </c:if>
         </div>
@@ -54,60 +58,65 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <div>
-            <label>Date</label>
-            <span><c:out value="${componentFind.componentDate}">Valeur par défaut</c:out> </span>
+            <label>Auteur :</label>
+            <span><c:out value="${componentFind.componentAuthor.username}">Valeur par défaut</c:out></span>
         </div>
         <div>
-            <div>
-                <label>Nom du secteur</label>
-                <span><c:out value="${componentFind.componentName}">Valeur par défaut</c:out> </span>
-            </div>
-            <div>
-                <label>Niveau</label>
-                <span><c:out value="${componentFind.componentRate}">Valeur par défaut</c:out>  </span>
-            </div>
-            <div>
-                <label>Description</label>
-                <span><c:out value="${componentFind.componentDescription}">Valeur par défaut</c:out>  </span>
-            </div>
-            <div>
-                <label>Code</label>
-                <span><c:out value="${componentFind.componentCode}">Valeur par défaut</c:out></span>
-            </div>
-            <div>
-                <label>Catégorie</label>
-                <span><c:out value="${componentFind.componentCategory.componentCategoryLabel}">Valeur par défaut</c:out></span>
-            </div>
+            <label>Date d'enregistrement :</label>
+            <span><fmt:formatDate pattern="dd/MM/yyyy" value="${componentFind.componentDate}"/></span>
+        </div>
+        <div>
+            <label>Catégorie :</label>
+            <span><c:out value="${componentFind.componentCategory.componentCategoryLabel}">Valeur par défaut</c:out></span>
+        </div>
+        <div>
+            <label>Hauteur :</label>
+            <span><c:out value="${componentFind.componentHeight} M">Valeur par défaut</c:out>  </span>
+        </div>
+        <div>
+            <label>Cotation :</label>
+            <span><c:out value="${componentFind.componentRate}">Valeur par défaut</c:out>  </span>
+        </div>
+        <div>
+            <label>Voie équipée :</label>
+            <c:choose>                
+                <c:when test = "${componentFind.spits == true}">
+                    <span>Oui</span>
+                </c:when>
+                <c:when test = "${componentFind.spits == false}">
+                    <span>Non</span>
+                </c:when>
+            </c:choose>
+        </div>
+        <div>
+            <label>Code du bloc :</label>
+            <span><c:out value="${componentFind.componentCode}">Valeur par défaut</c:out></span>
+        </div>
+        <div>
+            <label>Description :</label>
+            <p><c:out value="${componentFind.componentDescription}">Valeur par défaut</c:out>  </p>
         </div>
     </div>
 </div>
 
 <ul class="nav navbar-nav">
-    <c:choose>
-        <c:when test="${spotFind.sectorCount >0}">
-            <li><a href="${componentUrl}"> Consulter les composants du secteur</a></li>
-            <c:if test="${owner}">
-                <li><a href="${addUrl}"> Ajouter un autre composant au secteur</a></li>
-            </c:if>
-        </c:when>
-        <c:otherwise> 
-            <c:if test="${owner}">
-                <li><a href="${addUrl}"> Ajouter un composant au secteur</a></li>
-            </c:if>
-        </c:otherwise>
-    </c:choose>
+
+    <spring:url value="/component/${componentFind.componentId}/pitchs" var="pitchUrl" /> 
+    <spring:url value="/user/component/${componentFind.componentId}/pitch/add" var="pitchAddUrl" />
+
+    <li><a href="${pitchUrl}"> Consulter les longeurs</a></li>
 </ul> 
-<div class="col-sm-3 hidden-sm hidden-lg">
+<div class="col-sm-3 visible-xs">
     <c:if test="${owner}">
         <spring:url value="/user/component/${componentFind.componentId}/delete" var="deleteUrl" /> 
         <spring:url value="/user/component/${componentFind.componentId}/update" var="updateUrl" />
         <form action="${updateUrl}">
             <button class="btn btn-primary x pull-right"
-                    onclick="return confirm('Are you sure?')">Modifier</button>
+                    onclick="return confirm('Êtes-vous sûr ?')">Modifier</button>
         </form>
         <form action="${deleteUrl}" method="POST">
             <button class="btn btn-danger x pull-right"
-                    onclick="return confirm('Are you sure?')">Supprimer</button>
+                    onclick="return confirm('Êtes-vous sûr ?')">Supprimer</button>
         </form>
     </c:if>
 </div>

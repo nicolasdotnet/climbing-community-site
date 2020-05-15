@@ -8,12 +8,12 @@
 
 <ol class="breadcrumb">
     <li><a href="/">Acceuil</a></li>
-    <li><a href="/allspots">Sites</a></li>
-    <li><a href="/topo/+${topoFind.topoId}">${topoFind.topoTitle}</a></li>
-    <li class="active">modifié</li>
+    <li><a href="/user/account">Mon compte</a></li>
+    <li><a href="/user/topos">Mes topos</a></li>
+    <li><a href="/user/topo/${topoFind.topoId}">${topoFind.topoTitle}</a></li>
+    <li class="active">Modifier</li>
 </ol>
-
-<h1>${topoFind.topoTitle}</h1>
+<h2>${topoFind.topoTitle}</h2>
 
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
 <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
@@ -22,38 +22,59 @@
            action="/user/topoUpdate" modelAttribute="topoFind">
 
     <form:hidden path="topoId"/>
-    
+
     <form class="form-horizontal">
-        <h2> Informations obligatoires</h2>
+        <h3>Renseignements obligatoires</h3>
 
-        <div class="form-group">
-            <label for="official" class="col-sm-2 control-label">Titre</label>
-            <div class="col-sm-10">
-                <form:input class="form-control" path="topoTitle" autofocus="true" value="${titleFind.topoTitle}" placeholder="Titre"/>
-                <form:errors path="topoTitle"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="official" class="col-sm-2 control-label">Description</label>
-            <div class="col-sm-10">
-                <form:input class="form-control" path="topoDescription" value="${topoFind.topoDescription}" placeholder="Desciption"/>
-                <form:errors path="topoDescription"/>
-            </div>
-        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-        <div class="form-group">
-            <label for="official" class="col-sm-2 control-label">Accès</label>
-            <div class="col-sm-10">
-                <form:input class="form-control" path="topoArea" value="${topoFind.topoArea}" placeholder="Accès"/>
-                <form:errors path="topoArea"/>
-            </div>
-        </div>
+                <div class="form-group p">
+                    <label for="topoTitle" class="col-sm-4 control-label">Titre du topo</label>
+                    <div class="col-sm-8">
+                        <form:input class="form-control" path="topoTitle" autofocus="true" value="${topoFind.topoTitle}" placeholder="Titre"/>
+                        <form:errors path="topoTitle"/>
+                    </div>
+                </div>
+                <div class="form-group p">
+                    <label for="locations" class="col-sm-4 control-label">Lieu</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" name="location">
+                            <c:forEach items="${locations}" var="l">
+                                <c:choose>
+                                    <c:when test="${l == topoFind.location}">
+                                        <option value="${l}" selected>${l}</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option value="${l}">${l}</option>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group p">
+                    <label for="releaseDate" class="col-sm-4 control-label">Date de parution</label>
+                    <div class="col-sm-8">
+                        <form:input type ="date" class="form-control" path="releaseDate"/>
+                        <form:errors path="releaseDate" class="error"/>
+                    </div>
+                </div>
+                <div class="form-group p">
+                    <label for="topoStatus" class="col-sm-4 control-label">Je prête le topo</label>
+                    <div class="col-sm-8">
+                        <form:checkbox path="topoStatus" value="${topoFind.topoStatus}"/>
+                        <form:errors path="topoStatus"/>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label for="official" class="col-sm-2 control-label">Statut du topo</label>
-            <div class="col-sm-10">
-                <form:checkbox path="topoStatus" value="${topoFind.topoStatus}"/>
-                <form:errors path="topoStatus"/>
+                <div class="form-group p">
+                    <label for="topoDescription" class="col-sm-4 control-label">Description</label>
+                    <div class="col-sm-8">
+                        <form:textarea rows="5" class="form-control" path="topoDescription" value="${topoFind.topoDescription}" placeholder="Desciption"/>
+                        <form:errors path="topoDescription"/>
+                    </div>
+                </div>
             </div>
         </div>
 

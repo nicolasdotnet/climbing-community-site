@@ -25,16 +25,16 @@
             <div class="panel-body">
 
                 <div class="form-group">
-                    <label for="password" class="col-sm-2 control-label">Nouveau mot de passe</label>
-                    <div class="col-sm-10">
+                    <label for="password" class="col-sm-4 control-label">Nouveau mot de passe</label>
+                    <div class="col-sm-8">
                         <form:password path="password" class="form-control"/>
                         <form:errors path="password" class="error"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="passwordMatch" class="col-sm-2 control-label">Confirmation du nouveau mot de passe</label>
-                    <div class="col-sm-10">
+                    <label for="passwordMatch" class="col-sm-4 control-label">Confirmation du nouveau mot de passe</label>
+                    <div class="col-sm-8">
                         <input name="passwordMatch" class="form-control" type="password"/>
                     </div>
                 </div>

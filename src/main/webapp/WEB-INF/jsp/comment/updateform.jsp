@@ -6,6 +6,27 @@
 
 <%@ include file="../common/header.jsp" %>
 
+<ol class="breadcrumb">
+    <li><a href="/">Acceuil</a></li>
+    <c:choose>
+        <c:when test="${owner}">
+            <li><a href="/user/account">Mon compte</a></li>
+            <li><a href="/user/spots">Mes sites</a></li>
+            <li><a href="/spot/${spotFind.spotId}">${spotFind.spotName}</a></li>
+            <li><a href="/spot/${spotFind.spotId}/comments">Les commentaires</a></li>
+            <li class="active">Un commentaire</li>
+            <li class="active">Modifier</li>
+        </c:when>
+        <c:otherwise>
+            <li><a href="/spots">Les sites</a></li>
+            <li><a href="/spot/${spotFind.spotId}">${spotFind.spotName}</a></li>
+            <li><a href="/spot/${spotFind.spotId}/comments">Les commentaires</a></li>
+            <li class="active">Un commentaire</li>
+            <li class="active">Modifier</li>
+        </c:otherwise>  
+    </c:choose>
+</ol>
+
 <c:if test="${!empty msg}"><span class="msg">${msg}</span></c:if>
 <c:if test="${!empty error}"><span class="error">${error}</span></c:if>
 

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.amisescalade.entity.Topo;
 import org.amisescalade.entity.User;
+import org.amisescalade.services.interfaces.ILocation;
 import org.amisescalade.services.interfaces.ITopoService;
 import org.amisescalade.services.interfaces.IUserService;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@Transactional
+//@Transactional
 public class TopoController {
 
     private final Logger log = LogManager.getLogger(TopoController.class);
@@ -39,17 +40,27 @@ public class TopoController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private ILocation iLocation;
+
+    /**
+     * method for date format. Use for the input form
+     *
+     * @param binder
+     */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        log.debug("initBinder()");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(true);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 
     // topo list page by id owner topo
     @GetMapping("/user/{id}/owner")
-    public String showAllTopoByOwner(@PathVariable("id") int id, Model model, Principal principal) {
+    public String showAllTopoByOwner(@PathVariable("id") int id, Model model, Principal principal, final RedirectAttributes redirectAttributes) {
 
         log.debug("showAllTopoByUser()");
 
@@ -64,7 +75,7 @@ public class TopoController {
 
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/user/" + id;
 
@@ -121,8 +132,6 @@ public class TopoController {
         try {
             userFind = iUserService.getUserByUsername(principal.getName());
 
-            System.out.println("org.amisescalade.controller.TopoController.showAllByOwnerTopo()" + userFind.toString());
-
             topoList = iTopoService.getAllToposByOwner(userFind.get());
 
         } catch (Exception e) {
@@ -149,6 +158,7 @@ public class TopoController {
 
         log.debug("showAddTopoForm()");
         model.addAttribute("topoForm", new Topo());
+        model.addAttribute("locations", iLocation.getAllLocation());
 
         return "/topo/addform";
 
@@ -166,6 +176,8 @@ public class TopoController {
 
         if (link != null) {
 
+            model.addAttribute("locations", iLocation.getAllLocation());
+
             return link;
 
         }
@@ -176,16 +188,17 @@ public class TopoController {
         try {
             ownerFind = iUserService.getUserByUsername(principal.getName());
 
-            topoNew = iTopoService.register(topo.getTopoArea(), topo.getTopoTitle(), topo.getTopoDescription(), topo.getReleaseDate(), ownerFind.get());
+            topoNew = iTopoService.register(topo.getLocation(), topo.getTopoTitle(), topo.getTopoDescription(), topo.getReleaseDate(), ownerFind.get());
 
         } catch (Exception e) {
 
             model.addAttribute("error", e.getMessage());
+            model.addAttribute("locations", iLocation.getAllLocation());
 
             return "/topo/addform";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Topo enregistré ! ");
+        redirectAttributes.addFlashAttribute("msg", "Topo enregistré !");
 
         return "redirect:/user/topo/" + Math.toIntExact(topoNew.getTopoId());
 
@@ -193,7 +206,7 @@ public class TopoController {
 
     // show update topo form :
     @GetMapping("/user/topo/{id}/update")
-    public String showUpdateTopoForm(@PathVariable("id") int id, Principal principal, Model model) {
+    public String showUpdateTopoForm(@PathVariable("id") int id, Principal principal, Model model, final RedirectAttributes redirectAttributes) {
 
         log.debug("showUpdateTopoForm() : {}", id);
 
@@ -206,12 +219,13 @@ public class TopoController {
 
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
 
             return "redirect:/user/topo/" + id;
         }
 
         model.addAttribute("topoFind", topoFind);
+        model.addAttribute("locations", iLocation.getAllLocation());
 
         return "/topo/updateform";
 
@@ -221,13 +235,15 @@ public class TopoController {
     @PostMapping("/user/topoUpdate")
     public String updateTopo(@ModelAttribute("topoFind") Topo topo, final RedirectAttributes redirectAttributes, Model model) {
 
-        log.debug("updateTopo() : {}");
+        log.debug("updateTopo()");
 
         String sublink = "updateform";
 
         String link = validateIsEmpty(topo, sublink, model);
 
         if (link != null) {
+            
+            model.addAttribute("locations", iLocation.getAllLocation());
 
             return link;
 
@@ -240,11 +256,12 @@ public class TopoController {
 
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
-            return "/topo/updateform";
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/user/topo/" + Math.toIntExact(topo.getTopoId()) + "/update";
         }
 
-        redirectAttributes.addFlashAttribute("msg", "Topo modifié ! ");
+        redirectAttributes.addFlashAttribute("msg", "Topo modifié !");
 
         return "redirect:/user/topo/" + Math.toIntExact(topoUpdate.getTopoId());
     }
@@ -269,7 +286,7 @@ public class TopoController {
 
         }
 
-        redirectAttributes.addFlashAttribute("msg", "topo supprimé");
+        redirectAttributes.addFlashAttribute("msg", "Topo supprimé !");
 
         return "redirect:/user/topos";
 
@@ -277,7 +294,7 @@ public class TopoController {
 
     // show topo
     @GetMapping("/user/topo/{id}")
-    public String showTopo(@PathVariable("id") Long id, Model model, Principal principal) {
+    public String showTopo(@PathVariable("id") Long id, Model model, Principal principal, final RedirectAttributes redirectAttributes) {
 
         log.debug("showTopo id: {}", id);
 
@@ -287,7 +304,9 @@ public class TopoController {
             topoFind = iTopoService.getTopo(Long.valueOf(id));
         } catch (Exception e) {
 
-            model.addAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+
+            return "redirect:/topos";
         }
 
         boolean owner = isOwner(principal.getName(), topoFind.getTopoOwner().getUsername());
@@ -316,12 +335,34 @@ public class TopoController {
         model.addAttribute("pageCourante", p);
         model.addAttribute("topos", topos);
 
-        System.out.println("le post marche !! topos");
+        return "/topo/list";
+    }
+
+    // topo list page by title
+    @GetMapping("/topo/search")
+    public String searchSpot(Model model, @RequestParam("topoTitle") String topoTitle) {
+
+        log.debug("searchSpot()");
+
+        List<Topo> topoList = null;
+
+        try {
+            topoList = iTopoService.getTopoByTitle(topoTitle);
+        } catch (Exception e) {
+
+            model.addAttribute("error", e.getMessage());
+
+            return "redirect:/topos";
+        }
+
+        model.addAttribute("topos", topoList);
 
         return "/topo/list";
     }
 
     public String validateIsEmpty(Topo topo, String link, Model model) {
+
+        log.debug("validateIsEmpty()");
 
         if (topo.getTopoTitle().isEmpty()) {
 
@@ -331,7 +372,7 @@ public class TopoController {
 
         }
 
-        if (topo.getTopoArea().isEmpty()) {
+        if (topo.getLocation().equalsIgnoreCase("default")) {
 
             model.addAttribute("error", "le lieu n'est pas renseigné");
 
@@ -341,7 +382,7 @@ public class TopoController {
 
         if (topo.getReleaseDate() == null) {
 
-            model.addAttribute("error", "la date de paration n'est pas renseigné");
+            model.addAttribute("error", "la date de parution n'est pas renseigné");
 
             return "topo/" + link;
 
@@ -353,11 +394,7 @@ public class TopoController {
 
     public boolean isOwner(String username, String userFind) {
 
-        System.out.println(username);
-
-        System.out.println(userFind);
-
-        System.out.println(username.equals(userFind));
+        log.debug("isOwner()");
 
         if (username.equals(userFind)) {
 
@@ -370,6 +407,8 @@ public class TopoController {
     }
 
     public String hasPermission(String username, int id) {
+
+        log.debug("hasPermission()");
 
         User userFind = null;
 

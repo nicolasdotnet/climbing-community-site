@@ -28,11 +28,13 @@ public class Sector implements Serializable {
     private Long sectorId;
     @Column(nullable = false)
     private Date sectorDate;
-    @Column(nullable = false)
+    @Column(length = 150, nullable = false)
     private String sectorName;
-    @Column(nullable = false)
+    @Column(length = 3,nullable = false)
     private String sectorRate;
+    @Column (length = 380)
     private String sectorDescription;
+    @Column (length = 170)
     private String sectorAccessPath;
 
     @ManyToOne
@@ -40,6 +42,7 @@ public class Sector implements Serializable {
     private User sectorAuthor;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Spot spot;
 
     @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
