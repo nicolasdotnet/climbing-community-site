@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-//@Transactional
+@Transactional
 public class ComponentController {
 
     private final Logger log = LogManager.getLogger(ComponentController.class);
