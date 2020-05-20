@@ -125,7 +125,14 @@
                 <spring:url value="/topos?page=${status.index}&size=${size}" var="pageUrl" />
 
                 <li>
-                    <a href="${pageUrl}"> <c:out value="${status.index}"></c:out> </a>
+                    <a href="${pageUrl}">
+                        <c:choose>
+                            <c:when test="${status.first && status.last}">                              
+                            </c:when>
+                            <c:otherwise> 
+                                <c:out value="${status.count}"></c:out></a> 
+                            </c:otherwise>
+                        </c:choose>
 
                 </li>
 

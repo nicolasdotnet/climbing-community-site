@@ -4,6 +4,9 @@
     Author     : nicolasdotnet
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../common/header.jsp" %>
 
 <ol class="breadcrumb b">
@@ -117,18 +120,19 @@
 <div>
 
     <ul class="nav nav-pills">
-
         <c:forEach items="${pages}" var="pa" varStatus="status">
-
             <spring:url value="/spots?page=${status.index}&size=${size}" var="pageUrl" />
-
             <li>
-                <a href="${pageUrl}"> <c:out value="${status.index}"></c:out> </a>
-
+                <a href="${pageUrl}">
+                    <c:choose>
+                        <c:when test="${status.first && status.last}">                              
+                        </c:when>
+                        <c:otherwise> 
+                            <c:out value="${status.count}"></c:out></a> 
+                        </c:otherwise>
+                    </c:choose>
             </li>
-
         </c:forEach>
-
     </ul>
     <secu:authorize access="isAuthenticated()">
         <div class="col-sm-3 visible-xs">
